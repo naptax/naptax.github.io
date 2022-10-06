@@ -6,9 +6,10 @@ permalink: /about/
 
 ### About me
 
-Red/purple teamer
+Malware Hunter 
+Modern Utopist
 
 
 ### Contact me
 
-[@0xPat](https://twitter.com/0xPat)
+[@_naptax](https://twitter.com/_naptax)

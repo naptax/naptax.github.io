@@ -1,2 +1,2 @@
-# 0xPat blog
-## Red/purple teamer
+# Naptax blog
+## Malware Hunter & Modern Utopist
