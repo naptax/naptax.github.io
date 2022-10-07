@@ -8,7 +8,7 @@ Malware Hunter
 Modern Utopist
 
 ### CV
-[Mon CV](https://gitub.com)
+[Mon CV](https://github.com)
 
 ### Contact me
 
