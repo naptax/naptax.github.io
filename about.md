@@ -4,8 +4,6 @@ title: About
 permalink: /about/
 ---
 
-### About me
-
 Malware Hunter 
 Modern Utopist
 
