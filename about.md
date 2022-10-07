@@ -9,6 +9,8 @@ permalink: /about/
 Malware Hunter 
 Modern Utopist
 
+### CV
+[Mon CV](https://gitub.com)
 
 ### Contact me
 
