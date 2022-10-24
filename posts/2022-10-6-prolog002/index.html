@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>PROLOG 0x002, Les conventions d&#39;appel - pHReAK.IN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.png">
+  <link rel="canonical" href="/posts/2022-10-6-prolog002/" />
+
+  
+  
+  <link rel="stylesheet" href="/css/style.min.b2860869d94c222d69b357ffec51ed657c5522bbe83380967c56feac476aa3a2.css">
+  
+
+  
+    
+    <meta property="og:title" content="PROLOG 0x002, Les conventions d&#39;appel"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="/posts/2022-10-6-prolog002/"/>
+    
+    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@zerostaticio"/>
+    <meta name="twitter:creator" content="@zerostaticio"/>
+  
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> 
+</head>
+
+
+
+
+<body class='page frame page-blog-single'>
+  <div id="menu-main-mobile" class="menu-main-mobile">
+    <ul class="menu">
+        
+        
+            
+                <li class="menu-item-home">
+                    <a href="/">Home</a>
+                </li>
+            
+        
+            
+                <li class="menu-item-blog">
+                    <a href="/posts/">Blog</a>
+                </li>
+            
+        
+            
+                <li class="menu-item-edito">
+                    <a href="/about/">Edito</a>
+                </li>
+            
+        
+            
+                <li class="menu-item-cv">
+                    <a href="/">CV</a>
+                </li>
+            
+        
+    </ul>
+</div>
+  <div id="wrapper" class="wrapper">
+    <div class='header'>
+  <a class="header-logo" href="/">pHReAK.IN</a>
+  <div class="menu-main">
+    <ul>
+      
+      
+      
+      
+      <li class="menu-item-home ">
+        <a href="/">
+          
+          <span>Home</span>
+        </a>
+      </li>
+      
+      
+      
+      <li class="menu-item-blog active">
+        <a href="/posts/">
+          
+          <span>Blog</span>
+        </a>
+      </li>
+      
+      
+      
+      <li class="menu-item-edito ">
+        <a href="/about/">
+          
+          <span>Edito</span>
+        </a>
+      </li>
+      
+      
+      
+      <li class="menu-item-cv ">
+        <a href="/">
+          
+          <span>CV</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  <div id="toggle-menu-main-mobile" class="hamburger-trigger">
+    <button class="hamburger">Menu</button>
+  </div>
+</div>
+    
+  <div class="blog">
+    
+    <div class="intro">
+      <h1>PROLOG 0x002, Les conventions d&#39;appel<span class="dot">.</span></h1>
+      
+    </div>
+    <div class="content">
+      <p><img height="60" src="../images/virus-4">   Comme leur nom l&rsquo;indique, les conventions d&rsquo;appels définissent des règles communes en matière de passage d&rsquo;arguments et de valeurs retour vers et par une fonction. Bah oui me direz vous&hellip; mais voilà, la difficulté c&rsquo;est qu&rsquo;il existe plusieurs de ces conventions. Par exemple, elles sont différentes entre un LINUX 64-bit et un WINDOWS 64-bit.</p>
+<p>Sans rentrer dans l&rsquo;historique explicant cette diversité de conventions, nous allons nous concentrer uniquement sur 2 d&rsquo;entres-elles :</p>
+<ul>
+<li>Linux 64-bit (<em>System V AMD64 ABI</em>)</li>
+<li>Windows 64-bit (<em>fastcall</em>)</li>
+</ul>
+<h3 id="linux-64-bit">Linux 64-bit</h3>
+<h3 id="windows--64-bit">Windows  64-bit</h3>
+<p>S&rsquo;il n&rsquo;y a pas de registres disponibles pour les huit octets d&rsquo;un argument, l&rsquo;argument entier
+est passé sur la pile. Si des registres ont déjà été affectés pour environ huit octets de tels
+un argument, les affectations sont annulées.
+Une fois les registres assignés, les arguments passés en mémoire sont poussés sur la pile
+dans l&rsquo;ordre inverse (de droite à gauche21).
+Pour les appels qui peuvent appeler des fonctions qui utilisent varargs ou stdargs (appels sans prototype ou appels
+aux fonctions contenant des points de suspension (. . . ) dans la déclaration) %al22 est utilisé comme argument caché
+pour spécifier le nombre de registres vectoriels utilisés. Le contenu de %al n&rsquo;a pas besoin de correspondre
+exactement le nombre de registres, mais doit être une limite supérieure sur le nombre de vecteurs
+registres utilisés et est compris entre 0 et 8 inclus.
+Lors du passage des arguments __m256 ou __m512 aux fonctions qui utilisent varargs ou stdarg,
+des prototypes de fonction doivent être fournis. Sinon, le comportement d&rsquo;exécution est indéfini.
+Retour des valeurs Le retour des valeurs se fait selon le algorithme suivant :</p>
+<ol>
+<li>Classifiez le type de retour avec l&rsquo;algorithme de classification.</li>
+<li>Si le type a la classe MEMORY, l&rsquo;appelant fournit de l&rsquo;espace pour la valeur de retour
+et passe l&rsquo;adresse de ce stockage en %rdi comme s&rsquo;il s&rsquo;agissait du premier argument du
+fonction. En effet, cette adresse devient un premier argument &ldquo;caché&rdquo;. Ce stockage
+ne doit chevaucher aucune donnée visible par l&rsquo;appelé via d&rsquo;autres noms que cet argument.
+Au retour %rax contiendra l&rsquo;adresse qui a été passée par l&rsquo;appelant dans %rdi.</li>
+<li>Si la classe est INTEGER, le prochain registre disponible de la séquence %rax, %rdx est
+utilisé.</li>
+<li>Si la classe</li>
+</ol>
+
+    </div>
+  </div>
+
+    <div class="footer">
+  
+  <div class="footer-social">
+    
+      <span class="social-icon social-icon-twitter">
+        <a href="https://twitter.com/_naptax" title="twitter" target="_blank" rel="noopener">
+          <img src="/images/social/twitter.svg" width="24" height="24" alt="twitter"/>
+        </a>
+      </span>
+    
+      <span class="social-icon social-icon-github">
+        <a href="https://naptax.github.io" title="github" target="_blank" rel="noopener">
+          <img src="/images/social/github.svg" width="24" height="24" alt="github"/>
+        </a>
+      </span>
+    
+      <span class="social-icon social-icon-linkedin">
+        <a href="https://www.linkedin.com" title="linkedin" target="_blank" rel="noopener">
+          <img src="/images/social/linkedin.svg" width="24" height="24" alt="linkedin"/>
+        </a>
+      </span>
+    
+  </div>
+  
+</div>
+  </div>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/bundle.min.5993fcb11c07dea925a3fbd58c03c7f1857197c35fccce3aa963a12c0b3c9960.js"></script>
+  
+
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+
+</body>
+</html>

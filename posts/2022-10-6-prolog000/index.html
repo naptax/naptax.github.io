@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>PROLOG 0x000 : In Assembler we trust - pHReAK.IN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.png">
+  <link rel="canonical" href="/posts/2022-10-6-prolog000/" />
+
+  
+  
+  <link rel="stylesheet" href="/css/style.min.b2860869d94c222d69b357ffec51ed657c5522bbe83380967c56feac476aa3a2.css">
+  
+
+  
+    
+    <meta property="og:title" content="PROLOG 0x000 : In Assembler we trust"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="/posts/2022-10-6-prolog000/"/>
+    
+    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@zerostaticio"/>
+    <meta name="twitter:creator" content="@zerostaticio"/>
+  
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> 
+</head>
+
+
+
+
+<body class='page frame page-blog-single'>
+  <div id="menu-main-mobile" class="menu-main-mobile">
+    <ul class="menu">
+        
+        
+            
+                <li class="menu-item-home">
+                    <a href="/">Home</a>
+                </li>
+            
+        
+            
+                <li class="menu-item-blog">
+                    <a href="/posts/">Blog</a>
+                </li>
+            
+        
+            
+                <li class="menu-item-edito">
+                    <a href="/about/">Edito</a>
+                </li>
+            
+        
+            
+                <li class="menu-item-cv">
+                    <a href="/">CV</a>
+                </li>
+            
+        
+    </ul>
+</div>
+  <div id="wrapper" class="wrapper">
+    <div class='header'>
+  <a class="header-logo" href="/">pHReAK.IN</a>
+  <div class="menu-main">
+    <ul>
+      
+      
+      
+      
+      <li class="menu-item-home ">
+        <a href="/">
+          
+          <span>Home</span>
+        </a>
+      </li>
+      
+      
+      
+      <li class="menu-item-blog active">
+        <a href="/posts/">
+          
+          <span>Blog</span>
+        </a>
+      </li>
+      
+      
+      
+      <li class="menu-item-edito ">
+        <a href="/about/">
+          
+          <span>Edito</span>
+        </a>
+      </li>
+      
+      
+      
+      <li class="menu-item-cv ">
+        <a href="/">
+          
+          <span>CV</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  <div id="toggle-menu-main-mobile" class="hamburger-trigger">
+    <button class="hamburger">Menu</button>
+  </div>
+</div>
+    
+  <div class="blog">
+    
+    <div class="intro">
+      <h1>PROLOG 0x000 : In Assembler we trust<span class="dot">.</span></h1>
+      
+    </div>
+    <div class="content">
+      <center>
+<img src="/images/virus.png" width="200" height="100"> 
+</center>
+<p>Dans ce voyage au cœur des fichiers binaires et du code executable se trouve l&rsquo;empereur de tous les langages informatique, la source première du dialogue avec nos CPU : l&rsquo;assembleur.</p>
+<p>Je ne vais pas produire ici sur ce blog des cours d&rsquo;assembleur. Il en existe de nombreux et d&rsquo;excellente facture sur internet. Je vais juste poser quelques rappels qui m&rsquo;apparaissent essentiels pour la suite de notre voyage dans le Reverse Engineering des binaires.</p>
+<h3 id="nature-de-lassembleur">Nature de l&rsquo;assembleur</h3>
+<p>L&rsquo;assembleur est un langage. Comme ce langage est spécifique et lié au type de CPU auquel il s&rsquo;adresse, il en existe donc plusieurs types. Le nom de l&rsquo;assembleur prend d&rsquo;ailleurs le nom du CPU pour lequel il est destiné. Dans le cadre de notre apprentissage, nous allons limiter nos <em>reverses</em> à 2 familles de CPU : INTEL X64/32 et ARM (64 bit).</p>
+<ul>
+<li>
+<p><strong>INTEL (aka x86)</strong> : nous allons principalement lire (et un peu écrire) du code Intel 32 bit (x86_32) et Intel 64 bit. On retrouve l&rsquo;Intel 64-bit derriere les différents acronymes suivants : <code>'x64', 'x86_64', 'Intel64', 'AMD64'</code>. Le choix de cette architecture de processeur nous permettra d&rsquo;adresser les PC (sous Windows et sous Linux avec leurs différents formats de fichier binaire : ELF pour Linux, PE (32-bits) et PE+(64-bit) pour Windows)</p>
+</li>
+<li>
+<p><strong>ARM 64</strong> : L&rsquo;étude de code s’exécutant sur processeur ARM64 (souvent désigné par <strong><em>AArch64</em></strong>), nous permettra de reverser et de comprendre les applications et malware compilés nativement pour les Mac M1 au format binaire executable <strong><em>MachO64</em></strong>.</p>
+</li>
+</ul>
+<p>On utilise souvent à tort l&rsquo;expression langage machine pour désigner l&rsquo;assembleur. Méfions-nous de ce raccourci qui laisse penser qu&rsquo;un CPU comprendrait l&rsquo;assembleur : non, le seul codage que comprenne un CPU sont les signaux binaires (les Opcodes). L&rsquo;assembleur est la &ldquo;dernière&rdquo; grammaire/abstraction/représentation qu&rsquo;un humain peut raisonnablement utiliser pour écrire les instructions qu&rsquo;il souhaite faire exécuter par le CPU.</p>
+<h3 id="tailles-et-unités">Tailles et unités</h3>
+<p>Il m’apparaît intéressant de rappeler ici quelques unités sur les informations que nous allons manipuler :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">-</span> <span class="n">BYTE</span> <span class="o">-</span> <span class="n">un</span> <span class="n">Octet</span> <span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">)</span> <span class="o">|</span> <span class="n">Permet</span> <span class="n">de</span> <span class="n">stocker</span> <span class="n">des</span> <span class="n">valeurs</span> <span class="n">entre</span> <span class="mi">0</span><span class="o">-</span><span class="mi">255</span> <span class="n">ou</span> <span class="o">-</span><span class="mi">128</span> <span class="err">à</span> <span class="mi">127</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="n">WORD</span> <span class="o">-</span> <span class="n">Word</span> <span class="p">(</span><span class="mi">16</span> <span class="n">bits</span><span class="p">)</span> <span class="o">|</span> <span class="n">permet</span> <span class="n">de</span> <span class="n">stocker</span> <span class="n">des</span> <span class="n">valeurs</span> <span class="n">entre</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">65535</span> <span class="n">ou</span> <span class="o">-</span><span class="mi">32768</span> <span class="err">à</span> <span class="mi">32767</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="n">DWORD</span> <span class="o">-</span> <span class="n">Double</span> <span class="n">word</span> <span class="p">(</span><span class="mi">32</span> <span class="n">bits</span><span class="p">)</span> <span class="o">|</span> <span class="n">Permet</span> <span class="n">de</span> <span class="n">stocker</span> <span class="n">des</span> <span class="n">valeurs</span> <span class="n">de</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">232</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="n">QWORD</span> <span class="o">-</span> <span class="n">Quad</span> <span class="n">word</span> <span class="p">(</span><span class="mi">64</span> <span class="n">bits</span><span class="p">)</span> <span class="o">|</span> <span class="n">Permet</span> <span class="n">de</span> <span class="n">stocker</span> <span class="n">des</span> <span class="n">valeurs</span> <span class="n">de</span> <span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">2</span><span class="o">^</span><span class="mi">64</span>
+</span></span></code></pre></div><h3 id="les-registres-des-cpu-x86-et-x64">Les registres des CPU x86 et x64</h3>
+<p>Chaque CPU dispose d&rsquo;un ensemble de registres d’intérêt général, 8 pour x86 et 16 pour x86-64. Un registre est une zone mémoire particulière, intégrée au CPU, dont l&rsquo;accès est ultra-rapide et qui permet de stocker des données non-typées de manière (très) temporaire. C&rsquo;est par ces/ses registres (mais pas uniquement) que le CPU reçoit et &ldquo;transfert&rdquo; les informations, les conserve temporairement et les transmet selon les instructions de son unité de contrôle (ECU).</p>
+<p>En architecture 32-bits, les registres ont une capacité de stockage de 4 octets. Sur les CPU 64 bits, les registres ont une capacité de stockage de 8 octets.</p>
+
+
+
+
+
+<table class='table table-striped table-bordered'>
+<thead>
+<tr>
+<th style="text-align:center">Registre</th>
+<th>Nom</th>
+<th>Sous-registre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">RAX</td>
+<td>Accumulator</td>
+<td>EAX(32), AX(16), AH(8), AL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">RBX</td>
+<td>Base</td>
+<td>EBX(32), BX(16), BH(8), BL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">RCX</td>
+<td>Counter</td>
+<td>ECX(32), CX(16), CH(8), CL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">RDX</td>
+<td>Data</td>
+<td>EDX(32), DX(16), DH(8), DL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">RSI</td>
+<td>Source</td>
+<td>ESI(32), SI(16), SL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">RDI</td>
+<td>Destination</td>
+<td>EDI(32), DI(16), DL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">RBP</td>
+<td>Base pointer</td>
+<td>EBP(32), BP(16), BPL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">RSP</td>
+<td>Stack pointer</td>
+<td>ESP(32), SP(16), SPL(8)</td>
+</tr>
+<tr>
+<td style="text-align:center">New registers</td>
+<td>New registers</td>
+<td>R8D-R15D(32), R8W-R15W(16), R8B-R15B(8)</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Note</strong>
+Les suffixes utilisés pour adresser les bits de faible poids des <em>New registers</em> sont :</p>
+<ul>
+<li><strong>B</strong> byte, 8 bits</li>
+<li><strong>W</strong> word, 16 bits</li>
+<li><strong>D</strong> double word, 32 bits</li>
+</ul>
+<p>Nous reviendrons sur les registres très prochainement, afin de présenter <strong>leur convention d&rsquo;usage</strong> et notamment sur les OS Linux et Windows 64-bits</p>
+<h3 id="a-un-même-assembleur-2-syntaxes-">A un même assembleur, 2 syntaxes :</h3>
+<p>Pour des raisons historiques, il existe 2 syntaxes possibles pour un même code assembleur : La syntaxe AT&amp;T et la syntaxe INTEL. Comprenez bien : il s&rsquo;agit du même assembleur (donc des mêmes instructions). Seules les conventions d&rsquo;écriture changent.</p>
+<p>Prenons un code qui en langage C serait:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">62</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span></code></pre></div><p><strong>Syntaxe INTEL</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">mov</span> <span class="no">rax</span><span class="p">,</span><span class="mi">0x3e</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mov</span> <span class="p">[</span><span class="no">ebp-8</span><span class="p">],</span><span class="no">rax</span>
+</span></span></code></pre></div><p><strong>Syntaxe AT&amp;T</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">movq</span> <span class="no">$0x3e</span><span class="p">,</span><span class="nv">%rax</span>
+</span></span><span class="line"><span class="cl"><span class="nf">movq</span> <span class="nv">%rax</span><span class="p">,-</span><span class="mi">8</span><span class="p">(</span><span class="nv">%ebp</span><span class="p">)</span>
+</span></span></code></pre></div><p>Les principales différences entre les 2 syntaxes sont résumées dans le tableau ci-dessous :</p>
+<img src="/images/asm-syntax.png" width="520">
+<p>A titre personnel, j&rsquo;ai une préférence pour la syntaxe Intel. Sachez néanmoins que nous allons beaucoup utiliser le debugger GDB, et que ce dernier utilise par défaut la syntaxe AT&amp;T. Si comme moi vous voulez lui faire générer de l&rsquo;Intel, c&rsquo;est possible</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">set</span> disassembly-flavor intel
+</span></span></code></pre></div><p>A ce stade, nous avons 2 notions essentielles avec lesquelles il vous faut vous familiariser : <code> La stack et les conventions d'appel</code>. Justement, c&rsquo;est tout l&rsquo;objet <a href="/posts/2022-10-6-prolog001/" title="Et avant toute sur la mémoire">du billet suivant.</a></p>
+
+    </div>
+  </div>
+
+    <div class="footer">
+  
+  <div class="footer-social">
+    
+      <span class="social-icon social-icon-twitter">
+        <a href="https://twitter.com/_naptax" title="twitter" target="_blank" rel="noopener">
+          <img src="/images/social/twitter.svg" width="24" height="24" alt="twitter"/>
+        </a>
+      </span>
+    
+      <span class="social-icon social-icon-github">
+        <a href="https://naptax.github.io" title="github" target="_blank" rel="noopener">
+          <img src="/images/social/github.svg" width="24" height="24" alt="github"/>
+        </a>
+      </span>
+    
+      <span class="social-icon social-icon-linkedin">
+        <a href="https://www.linkedin.com" title="linkedin" target="_blank" rel="noopener">
+          <img src="/images/social/linkedin.svg" width="24" height="24" alt="linkedin"/>
+        </a>
+      </span>
+    
+  </div>
+  
+</div>
+  </div>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/bundle.min.5993fcb11c07dea925a3fbd58c03c7f1857197c35fccce3aa963a12c0b3c9960.js"></script>
+  
+
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+
+</body>
+</html>
