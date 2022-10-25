@@ -4,5 +4,5 @@ date: 2019-02-24
 menu:
   main:
     name: "Blog"
-    weight: 3
+    weight: 2
 ---
