@@ -6,7 +6,7 @@ url: "edito"
 menu:
   main:
     name: "Edito"
-    weight: 3
+    weight: 2
 ---
 
 <center>
@@ -37,4 +37,4 @@ Cracker des mots de passe WIFI, des Hash Windows ou autres anneries de ce genre 
 
 _Naptax
 
--- En hommage à Aaron Swartz --
+**En hommage à Aaron Swartz**
