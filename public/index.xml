@@ -2,55 +2,55 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FRENCH MALWARE HUNTERS CORNER on pHReAK.IN</title>
-    <link>www.phreak.in/</link>
+    <link>https://www.phreak.in/</link>
     <description>Recent content in FRENCH MALWARE HUNTERS CORNER on pHReAK.IN</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="www.phreak.in/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.phreak.in/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Edito 0x000</title>
-      <link>www.phreak.in/edito/</link>
+      <link>https://www.phreak.in/edito/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>www.phreak.in/edito/</guid>
+      <guid>https://www.phreak.in/edito/</guid>
       <description>Voilà nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leur menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une chaine de Ransomware en mode SaaS.</description>
     </item>
     
     <item>
       <title>Edito 0x000</title>
-      <link>www.phreak.in/posts/2022-10-6-edito000/</link>
+      <link>https://www.phreak.in/posts/2022-10-6-edito000/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>www.phreak.in/posts/2022-10-6-edito000/</guid>
+      <guid>https://www.phreak.in/posts/2022-10-6-edito000/</guid>
       <description>Voilà, nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ces cybercriminels ont finalement mis leur menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une chaine de Ransomware en mode SaaS.</description>
     </item>
     
     <item>
       <title>PROLOG 0x000 : In Assembler we trust</title>
-      <link>www.phreak.in/posts/2022-10-6-prolog000/</link>
+      <link>https://www.phreak.in/posts/2022-10-6-prolog000/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>www.phreak.in/posts/2022-10-6-prolog000/</guid>
+      <guid>https://www.phreak.in/posts/2022-10-6-prolog000/</guid>
       <description>Dans ce voyage au cœur des fichiers binaires et du code executable se trouve l&amp;rsquo;empereur de tous les langages informatique, la source première du dialogue avec nos CPU : l&amp;rsquo;assembleur.
 Je ne vais pas produire ici sur ce blog des cours d&amp;rsquo;assembleur. Il en existe de nombreux et d&amp;rsquo;excellente facture sur internet. Je vais juste poser quelques rappels qui m&amp;rsquo;apparaissent essentiels pour la suite de notre voyage dans le Reverse Engineering des binaires.</description>
     </item>
     
     <item>
       <title>PROLOG 0x001, La mémoire</title>
-      <link>www.phreak.in/posts/2022-10-6-prolog001/</link>
+      <link>https://www.phreak.in/posts/2022-10-6-prolog001/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>www.phreak.in/posts/2022-10-6-prolog001/</guid>
+      <guid>https://www.phreak.in/posts/2022-10-6-prolog001/</guid>
       <description>Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir seinement dans le reverse enginering : aujourd&amp;rsquo;hui au programme, LA MEMOIRE.
 Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&amp;rsquo;une erreur de départ tres répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 elements suivants :</description>
     </item>
     
     <item>
       <title>PROLOG 0x002, Les conventions d&#39;appel</title>
-      <link>www.phreak.in/posts/2022-10-6-prolog002/</link>
+      <link>https://www.phreak.in/posts/2022-10-6-prolog002/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>www.phreak.in/posts/2022-10-6-prolog002/</guid>
+      <guid>https://www.phreak.in/posts/2022-10-6-prolog002/</guid>
       <description>Comme leur nom l&amp;rsquo;indique, les conventions d&amp;rsquo;appels définissent des règles communes en matière de passage d&amp;rsquo;arguments et de valeurs retour vers et par une fonction. Bah oui me direz vous&amp;hellip; mais voilà, la difficulté c&amp;rsquo;est qu&amp;rsquo;il existe plusieurs de ces conventions. Par exemple, elles sont différentes entre un LINUX 64-bit et un WINDOWS 64-bit, et encore différentes entre un Linux 32-bits et un Linux 64-bits &amp;hellip;.
 Comme il en existe beaucoup, nous allons nous limiter aux conventions d&amp;rsquo;appels sur processeurs Intel X86 (32-bits et 64 bits).</description>
     </item>
