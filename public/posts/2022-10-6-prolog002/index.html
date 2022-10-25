@@ -6,19 +6,19 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>PROLOG 0x002, Les conventions d&#39;appel - pHReAK.IN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/favicon.png">
-  <link rel="canonical" href="/posts/2022-10-6-prolog002/" />
+  <link rel="icon" href="www.phreak.in/favicon.png">
+  <link rel="canonical" href="www.phreak.in/posts/2022-10-6-prolog002/" />
 
   
   
-  <link rel="stylesheet" href="/css/style.min.6b89cc86c0b843a772cdd6c6a8b7e11c2116c7933f6163d2ef225a87e1d2c121.css">
+  <link rel="stylesheet" href="/www.phreak.in/css/style.min.6b89cc86c0b843a772cdd6c6a8b7e11c2116c7933f6163d2ef225a87e1d2c121.css">
   
 
   
     
     <meta property="og:title" content="PROLOG 0x002, Les conventions d&#39;appel"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="/posts/2022-10-6-prolog002/"/>
+    <meta property="og:url" content="www.phreak.in/posts/2022-10-6-prolog002/"/>
     
     
     <meta name="twitter:card" content="summary"/>
@@ -40,25 +40,25 @@
         
             
                 <li class="menu-item-home">
-                    <a href="/">Home</a>
+                    <a href="www.phreak.in/www.phreak.in/">Home</a>
                 </li>
             
         
             
                 <li class="menu-item-blog">
-                    <a href="/posts/">Blog</a>
+                    <a href="www.phreak.in/www.phreak.in/posts/">Blog</a>
                 </li>
             
         
             
                 <li class="menu-item-edito">
-                    <a href="/edito/">Edito</a>
+                    <a href="www.phreak.in/www.phreak.in/edito/">Edito</a>
                 </li>
             
         
             
                 <li class="menu-item-cv">
-                    <a href="/">CV</a>
+                    <a href="www.phreak.in/www.phreak.in/">CV</a>
                 </li>
             
         
@@ -66,7 +66,7 @@
 </div>
   <div id="wrapper" class="wrapper">
     <div class='header'>
-  <a class="header-logo" href="/">pHReAK.IN</a>
+  <a class="header-logo" href="www.phreak.in/">pHReAK.IN</a>
   <div class="menu-main">
     <ul>
       
@@ -74,7 +74,7 @@
       
       
       <li class="menu-item-home ">
-        <a href="/">
+        <a href="www.phreak.in/">
           
           <span>Home</span>
         </a>
@@ -83,7 +83,7 @@
       
       
       <li class="menu-item-blog active">
-        <a href="/posts/">
+        <a href="www.phreak.in/posts/">
           
           <span>Blog</span>
         </a>
@@ -92,7 +92,7 @@
       
       
       <li class="menu-item-edito ">
-        <a href="/edito/">
+        <a href="www.phreak.in/edito/">
           
           <span>Edito</span>
         </a>
@@ -101,7 +101,7 @@
       
       
       <li class="menu-item-cv ">
-        <a href="/">
+        <a href="www.phreak.in/">
           
           <span>CV</span>
         </a>
@@ -121,38 +121,114 @@
       
     </div>
     <div class="content">
-      <p><img height="60" src="../images/virus-4">   Comme leur nom l&rsquo;indique, les conventions d&rsquo;appels définissent des règles communes en matière de passage d&rsquo;arguments et de valeurs retour vers et par une fonction. Bah oui me direz vous&hellip; mais voilà, la difficulté c&rsquo;est qu&rsquo;il existe plusieurs de ces conventions. Par exemple, elles sont différentes entre un LINUX 64-bit et un WINDOWS 64-bit.</p>
-<p>Sans rentrer dans l&rsquo;historique explicant cette diversité de conventions, nous allons nous concentrer uniquement sur 2 d&rsquo;entres-elles :</p>
+      <center>
+<img width="150" src="/images/virus-4.png">
+</center>
+<p>Comme leur nom l&rsquo;indique, les conventions d&rsquo;appels définissent des règles communes en matière de passage d&rsquo;arguments et de valeurs retour vers et par une fonction. Bah oui me direz vous&hellip; mais voilà, la difficulté c&rsquo;est qu&rsquo;il existe plusieurs de ces conventions. Par exemple, elles sont différentes entre un LINUX 64-bit et un WINDOWS 64-bit, et encore différentes entre un Linux 32-bits et un Linux 64-bits &hellip;.</p>
+<p>Comme il en existe beaucoup, nous allons nous limiter aux conventions d&rsquo;appels sur processeurs Intel X86 (32-bits et 64 bits). D&rsquo;une maniére générale, je laisse de côté sur mon blog tout ce qui va concerner les processeurs ARM, et donc n&rsquo;écrit pas pour les considérations niveau des MAC M1 construits sur un ARM64.</p>
+<p>Avant de parler des OS (LINUX et WINDOWS 64-bits), étudions 3 des principales conventions d&rsquo;appel que l&rsquo;on rencontre dans les architectures <strong>32-bits</strong> Intel :</p>
+<ul>
+<li><code>cdecl</code></li>
+<li><code>stdcall</code></li>
+<li><code>fastcall</code></li>
+</ul>
+<h3 id="cdecl"><code>CDECL</code></h3>
+<p>Cette convention d&rsquo;appel est largement utilisée par les compilateurs C sur la plateforme X86 <strong>32-bits</strong>
+.
+En convention <code>cdecl</code> la responsabilité de nettoyage de la stack <strong>incombe à la procédure appelante</strong> (je vous renvoie au billet précédent pour cerner les notions essentielles de Stack, appelant, appelée). Pour rappel &ldquo;nettoyer la pile&rdquo; signifie que l&rsquo;appelant doit repositioner le registre ESP (pointeur de pile) sur l&rsquo;adresse qu&rsquo;il avait avant l&rsquo;appel (avant son call)</p>
+<p>Les principales (liste non-exaustive) propriétés de cette convention d&rsquo;appel sont:</p>
+<ul>
+<li>les arguments sont passés aux fonctions par la stack</li>
+<li>les valeurs retours des fonctions sont renvoyées par le <strong>registre EAX</strong> pour les entiers</li>
+<li>les valeurs retours des fonctions sont renvoyées par le <strong>registre x87 ST0</strong> pour les réels</li>
+<li>les registres EAX, ECX et EDX doivent etre sauvegardés par l&rsquo;appelant</li>
+<li>tous les autres registres doivent etre sauvegardés (au besoin) par l&rsquo;appelé</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a3</span>
+</span></span><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a2</span>
+</span></span><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">call</span> <span class="no">additionne</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">esp</span><span class="p">,</span><span class="mi">12</span>        <span class="c1">; et hop je te remets le pointeur de pile où il était avant le call
+</span></span></span></code></pre></div><h3 id="stdcall"><code>STDCALL</code></h3>
+<p>Cette convention est utilisée pour les appels de fonctions de <strong>l&rsquo;API Win32</strong>.</p>
+<p>Les principales (liste non-exaustive) propriétés de cette convention d&rsquo;appel sont:</p>
+<ul>
+<li>Cette fois-ci, c&rsquo;est à la <strong>fonction appelée</strong> qu&rsquo;incombe la responsabilité de nettoyer la stack</li>
+<li>les arguments sont passés de la droite vers la gauche</li>
+<li>les valeurs retours des fonctions sont renvoyées par le <strong>registre EAX</strong> pour les entiers et les adresses</li>
+<li>les valeurs retours des fonctions sont renvoyées par les <strong>registres DX, BX, AX</strong> pour les réels</li>
+<li>les registres EAX, ECX et EDX doivent etre sauvegardés par l&rsquo;appelant</li>
+<li>tous les autres registres doivent etre sauvegardés (au besoin) par l&rsquo;appelé</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a3</span>
+</span></span><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a2</span>
+</span></span><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">call</span> <span class="no">additionne</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nl">additionne:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">ret</span> <span class="mi">12</span>      <span class="c1">; et hop je te remets le pointeur de pile où il était avant le call
+</span></span></span></code></pre></div><h3 id="microsoft-fastcall"><code>Microsoft FASTCALL</code></h3>
+<p>Les principales (liste non-exaustive) propriétés de cette convention d&rsquo;appel sont:</p>
+<ul>
+<li>utilise les registres ECX et EDX pour passer les 2 premiers arguments (de la gauche vers la droite) à la fonction appelée. Puis utilise la stack pour passer les arguments suivants (mais cette fois-ci de le la droite vers la gauche)</li>
+<li>c&rsquo;est à la <strong>fonction appelée</strong> qu&rsquo;incombe la responsabilité de nettoyer la stack</li>
+</ul>
+<p>Attention, sur un OS 64 bits, les compilateurs ignoreront (sans lever d&rsquo;erreur) la directive <code>__fastcall</code>. En effet, ces compilateurs doivent produire du code respectant l&rsquo;ABI de l&rsquo;OS. Et pour les conventions 64-bits, c&rsquo;est juste en dessous &hellip;</p>
+<hr>
+<center>
+<img width="150" src="/images/64-bits.png">
+</center>
+<p>Basculons maintenant dans le monde merveilleux des <strong>OS 64-bits</strong>, monde qui se décompose principalement en 2 conventions d&rsquo;appel:</p>
 <ul>
 <li>Linux 64-bit (<em>System V AMD64 ABI</em>)</li>
 <li>Windows 64-bit (<em>fastcall</em>)</li>
 </ul>
-<h3 id="linux-64-bit">Linux 64-bit</h3>
 <h3 id="windows--64-bit">Windows  64-bit</h3>
-<p>S&rsquo;il n&rsquo;y a pas de registres disponibles pour les huit octets d&rsquo;un argument, l&rsquo;argument entier
-est passé sur la pile. Si des registres ont déjà été affectés pour environ huit octets de tels
-un argument, les affectations sont annulées.
-Une fois les registres assignés, les arguments passés en mémoire sont poussés sur la pile
-dans l&rsquo;ordre inverse (de droite à gauche21).
-Pour les appels qui peuvent appeler des fonctions qui utilisent varargs ou stdargs (appels sans prototype ou appels
-aux fonctions contenant des points de suspension (. . . ) dans la déclaration) %al22 est utilisé comme argument caché
-pour spécifier le nombre de registres vectoriels utilisés. Le contenu de %al n&rsquo;a pas besoin de correspondre
-exactement le nombre de registres, mais doit être une limite supérieure sur le nombre de vecteurs
-registres utilisés et est compris entre 0 et 8 inclus.
-Lors du passage des arguments __m256 ou __m512 aux fonctions qui utilisent varargs ou stdarg,
-des prototypes de fonction doivent être fournis. Sinon, le comportement d&rsquo;exécution est indéfini.
-Retour des valeurs Le retour des valeurs se fait selon le algorithme suivant :</p>
+<p>Cette convention est utilisée dans les DLLs Windows x86-64 (à la place de <code>stdcall</code> en win32). Elle est assez proche d&rsquo;une convention <code>fastcall</code></p>
 <ol>
-<li>Classifiez le type de retour avec l&rsquo;algorithme de classification.</li>
-<li>Si le type a la classe MEMORY, l&rsquo;appelant fournit de l&rsquo;espace pour la valeur de retour
-et passe l&rsquo;adresse de ce stockage en %rdi comme s&rsquo;il s&rsquo;agissait du premier argument du
-fonction. En effet, cette adresse devient un premier argument &ldquo;caché&rdquo;. Ce stockage
-ne doit chevaucher aucune donnée visible par l&rsquo;appelé via d&rsquo;autres noms que cet argument.
-Au retour %rax contiendra l&rsquo;adresse qui a été passée par l&rsquo;appelant dans %rdi.</li>
-<li>Si la classe est INTEGER, le prochain registre disponible de la séquence %rax, %rdx est
-utilisé.</li>
-<li>Si la classe</li>
+<li>
+<p>Les 4 premiers arguments sont passés dans les registres RCX, RDX, R8 et R9, les arguments suivants sont passés sur la pile.</p>
+</li>
+<li>
+<p>L’appelant doit également préparer un espace sur la pile pour 32 octets, soit 4 mots de 64 bits, l’appelé pourra y sauvegarder les 4 premiers arguments. On appelle cet espace mémoire alloué <code>le shadow space</code>.</p>
+</li>
+<li>
+<p>L’appelé est responsable de rétablir la valeur du pointeur de pile à la valeur qu’il avait avant l’appel de la fonction</p>
+</li>
+<li>
+<p>Les registres RAX, RCX, RDX, R8, R9, R10, R11 sont considérés comme <strong>volatiles</strong>, c-a-d que leur sauvegarde est de la responsabilite de l&rsquo;appelant.</p>
+</li>
+<li>
+<p>Les registres RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15 sont considérés comme <strong>non-volatiles</strong></p>
+</li>
 </ol>
+<h3 id="linux-64-bit-et-macos--">Linux 64-bit (et MacOS ;-)</h3>
+<p>Cette convention est définie dans <strong>l&rsquo;ABI SYSTEM V AMD 64</strong> et c&rsquo;est celle de beaucoup d&rsquo;UNIX, LINUX et MacOs.
+Elle est, au final, assez similaire à la convention Windows 64-bit, en voici les grands principes :</p>
+<ol>
+<li>
+<p>Les <strong>6</strong> premiers arguments sont passés dans les registres RDI, RSI, RCX, RDX, R8 et R9, les arguments suivants sont passés sur la pile.</p>
+</li>
+<li>
+<p>Pas de création de <code>shadow space</code>.</p>
+</li>
+<li>
+<p>L’appelé est responsable de rétablir la valeur du pointeur de pile à la valeur qu’il avait avant l’appel de la fonction</p>
+</li>
+<li>
+<p>Les registres RAX, RCX, RDX, R8, R9, R10, R11 sont considérés comme <strong>volatiles</strong>, c-a-d que leur sauvegarde est de la responsabilite de l&rsquo;appelant.</p>
+</li>
+<li>
+<p>Les registres RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15 sont considérés comme <strong>non-volatiles</strong></p>
+</li>
+</ol>
+<hr>
+<BR/>
+<p>Et bien voilà pour l&rsquo;essentiel à connaitre sur les conventions d&rsquo;appel et les ABI.</p>
+<BR/>
+<p><strong>Résumons-nous, si vous avez suivi la suite des 3 billets PROLOG (Asm, Memoire et celui-ci) alors vous etes en capacité de mettre toutes ces briques ensemble.
+Et pour celà, il n&rsquo;y a pas mieux qu&rsquo;une petite exploitation d&rsquo;un premier Buffer Stack Overflow  - simple - (BOF pour les intimes ;-). Et bien c&rsquo;est l&rsquo;exercice que je vous propose dans le billet suivant pour cloturer cette série PROLOG et ensuite passer aux choses sérieuses &hellip;</strong></p>
+<p>&ndash;</p>
 
     </div>
   </div>
@@ -163,19 +239,19 @@ utilisé.</li>
     
       <span class="social-icon social-icon-twitter">
         <a href="https://twitter.com/_naptax" title="twitter" target="_blank" rel="noopener">
-          <img src="/images/social/twitter.svg" width="24" height="24" alt="twitter"/>
+          <img src="/www.phreak.in/images/social/twitter.svg" width="24" height="24" alt="twitter"/>
         </a>
       </span>
     
       <span class="social-icon social-icon-github">
         <a href="https://naptax.github.io" title="github" target="_blank" rel="noopener">
-          <img src="/images/social/github.svg" width="24" height="24" alt="github"/>
+          <img src="/www.phreak.in/images/social/github.svg" width="24" height="24" alt="github"/>
         </a>
       </span>
     
       <span class="social-icon social-icon-linkedin">
         <a href="https://www.linkedin.com" title="linkedin" target="_blank" rel="noopener">
-          <img src="/images/social/linkedin.svg" width="24" height="24" alt="linkedin"/>
+          <img src="/www.phreak.in/images/social/linkedin.svg" width="24" height="24" alt="linkedin"/>
         </a>
       </span>
     
@@ -189,7 +265,7 @@ utilisé.</li>
   
 
   
-  <script type="text/javascript" src="/js/bundle.min.5993fcb11c07dea925a3fbd58c03c7f1857197c35fccce3aa963a12c0b3c9960.js"></script>
+  <script type="text/javascript" src="/www.phreak.in/js/bundle.min.5993fcb11c07dea925a3fbd58c03c7f1857197c35fccce3aa963a12c0b3c9960.js"></script>
   
 
   
