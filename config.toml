@@ -1,4 +1,4 @@
-baseURL = "www.phreak.in/"
+baseURL = "https://www.phreak.in/"
 languageCode = "en-us"
 theme = "hugo-winston-theme"
 themesDir = "themes"
