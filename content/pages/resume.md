@@ -12,6 +12,9 @@ menu:
 
 <img src="/images/author_cropped.png" width="200" height="100"> 
 
+> My name is Eric (Aka **nAPTaX**), i'm a 48 years old, father of 4 and Ethical
+> Hacker with a love for low level **Reverse Engineering**.
+
 ## Security Domains
 
 - Reverse Engineering Intel/ARM
