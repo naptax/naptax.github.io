@@ -51,14 +51,15 @@ menu:
 - Microsoft AZURE
 - GOOGLE Gloud (GCP)
 
-## J'aime
+## J'aime  :heart:
 - Reverser des binaires et chercher des failles
 - La littérature 
 - La Cosmologie et la mécanique Quantique
 - Le journalisme d'investigation audio
 - La photographie N&B
 
-## N'apprécie pas trop
+## N'apprécie pas trop :angry:
 - Les 'usagers' de Ransomware
 - Les script kiddies
-- Les Pentester du dimanche ...
+- Le PHP ;-)
+- **Les Pentesters du dimanche** ... 
