@@ -26,17 +26,22 @@ menu:
 
 ## Skills
 
-#### Debuger
-- Ghidra 
+#### Debugger
+- [Ghidra](https://ghidra-sre.org/) 
 - IDA 
-- RADARE2
-- HOPPER
+- [RADARE2](https://rada.re/n/)
+- [HOPPER](https://www.hopperapp.com/)
 
 #### Langages
 - C
 - Assembler x64
 - Python
 - GO
+
+#### Frameworks i like
+- [pwntools](https://github.com/Gallopsled/pwntools#readme)
+- [Google oss-fuzz](https://github.com/google/oss-fuzz)
+
 
 #### Cloud
 - AWS
