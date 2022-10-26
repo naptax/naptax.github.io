@@ -63,3 +63,8 @@ menu:
 - Les script kiddies
 - Le PHP ;-)
 - **Les Pentesters du dimanche** ... 
+
+## Je suis en train d'apprendre
+- Les ICS (Industrial Control System)
+- La sécurité des ICS
+- _SIEMENS TIA Portal_ (en hommage a [STUXNET](https://github.com/research-virus/stuxnet))
