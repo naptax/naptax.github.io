@@ -26,7 +26,7 @@ menu:
 #### Debuger
 - Ghidra 
 - IDA 
-- RADAR2
+- RADARE2
 - HOPPER
 
 #### Langages
