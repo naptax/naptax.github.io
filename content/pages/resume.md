@@ -56,6 +56,6 @@ menu:
 - La photographie N&B
 
 ## N'apprécie pas trop
-- Les usagers de Ransomware
+- Les 'usagers' de Ransomware
 - Les script kiddies
 - Les Pentester du dimanche ...
