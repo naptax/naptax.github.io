@@ -42,7 +42,3 @@ pygmentsUseClasses = true
     name = 'Home'
     url = '/'
     weight = 1
-  [[menu.main]]
-    identifier = 'cv'
-    name = 'CV'
-    url = '/'
