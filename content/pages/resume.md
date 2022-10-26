@@ -13,7 +13,9 @@ menu:
 <img src="/images/author_cropped.png" width="200" height="100"> 
 
 > My name is Eric (Aka **nAPTaX**), i'm a 48 years old :skateboard: SKATER, father of 4 and :farmer: ETHICAL
-> HACKER with a love for low level :heart: **Reverse Engineering** :heart:.
+> HACKER with a love for low level :heart: **Reverse Engineering** :heart:.  
+
+> I co-founded several IT & Cloud companies for 20 years.
 
 
 ## Security Domains
