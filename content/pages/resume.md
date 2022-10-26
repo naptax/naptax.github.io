@@ -51,7 +51,7 @@ menu:
 
 ## J'aime
 - Reverser des binaires et chercher des failles
-- La litterature 
+- La littérature 
 - La Cosmologie et la mécanique Quantique
 - Le journalisme d'investigation audio
 - La photographie N&B
