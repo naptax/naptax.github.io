@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>PROLOG 0x002, Les conventions d&#39;appel - pHReAK.IN</title>
+  <title>PROLOG 0x002, Les conventions d&#39;appels - pHReAK.IN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="https://www.phreak.in/favicon.png">
-  <link rel="canonical" href="https://www.phreak.in/posts/2022-10-6-prolog002/" />
+  <link rel="icon" href="/favicon.png">
+  <link rel="canonical" href="/posts/2022-10-6-prolog002/" />
 
   
   
@@ -16,14 +16,14 @@
 
   
     
-    <meta property="og:title" content="PROLOG 0x002, Les conventions d&#39;appel"/>
+    <meta property="og:title" content="PROLOG 0x002, Les conventions d&#39;appels"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://www.phreak.in/posts/2022-10-6-prolog002/"/>
+    <meta property="og:url" content="/posts/2022-10-6-prolog002/"/>
     
     
     <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:site" content="@zerostaticio"/>
-    <meta name="twitter:creator" content="@zerostaticio"/>
+    <meta name="twitter:site" content="@_naptax"/>
+    <meta name="twitter:creator" content="@_naptax"/>
   
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -40,25 +40,25 @@
         
             
                 <li class="menu-item-home">
-                    <a href="https://www.phreak.in/">Home</a>
+                    <a href="/">Home</a>
                 </li>
             
         
             
                 <li class="menu-item-blog">
-                    <a href="https://www.phreak.in/posts/">Blog</a>
-                </li>
-            
-        
-            
-                <li class="menu-item-edito">
-                    <a href="https://www.phreak.in/edito/">Edito</a>
+                    <a href="/posts/">Blog</a>
                 </li>
             
         
             
                 <li class="menu-item-cv">
-                    <a href="https://www.phreak.in/">CV</a>
+                    <a href="/cv/">CV</a>
+                </li>
+            
+        
+            
+                <li class="menu-item-edito">
+                    <a href="/edito/">Edito</a>
                 </li>
             
         
@@ -91,19 +91,19 @@
       
       
       
-      <li class="menu-item-edito ">
-        <a href="/edito/">
+      <li class="menu-item-cv ">
+        <a href="/cv/">
           
-          <span>Edito</span>
+          <span>CV</span>
         </a>
       </li>
       
       
       
-      <li class="menu-item-cv ">
-        <a href="/">
+      <li class="menu-item-edito ">
+        <a href="/edito/">
           
-          <span>CV</span>
+          <span>Edito</span>
         </a>
       </li>
       
@@ -117,7 +117,7 @@
   <div class="blog">
     
     <div class="intro">
-      <h1>PROLOG 0x002, Les conventions d&#39;appel<span class="dot">.</span></h1>
+      <h1>PROLOG 0x002, Les conventions d&#39;appels<span class="dot">.</span></h1>
       
     </div>
     <div class="content">
@@ -125,7 +125,7 @@
 <img width="150" src="/images/virus-4.png">
 </center>
 <p>Comme leur nom l&rsquo;indique, les conventions d&rsquo;appels définissent des règles communes en matière de passage d&rsquo;arguments et de valeurs retour vers et par une fonction. Bah oui me direz vous&hellip; mais voilà, la difficulté c&rsquo;est qu&rsquo;il existe plusieurs de ces conventions. Par exemple, elles sont différentes entre un LINUX 64-bit et un WINDOWS 64-bit, et encore différentes entre un Linux 32-bits et un Linux 64-bits &hellip;.</p>
-<p>Comme il en existe beaucoup, nous allons nous limiter aux conventions d&rsquo;appels sur processeurs Intel X86 (32-bits et 64 bits). D&rsquo;une maniére générale, je laisse de côté sur mon blog tout ce qui va concerner les processeurs ARM, et donc n&rsquo;écrit pas pour les considérations niveau des MAC M1 construits sur un ARM64.</p>
+<p>Comme il en existe beaucoup, nous allons nous limiter aux conventions d&rsquo;appels sur processeurs Intel X86 (32-bits et 64 bits). D&rsquo;une manière générale, je laisse de côté sur mon blog tout ce qui va concerner les processeurs ARM, et donc n&rsquo;écrit pas pour les considérations niveau des MAC M1 construits sur un ARM64.</p>
 <p>Avant de parler des OS (LINUX et WINDOWS 64-bits), étudions 3 des principales conventions d&rsquo;appel que l&rsquo;on rencontre dans les architectures <strong>32-bits</strong> Intel :</p>
 <ul>
 <li><code>cdecl</code></li>
@@ -151,14 +151,14 @@ En convention <code>cdecl</code> la responsabilité de nettoyage de la stack <st
 </span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">esp</span><span class="p">,</span><span class="mi">12</span>        <span class="c1">; et hop je te remets le pointeur de pile où il était avant le call
 </span></span></span></code></pre></div><h3 id="stdcall"><code>STDCALL</code></h3>
 <p>Cette convention est utilisée pour les appels de fonctions de <strong>l&rsquo;API Win32</strong>.</p>
-<p>Les principales (liste non-exaustive) propriétés de cette convention d&rsquo;appel sont:</p>
+<p>Les principales (liste non-exhaustive) propriétés de cette convention d&rsquo;appel sont:</p>
 <ul>
 <li>Cette fois-ci, c&rsquo;est à la <strong>fonction appelée</strong> qu&rsquo;incombe la responsabilité de nettoyer la stack</li>
 <li>les arguments sont passés de la droite vers la gauche</li>
 <li>les valeurs retours des fonctions sont renvoyées par le <strong>registre EAX</strong> pour les entiers et les adresses</li>
 <li>les valeurs retours des fonctions sont renvoyées par les <strong>registres DX, BX, AX</strong> pour les réels</li>
-<li>les registres EAX, ECX et EDX doivent etre sauvegardés par l&rsquo;appelant</li>
-<li>tous les autres registres doivent etre sauvegardés (au besoin) par l&rsquo;appelé</li>
+<li>les registres EAX, ECX et EDX doivent être sauvegardés par l&rsquo;appelant</li>
+<li>tous les autres registres doivent être sauvegardés (au besoin) par l&rsquo;appelé</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a3</span>
 </span></span><span class="line"><span class="cl"><span class="nf">push</span> <span class="no">a2</span>
@@ -168,7 +168,7 @@ En convention <code>cdecl</code> la responsabilité de nettoyage de la stack <st
 </span></span><span class="line"><span class="cl"><span class="c1">; ....
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">ret</span> <span class="mi">12</span>      <span class="c1">; et hop je te remets le pointeur de pile où il était avant le call
 </span></span></span></code></pre></div><h3 id="microsoft-fastcall"><code>Microsoft FASTCALL</code></h3>
-<p>Les principales (liste non-exaustive) propriétés de cette convention d&rsquo;appel sont:</p>
+<p>Les principales (liste non-exhaustive) propriétés de cette convention d&rsquo;appel sont:</p>
 <ul>
 <li>utilise les registres ECX et EDX pour passer les 2 premiers arguments (de la gauche vers la droite) à la fonction appelée. Puis utilise la stack pour passer les arguments suivants (mais cette fois-ci de le la droite vers la gauche)</li>
 <li>c&rsquo;est à la <strong>fonction appelée</strong> qu&rsquo;incombe la responsabilité de nettoyer la stack</li>
@@ -183,6 +183,9 @@ En convention <code>cdecl</code> la responsabilité de nettoyage de la stack <st
 <li>Linux 64-bit (<em>System V AMD64 ABI</em>)</li>
 <li>Windows 64-bit (<em>fastcall</em>)</li>
 </ul>
+<center>
+<img width="150" src="/images/windowsvintage.png">
+</center>
 <h3 id="windows--64-bit">Windows  64-bit</h3>
 <p>Cette convention est utilisée dans les DLLs Windows x86-64 (à la place de <code>stdcall</code> en win32). Elle est assez proche d&rsquo;une convention <code>fastcall</code></p>
 <ol>
@@ -196,12 +199,15 @@ En convention <code>cdecl</code> la responsabilité de nettoyage de la stack <st
 <p>L’appelé est responsable de rétablir la valeur du pointeur de pile à la valeur qu’il avait avant l’appel de la fonction</p>
 </li>
 <li>
-<p>Les registres RAX, RCX, RDX, R8, R9, R10, R11 sont considérés comme <strong>volatiles</strong>, c-a-d que leur sauvegarde est de la responsabilite de l&rsquo;appelant.</p>
+<p>Les registres RAX, RCX, RDX, R8, R9, R10, R11 sont considérés comme <strong>volatiles</strong>, c-a-d que leur sauvegarde est de la responsabilité de l&rsquo;appelant.</p>
 </li>
 <li>
 <p>Les registres RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15 sont considérés comme <strong>non-volatiles</strong></p>
 </li>
 </ol>
+<center>
+<img width="350"src="/images/stalman.png">
+</center>
 <h3 id="linux-64-bit-et-macos--">Linux 64-bit (et MacOS ;-)</h3>
 <p>Cette convention est définie dans <strong>l&rsquo;ABI SYSTEM V AMD 64</strong> et c&rsquo;est celle de beaucoup d&rsquo;UNIX, LINUX et MacOs.
 Elle est, au final, assez similaire à la convention Windows 64-bit, en voici les grands principes :</p>
@@ -216,7 +222,7 @@ Elle est, au final, assez similaire à la convention Windows 64-bit, en voici le
 <p>L’appelé est responsable de rétablir la valeur du pointeur de pile à la valeur qu’il avait avant l’appel de la fonction</p>
 </li>
 <li>
-<p>Les registres RAX, RCX, RDX, R8, R9, R10, R11 sont considérés comme <strong>volatiles</strong>, c-a-d que leur sauvegarde est de la responsabilite de l&rsquo;appelant.</p>
+<p>Les registres RAX, RCX, RDX, R8, R9, R10, R11 sont considérés comme <strong>volatiles</strong>, c-a-d que leur sauvegarde est de la responsabilité de l&rsquo;appelant.</p>
 </li>
 <li>
 <p>Les registres RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15 sont considérés comme <strong>non-volatiles</strong></p>
@@ -224,10 +230,10 @@ Elle est, au final, assez similaire à la convention Windows 64-bit, en voici le
 </ol>
 <hr>
 <BR/>
-<p>Et bien voilà pour l&rsquo;essentiel à connaitre sur les conventions d&rsquo;appel et les ABI.</p>
+<p>Et bien voilà pour l&rsquo;essentiel à connaître sur les conventions d&rsquo;appel et les ABI.</p>
 <BR/>
-<p><strong>Résumons-nous, si vous avez suivi la suite des 3 billets PROLOG (Asm, Memoire et celui-ci) alors vous etes en capacité de mettre toutes ces briques ensemble.
-Et pour celà, il n&rsquo;y a pas mieux qu&rsquo;une petite exploitation d&rsquo;un premier Buffer Stack Overflow  - simple - (BOF pour les intimes ;-). Et bien c&rsquo;est l&rsquo;exercice que je vous propose dans le billet suivant pour cloturer cette série PROLOG et ensuite passer aux choses sérieuses &hellip;</strong></p>
+<p><strong>Résumons-nous, si vous avez suivi la suite des 3 billets PROLOG (Asm, Mémoire et celui-ci) alors vous êtes en capacité de mettre toutes ces briques ensemble.
+Et pour cela, il n&rsquo;y a pas mieux qu&rsquo;une petite exploitation d&rsquo;un premier Buffer Stack Overflow  - simple - (BOF pour les intimes ;-). Et bien c&rsquo;est l&rsquo;exercice que je vous propose dans <a href="/posts/2022-10-6-prolog003/">le billet suivant pour clôturer cette série PROLOG et ensuite passer aux choses sérieuses</a> &hellip;</strong></p>
 <p>&ndash;</p>
 
     </div>
@@ -249,9 +255,9 @@ Et pour celà, il n&rsquo;y a pas mieux qu&rsquo;une petite exploitation d&rsquo
         </a>
       </span>
     
-      <span class="social-icon social-icon-linkedin">
-        <a href="https://www.linkedin.com" title="linkedin" target="_blank" rel="noopener">
-          <img src="/images/social/linkedin.svg" width="24" height="24" alt="linkedin"/>
+      <span class="social-icon social-icon-telegram">
+        <a href="https://telegram.me/naptax" title="Telegram" target="_blank" rel="noopener">
+          <img src="/images/social/telegram.svg" width="24" height="24" alt="Telegram"/>
         </a>
       </span>
     
@@ -274,6 +280,15 @@ Et pour celà, il n&rsquo;y a pas mieux qu&rsquo;une petite exploitation d&rsquo
   
   
   
+    
+      
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-05S37E48KV"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-05S37E48KV');
+      </script>
     
   
 

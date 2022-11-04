@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Pages - pHReAK.IN</title>
+  <title>PROLOG 0x003, Un premier Stack Buffer Overflow (simple) - pHReAK.IN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="/favicon.png">
-  <link rel="canonical" href="/pages/" />
+  <link rel="canonical" href="/posts/2022-10-6-prolog003/" />
 
   
   
@@ -16,9 +16,9 @@
 
   
     
-    <meta property="og:title" content="Pages"/>
+    <meta property="og:title" content="PROLOG 0x003, Un premier Stack Buffer Overflow (simple)"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="/pages/"/>
+    <meta property="og:url" content="/posts/2022-10-6-prolog003/"/>
     
     
     <meta name="twitter:card" content="summary"/>
@@ -33,7 +33,7 @@
 
 
 
-<body class='page frame page-default-list'>
+<body class='page frame page-blog-single'>
   <div id="menu-main-mobile" class="menu-main-mobile">
     <ul class="menu">
         
@@ -82,7 +82,7 @@
       
       
       
-      <li class="menu-item-blog ">
+      <li class="menu-item-blog active">
         <a href="/posts/">
           
           <span>Blog</span>
@@ -114,28 +114,45 @@
   </div>
 </div>
     
-  <div class="intro">
-    <h1>Pages<span class="dot">.</span></h1>
+  <div class="blog">
     
+    <div class="intro">
+      <h1>PROLOG 0x003, Un premier Stack Buffer Overflow (simple)<span class="dot">.</span></h1>
+      
+    </div>
+    <div class="content">
+      <center>
+<img width="150" src="/images/virus-dancing.webp">
+</center>
+<p>Hello,</p>
+<p>Comme vous avez soigneusement lu les <strong>3 premiers billets de la série PROLOG</strong> (si celà n&rsquo;est pas le cas, je vous invite vivement à les lire avant celui-ci : <a href="/posts/2022-10-6-prolog000/">Assembler(1)</a>, <a href="/posts/2022-10-6-prolog001/">Mémoire(2)</a>, <a href="/posts/2022-10-6-prolog002/">conventions d&rsquo;appels(3)</a>) est venu le temps de les mettre en application.</p>
+<p>Et pour un premier excercice, la compréhension d&rsquo;un Buffer Overflow est parfaite. A ce stade de la pédagogie, nous allons prendre un exemple fictif avec une simplicité que vous ne trouverez pas sur le théatre des opérations. En effet, les OS et compilateurs ont depuis longtemps mis en place de nouveaux moyens de protection contre l&rsquo;exploitation de ces dépassements de buffer : pile non-exécutable, allocation mémoire aléatoire, canary, &hellip;</p>
+<p>Un peu plus tard, nous verons que ces moyens de protections sont eux aussi &lsquo;bypassable&rsquo; &hellip;</p>
+<p>Je ne ferai pas de rappel théorique dans ce billet, pour celà je vous renvoie aux billets PROLOG précédants.</p>
+<center>
+<img width="150" src="/images/overflow.png">
+</center>
+<h2 id="mais-cest-quoi-un-bof-">Mais c&rsquo;est quoi un BOF ?</h2>
+<p>Un Buffer OverFlow, c&rsquo;est comme son nom l&rsquo;indique le fait de transférer dans une zone mémoire pré-dimensionnée, une quantité d&rsquo;informations dont la taille est supérieure à cette zone mémoire. Plus précisément, un BOF consiste <strong>à provoquer ce débordement et à exploiter les effets de bord provoqués par ce débordement</strong>.</p>
+<p>Il existe plusieurs zones mémoire d&rsquo;attaque possible pour un Buffer Oveflow (Heap, Stack, &hellip;). Nous allons ici étudier la plus répendue : le <strong>STACK</strong> Buffer Overflow.
+Le Stack BOF consiste donc à utiliser une erreur de programation pour faire exécuter à un programme légitime, du code à nous (ex: un shell code pour nous donner un beau shell sur la machine).</p>
+</BR>
+<center>
+<p>
+<b>Notre objectif est donc de venir écraser la valeur du registre EIP/RIP par une adresse de notre de choix, et ce, afin d'orienter le flux d'éxécution sur du code que nous aurions préalablement injecté em mémoire.</b>
+</p>
+</center>
+<center>
+<img width="150" src="/images/debug.png">
+</center>
+<h2 id="notre-outil--radare2">Notre outil : RADARE2</h2>
+<p>Pour nous changer un peu de GDB, je vous propose dans cet exemple d&rsquo;utiliser <strong>mon débugueur en ligne de commande préféré</strong>, le magnifique <strong><code>RADARE2</code></strong>.</p>
+<center>
+<img src="/images/wip.png">
+</center>
+
+    </div>
   </div>
-  
-  
-    <div class="summary">
-  
-    <div class="summary-date">Sep 26, 2022</div>
-  
-  <h2 class="summary-title"><a href="/cv/">About Me</a></h2>
-  <p class="summary-description"></p>
-</div>
-  
-    <div class="summary">
-  
-    <div class="summary-date">Sep 26, 2022</div>
-  
-  <h2 class="summary-title"><a href="/edito/">Edito 0x000</a></h2>
-  <p class="summary-description"></p>
-</div>
-  
 
     <div class="footer">
   

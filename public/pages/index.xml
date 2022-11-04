@@ -2,18 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on pHReAK.IN</title>
-    <link>https://www.phreak.in/pages/</link>
+    <link>/pages/</link>
     <description>Recent content in Pages on pHReAK.IN</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.phreak.in/pages/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="/pages/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Edito 0x000</title>
-      <link>https://www.phreak.in/edito/</link>
+      <title>About Me</title>
+      <link>/cv/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://www.phreak.in/edito/</guid>
-      <description>Voilà nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leur menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une chaine de Ransomware en mode SaaS.</description>
+      <guid>/cv/</guid>
+      <description> My name is Eric (Aka nAPTaX), i&amp;rsquo;m a 48 years old 🛹 SKATER, father of 4 and 🧑‍🌾 ETHICAL HACKER with a love for low level ❤️ Reverse Engineering ❤️.
+I co-founded several IT &amp;amp; Cloud companies for 20 years.
+Security Domains Reverse Engineering Intel/ARM Malware Hunter Ethical Hacker Security Researcher Fuzzing Skills Debugger Ghidra IDA RADARE2 HOPPER Langages C C++ For Internal Windows Assembler x64 (ARM64 is WIP) Python GO Frameworks i like pwntools Google oss-fuzz Cloud AWS Microsoft AZURE GOOGLE Gloud (GCP) J&amp;rsquo;aime ❤️ Reverser des binaires et chercher des failles La littérature La Cosmologie et la mécanique Quantique Le journalisme d&amp;rsquo;investigation audio La photographie N&amp;amp;B N&amp;rsquo;apprécie pas trop 😠 Les &amp;lsquo;usagers&amp;rsquo; de Ransomware Les script kiddies Le PHP ;-) Les Pentesters du dimanche &amp;hellip; Je suis en train d&amp;rsquo;apprendre Les ICS (Industrial Control System) La sécurité des ICS SIEMENS TIA Portal (en hommage a STUXNET) </description>
+    </item>
+    
+    <item>
+      <title>Edito 0x000</title>
+      <link>/edito/</link>
+      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/edito/</guid>
+      <description>Voilà nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une usine de Ransomware en mode SaaS.</description>
     </item>
     
   </channel>

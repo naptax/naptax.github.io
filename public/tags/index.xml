@@ -2,53 +2,62 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on pHReAK.IN</title>
-    <link>https://www.phreak.in/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on pHReAK.IN</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.phreak.in/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>edito</title>
-      <link>https://www.phreak.in/tags/edito/</link>
+      <title>bof</title>
+      <link>/tags/bof/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://www.phreak.in/tags/edito/</guid>
+      <guid>/tags/bof/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>edito</title>
+      <link>/tags/edito/</link>
+      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/edito/</guid>
       <description></description>
     </item>
     
     <item>
       <title>malware</title>
-      <link>https://www.phreak.in/tags/malware/</link>
+      <link>/tags/malware/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://www.phreak.in/tags/malware/</guid>
+      <guid>/tags/malware/</guid>
       <description></description>
     </item>
     
     <item>
       <title>memory</title>
-      <link>https://www.phreak.in/tags/memory/</link>
+      <link>/tags/memory/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://www.phreak.in/tags/memory/</guid>
+      <guid>/tags/memory/</guid>
       <description></description>
     </item>
     
     <item>
       <title>prolog</title>
-      <link>https://www.phreak.in/tags/prolog/</link>
+      <link>/tags/prolog/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://www.phreak.in/tags/prolog/</guid>
+      <guid>/tags/prolog/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bruce Willis</title>
-      <link>https://www.phreak.in/tags/hugo/</link>
+      <link>/tags/hugo/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.phreak.in/tags/hugo/</guid>
+      <guid>/tags/hugo/</guid>
       <description></description>
     </item>
     
