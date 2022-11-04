@@ -37,7 +37,8 @@ menu:
 
 #### Langages
 - C
-- Assembler x64
+- C++ For Internal Windows 
+- Assembler x64 (ARM64 is WIP)
 - Python
 - GO
 
