@@ -31,13 +31,13 @@ menu:
 
 #### Debugger
 - [Ghidra](https://ghidra-sre.org/) 
-- IDA 
+- IDA || of course ;-)
 - [RADARE2](https://rada.re/n/)
 - [HOPPER](https://www.hopperapp.com/)
 
 #### Langages
-- C
-- C++ For Internal Windows 
+- C/C++
+- Internal Windows Programming (formed by Pavel Yosifovich) 
 - Assembler x64 
 - Python
 - GO
