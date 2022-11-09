@@ -36,6 +36,15 @@ enableEmoji = true
       hardWraps = false
       unsafe = true
       xhtml = false
+[madddrkup.highlight]
+      codeFences = true
+      guessSyntax = true
+      hl_Lines = ""
+      lineNoStart = 1
+      lineNos = true
+      lineNumbersInTable = true
+      tabWidth = 4
+      noClasses = false
 
 [menu]
   [[menu.main]]
