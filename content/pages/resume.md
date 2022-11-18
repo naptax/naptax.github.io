@@ -32,7 +32,7 @@ menu:
 #### Debugger / Disassembler
 - [Ghidra](https://ghidra-sre.org/) 
 - IDA || of course ;-)
-- [RADARE2](https://rada.re/n/)
+- [RIZIN](https://rizin.re/)
 - CUTTER
 - [HOPPER](https://www.hopperapp.com/)
 - Dev RIZIN Scripts 
