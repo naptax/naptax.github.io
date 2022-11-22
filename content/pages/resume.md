@@ -31,7 +31,7 @@ menu:
 
 #### Debugger / Disassembler
 - [Ghidra](https://ghidra-sre.org/) 
-- IDA || of course ;-)
+- IDA ... of course ;-)
 - [RIZIN](https://rizin.re/)
 - CUTTER
 - [HOPPER](https://www.hopperapp.com/)
