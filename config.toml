@@ -15,7 +15,8 @@ enableEmoji = true
     min = "0.55.0"
 
 [params]
-  google_analytics_id = "G-05S37E48KV"
+  google_analytics_id = ""
+  plausible_analytics_domain = "naptax.github.io"
   twitter_handle = "@_naptax"
   showAuthorOnHomepage = true
   showAuthorOnPosts = false
