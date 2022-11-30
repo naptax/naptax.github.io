@@ -3,7 +3,6 @@ author: "Naptax"
 title: "About Me"
 date: "2022-09-26"
 url: "cv"
-slug: "/edito/"
 
 menu:
   main:
@@ -45,6 +44,7 @@ menu:
 - Assembler x64 
 - Python
 - GO
+- [NIM](https://nim-lang.org/) for very offensive stuff ..
 
 #### Frameworks i like
 - [pwntools](https://github.com/Gallopsled/pwntools#readme)
