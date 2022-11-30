@@ -3,6 +3,8 @@ author: "Naptax"
 title: "About Me"
 date: "2022-09-26"
 url: "cv"
+slug: "/edito/"
+
 menu:
   main:
     name: "CV"

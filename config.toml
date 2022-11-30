@@ -9,6 +9,9 @@ pygmentsCodefencesGuessSyntax = true
 pygmentsUseClasses = true
 enableEmoji = true
 
+[permalinks]
+page = "/:slug/"
+
 [module]
   [module.hugoVersion]
     extended = true

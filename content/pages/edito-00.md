@@ -3,6 +3,8 @@ author: "Naptax"
 title: "Edito 0x000"
 date: "2022-09-26"
 url: "edito"
+slug: "edito"
+
 menu:
   main:
     name: "Edito"
