@@ -44,7 +44,7 @@ menu:
 - Assembler x64 
 - Python
 - GO
-- [NIM](https://nim-lang.org/) for very offensive stuff ..
+- [NIM](https://nim-lang.org/) to dance behind AV ;-)
 
 #### Frameworks i like
 - [pwntools](https://github.com/Gallopsled/pwntools#readme)
