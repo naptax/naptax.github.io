@@ -58,6 +58,7 @@ menu:
 
 ## J'aime  :heart:
 - Reverser des binaires et chercher des failles
+- Les challenges FLARE-ON de MANDIANT (et leur blog)
 - La littérature 
 - La Cosmologie et la mécanique Quantique
 - Le journalisme d'investigation audio
@@ -73,3 +74,4 @@ menu:
 - Les ICS (Industrial Control System)
 - La sécurité des ICS
 - _SIEMENS TIA Portal_ (en hommage a [STUXNET](https://github.com/research-virus/stuxnet))
+- RUST
