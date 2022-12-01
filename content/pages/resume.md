@@ -63,6 +63,8 @@ menu:
 - La Cosmologie et la mécanique Quantique
 - Le journalisme d'investigation audio
 - La photographie N&B
+- Ecrire en MD (merci Hugo)
+- L'ASM 64bit
 
 ## N'apprécie pas trop :angry:
 - Les 'usagers' de Ransomware
