@@ -40,7 +40,7 @@ page = "/:slug/"
       hardWraps = false
       unsafe = true
       xhtml = false
-[madddrkup.highlight]
+[markup.highlight]
       codeFences = true
       guessSyntax = true
       hl_Lines = ""
