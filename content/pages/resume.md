@@ -43,8 +43,8 @@ menu:
 - Internal Windows Programming (formed by Pavel Yosifovich) 
 - Assembler x64 
 - Python
-- GO
-- [NIM](https://nim-lang.org/) to dance behind AV ;-)
+- RUST
+- And sometime [NIM](https://nim-lang.org/) to dance behind AV ;-)
 
 #### Frameworks i like
 - [pwntools](https://github.com/Gallopsled/pwntools#readme)
