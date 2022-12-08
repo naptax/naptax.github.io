@@ -60,10 +60,9 @@ menu:
 - Reverser des binaires et chercher des failles
 - Les challenges FLARE-ON de MANDIANT (et leur blog)
 - La littérature 
-- Le journalisme d'investigation audio
 - La photographie N&B
 - Ecrire en MD (merci Hugo)
-- L'ASM 64bit
+- L'ASM 64bit et le RUST
 
 ## N'apprécie pas trop :angry:
 - Les 'usagers' de Ransomware
