@@ -13,7 +13,7 @@ draft: true
 
 **Hello**,
 
-Le temps est venu de s'attaquer à un gros morceau: les techniques d'Anti-Analyse. Et oui, les binaires sont des patients qui ne se laissent pas occulter comme celà ...
+Le temps est venu de s'attaquer à un gros morceau: les techniques d'Anti-Analyse. Et oui, les binaires sont des patients qui ne se laissent pas occulter comme cela ...
 En effet, les éditeurs commerciaux et les auteurs de malwares protègent leur binaire en y injectant un ou plusieurs mécanismes qui viennent complexifier et donc ralentir et diminuer le reverse de leur code,algo ou données. Ces techniques sont nombreuses et en perpétuelle évolution (comme toute situation "Le chat et la souris" ;-)
 
 A ce stade, nous allons les diviser en 2 grandes catégories :
