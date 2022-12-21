@@ -4,7 +4,7 @@ title: "Anti-Debug 0x000: Offuscation - Part one -"
 date: "2022-12-16"
 tags: 
 - malware
-draft: true
+draft: false
 ---
 
 <center>
@@ -118,17 +118,108 @@ On se retrouve ensuite avec un code désassemblé qui reproduit bien cette fois-
 Et bien qu'en connaissant le fonctionnement interne d'IDA (on ne parlera même pas ici des autres ...) et bien les auteurs de malwares (ou toute personne qui souhaiterait complexifier le reverse de son binaire) peuvent occulter un premier niveau d'analyse.
 
 Voyons maintenant quelques autres tricks de **Disassemby Desynchronization**.
-
-
-
 <center>
 <img width="200" src="/images/magiclamp.png">
 </center>
 
+### Le jump inconditionnel 
 
+La technique ici consiste à construire un jump inconditionnel en juxtaposant un JZ et un JNZ sur la même destination. 
 
+Voici le code **original** tel qu'écrit par son auteur:
 
+``` nasm
+.code
+main PROC
+	mov eax, 0
+	test eax, eax
+	jz  short near ptr loc_chelou
+	jnz  short near ptr loc_chelou
+	db 'http://c2.naptax.re/', 0
 
+loc_chelou:
+	pop ebx
+	add ebx, 10
+	INVOKE ExitProcess, eax
+	ret 
+main ENDP
+END main   
+```
+
+Mais notre IDA est un peu flouté par cette pattern et traduit donc les octets qui suivent le JNZ comme du code et non comme les données (quelles sont).
+Résultat, c'est du n'importe quoi ;-)
+
+``` nasm
+.text:00401010 ; int __cdecl main(int argc, const char **argv, const char **envp)
+.text:00401010 _main@0         proc near               ; CODE XREF: main()↑j
+.text:00401010
+.text:00401010 argc            = dword ptr  4
+.text:00401010 argv            = dword ptr  8
+.text:00401010 envp            = dword ptr  0Ch
+.text:00401010
+.text:00401010 ; FUNCTION CHUNK AT .text:0040105A SIZE 00000FF7 BYTES
+.text:00401010
+.text:00401010                 mov     eax, 0
+.text:00401015                 test    eax, eax
+.text:00401017                 jz      short near ptr loc_40102F+1
+.text:00401019                 jnz     short near ptr loc_40102F+1
+.text:0040101B                 push    3A707474h
+.text:00401020                 das
+.text:00401021                 das
+.text:00401022                 arpl    [edx], si
+.text:00401024                 outs    dx, byte ptr cs:[esi]
+.text:00401026                 popa
+.text:00401027                 jo      short loc_40109D
+.text:00401029                 popa
+.text:0040102A                 js      short loc_40105A
+.text:0040102C                 jb      short loc_401093
+.text:0040102E                 das
+.text:0040102F
+.text:0040102F loc_40102F:                             ; CODE XREF: main()+7↑j
+.text:0040102F                                         ; main()+9↑j
+.text:0040102F                 add     [ebx-7Dh], bl
+.text:00401032                 retn
+.text:00401032 ; ---------------------------------------------------------------------------
+.text:00401033                 db 0Ah
+.text:00401034 ; ---------------------------------------------------------------------------
+.text:00401034                 push    eax             ; uExitCode
+.text:00401035                 call    _ExitProcess@4  ; ExitProcess(x)
+.text:0040103A ; ---------------------------------------------------------------------------
+.text:0040103A                 retn
+.text:0040103A _main@0         endp ; sp-analysis failed  
+```
+
+Positionnons nous juste derrière ce JNZ, et aidons un peu IDA **en tapant sur D** pour lui dire ("Hey là, c'est de la **D**ata mec").
+Et hop, on trouve le vrai code, et donc l'url du serveur C2, c'était le FLAG ;-) 
+``` nasm
+.text:00401010 ; int __cdecl main(int argc, const char **argv, const char **envp)
+.text:00401010 _main@0         proc near               ; CODE XREF: main()↑j
+.text:00401010
+.text:00401010 argc            = dword ptr  4
+.text:00401010 argv            = dword ptr  8
+.text:00401010 envp            = dword ptr  0Ch
+.text:00401010
+.text:00401010 ; FUNCTION CHUNK AT .text:0040105B SIZE 00000FF7 BYTES
+.text:00401010
+.text:00401010                 mov     eax, 0
+.text:00401015                 test    eax, eax
+.text:00401017                 jz      short loc_401031
+.text:00401019                 jnz     short loc_401031
+.text:00401019 ; ---------------------------------------------------------------------------
+.text:0040101B aHttpsC2NaptaxR db 'https://c2.naptax.re/',0
+.text:00401031 ; ---------------------------------------------------------------------------
+.text:00401031
+.text:00401031 loc_401031:                             ; CODE XREF: main()+7↑j
+.text:00401031                                         ; main()+9↑j
+.text:00401031                 pop     ebx
+.text:00401032                 add     ebx, 0Ah
+.text:00401035                 push    eax             ; uExitCode
+.text:00401036                 call    _ExitProcess@4  ; ExitProcess(x)
+.text:0040103B ; ---------------------------------------------------------------------------
+.text:0040103B                 retn
+```
+
+Ok à ce stade là, vous avez du comprendre la technique du **Dissambly Desynchonisation**, passons à la suivante.
 
 <center>
 <img width="600" src="/images/wip.png">
