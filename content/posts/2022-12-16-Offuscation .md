@@ -22,23 +22,18 @@ A ce stade, nous allons les diviser en 2 grandes catégories :
 
 Dans cette longue série nous allons commencer par l' **OFFUSCATION**
 
-## Offuscation
+## Offuscation & Anti-Debug
 
 Il existe aujourd'hui de nombreuses techniques pour complexifier le Reverse ou la simple compréhension d'un code binaire. Chaque acteur combine très souvent plusieurs moyens de protection.
 Certaines techniques complexifient l'analyse statique (par exemple en induisant en erreur les décompilateurs tel qu'IDA, Ghidra, ...). D'autres ont pour objectif de ralentir l'analyse dynamique en utilisant des leurres qui viennent annihiler, voire parfois être offensif lors d'une exécutions sous Debuggeur. 
 
 Afin de rentrer dans le sujet, nous allons commencer par les contre-mesures de base puis nous irons voir, billet par billet, du côté des techniques de pointe (croyez-moi, il y a des choses assez dingues !! )
-Les classiques:
 
-- Disassembly Desynchronization
-- Pattern based obfuscation
-- Constant unfolding
-- Junk code insertion
-- Stack-Based obfuscation
+### Complexifier l'Analyse Statique
 
 ## Disassembly Desynchronization
 
-Cette technique consiste à faire produire au désassembleur un code incorrect en plaçant des octets de données à des emplacements où ce dernier s'attend à trouver des octets d'instruction.
+Commençons par l'une des plus ancienne technique, mais parfois encore utilisée. Cette technique consiste à faire produire au désassembleur un code incorrect en plaçant des octets de données à des emplacements où ce dernier s'attend à trouver des octets d'instruction.
 Par exemple, l'exécution ne doit pas nécessairement revenir à l'instruction suivant un CALL après la fin de la fonction; l'adresse de retour de la fonction peut être délibérément modifiée pendant l'exécution de cette dernière. Ainsi, il devient possible de placer des octets de données après CALL pour perturber le désassemblage puisque le flow n'y passera jamais. 
 
 Prenons un exemple:
