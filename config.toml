@@ -1,58 +1,26 @@
 baseURL = "/"
-languageCode = "en-us"
-theme = "hugo-winston-theme"
-themesDir = "themes"
-title = "nAptaX.RE"
-paginate = 8
-pygmentsCodeFences = true
-pygmentsCodefencesGuessSyntax = true
-pygmentsUseClasses = true
-enableEmoji = true
+languageCode = "en-US"
+title = "French Malware Analyst"
+# Enable comments by entering your Disqus shortname
+disqusShortname = ""
+theme = "hugo-sustain"
+highlight = true 
 
 [permalinks]
-page = "/:slug/"
-
-[module]
-  [module.hugoVersion]
-    extended = true
-    min = "0.55.0"
+  post = "/:slug"
 
 [params]
-  google_analytics_id = ""
-  plausible_analytics_domain = "naptax.github.io"
-  twitter_handle = "@_naptax"
-  showAuthorOnHomepage = true
-  showAuthorOnPosts = false
-  showPostsOnHomepage = false
-  addDot = true
-  addFrame = true
-  highlightColor = '#7b16ff'
-  baseColor = "#ffffff"
-  baseOffsetColor = "#eaeaea"
-  headingColor = "#1c1b1d"
-  textColor = "#4e5157"
-  dotColor = "#7b16ff"
+  avatar = "/images/wopr.png"
+  author = "nAptaX"
+  description = "Don't Panic : R E V E R S E"
 
-# markdown config settings https://gohugo.io/getting-started/configuration-markup/#goldmark
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      hardWraps = false
-      unsafe = true
-      xhtml = false
-[markup.highlight]
-      codeFences = true
-      guessSyntax = true
-      hl_Lines = ""
-      lineNoStart = 1
-      lineNos = true
-      lineNumbersInTable = true
-      tabWidth = 4
-      noClasses = false
+  # Custom assets can be linked with their paths relative to static/
+  custom_css = []
+  custom_js  = []
 
-[menu]
-  [[menu.main]]
-    identifier = 'home'
-    name = 'Home'
-    url = '/'
-    weight = 1
+[params.social]
+  Email         = "naptax@proton.me"
+  Twitter       = "username"
+  LinkedIn      = "username"
+  Telegram      = "username"
+

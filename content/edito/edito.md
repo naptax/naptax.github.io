@@ -1,15 +1,15 @@
 ---
 author: "Naptax"
-title: "Edito 0x000"
+title: "EDITO 0x001"
 date: "2022-09-26"
 url: "edito"
-slug: "edito"
 
 menu:
   main:
-    name: "Edito"
+    name: "EDITO"
     weight: 3
 ---
+
 
 <center>
 <img src="/images/wopr.png"> 
