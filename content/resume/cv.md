@@ -6,7 +6,7 @@ url: "cv"
 
 menu:
   main:
-    name: "CV"
+    name: "About me"
     weight: 3
 ---
 

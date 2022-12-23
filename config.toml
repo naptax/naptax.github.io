@@ -5,6 +5,7 @@ title = "French Malware Analyst"
 disqusShortname = ""
 theme = "hugo-sustain"
 highlight = true 
+enableEmoji = true
 
 [permalinks]
   post = "/:slug"
