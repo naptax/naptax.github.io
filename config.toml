@@ -1,8 +1,6 @@
 baseURL = "/"
 languageCode = "en-US"
 title = "French Malware Analyst"
-# Enable comments by entering your Disqus shortname
-disqusShortname = ""
 theme = "hugo-sustain"
 highlight = true 
 enableEmoji = true
@@ -14,6 +12,13 @@ enableEmoji = true
   avatar = "/images/wopr.png"
   author = "nAptaX"
   description = "Don't Panic : R E V E R S E"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xhtml = false
 
   # Custom assets can be linked with their paths relative to static/
   custom_css = []

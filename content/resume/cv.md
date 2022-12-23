@@ -11,7 +11,9 @@ menu:
 ---
 
 
-<img src="/images/author_cropped.png" width="200" height="100"> 
+<center>
+<img src="/images/author_cropped.png" width="200"> 
+</center>
 
 > My name is Eric (Aka **nAPTaX**), i'm a 48 years old :skateboard: SKATER, father of 4 and :farmer: ETHICAL
 > HACKER with a love for low level :heart: **Reverse Engineering** :heart:.  
