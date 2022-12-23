@@ -2,7 +2,7 @@
 author: "Naptax"
 title: "EDITO 0x001"
 date: "2022-09-26"
-url: "edito"
+url: "edito-001"
 
 menu:
   main:
