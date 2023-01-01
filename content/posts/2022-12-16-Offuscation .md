@@ -1,6 +1,6 @@
 ---
 author: "Naptax"
-title: "Anti-Debug 0x000: Offuscation - Part one -"
+title: "[ANTI-*] 0x000: Offuscation - Part one -"
 date: "2022-12-16"
 tags: 
 - malware
