@@ -52,6 +52,10 @@ menu:
 - [pwntools](https://github.com/Gallopsled/pwntools#readme)
 - [Google oss-fuzz](https://github.com/google/oss-fuzz)
 
+#### Threat management
+- CVE Evaluation
+- [Framework MITRE ATT&CK](https://attack.mitre.org/)  
+- YARA Rules
 
 #### Cloud
 - AWS
