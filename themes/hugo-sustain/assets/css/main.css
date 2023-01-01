@@ -211,7 +211,7 @@ h5 a:hover {
 }
 .blogpost h2 
 {
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 28px;
   color:#267723;
   padding-top: 18px;
@@ -220,6 +220,7 @@ h5 a:hover {
 
 .blogpost h3 
 {
+  font-family: 'Courier New', Courier, monospace;
   font-size: 18px;
   padding-top: 20px;
   padding-bottom: 15px;
@@ -245,6 +246,11 @@ h5 a:hover {
   font-family: fantasy;
 }
 
+.list-post-title
+{
+  font-family:'Courier New', Courier, monospace;
+  padding-bottom: 20px;
+}
 /* Footer  */
 .footer {
   border-bottom: 5px solid #27a822;
