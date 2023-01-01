@@ -12,6 +12,7 @@ enableEmoji = true
   avatar = "/images/wopr.png"
   author = "nAptaX"
   description = "Don't Panic : R E V E R S E"
+  plausible_analytics_domain = "naptax.github.io"
 
 [markup]
   [markup.goldmark]
