@@ -246,11 +246,17 @@ h5 a:hover {
   font-family: fantasy;
 }
 
-.list-post-title
+.list-post-title  
 {
   font-family:'Courier New', Courier, monospace;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
+
+.list-post-title a 
+{
+ font-size: 15px;
+}
+
 /* Footer  */
 .footer {
   border-bottom: 5px solid #27a822;
