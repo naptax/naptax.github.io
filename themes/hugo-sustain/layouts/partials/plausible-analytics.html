@@ -1,5 +1,1 @@
-{{- if .Site.IsServer -}}
-  <!-- Dont add analytics to localhost -->
-{{ else if .Site.Params.plausible_analytics_domain  }}
-  <script defer data-domain="{{ .Site.Params.plausible_analytics_domain }}" src="https://plausible.io/js/plausible.js"></script>
-{{ end }}
+<script src="https://plausible.io/js/plausible.js" defer="defer" data-domain="{{ .Site.Params.plausible_analytics_domain }}"></script>
