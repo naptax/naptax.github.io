@@ -20,6 +20,9 @@ menu:
 
 > I co-founded several IT & Cloud companies for 20 years.
 
+ <center>
+  <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
+</center>
 
 ## Security Domains
 
@@ -29,6 +32,9 @@ menu:
 - Security Researcher
 - Fuzzing
 
+ <center>
+  <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
+</center>
 
 ## Skills
 
@@ -64,6 +70,10 @@ menu:
 - Microsoft AZURE
 - GOOGLE Gloud (GCP)
 
+ <center>
+  <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
+</center>
+
 ## J'aime  :heart:
 - Reverser des binaires et chercher des failles
 - Les challenges FLARE-ON de MANDIANT (et leur blog)
@@ -82,3 +92,7 @@ menu:
 - Les ICS (Industrial Control System)
 - La sécurité des ICS
 - _SIEMENS TIA Portal_ (en hommage a [STUXNET](https://github.com/research-virus/stuxnet))
+
+ <center>
+  <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
+</center>
