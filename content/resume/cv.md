@@ -57,6 +57,7 @@ menu:
 - CVE Evaluation
 - [Framework MITRE ATT&CK](https://attack.mitre.org/)  
 - YARA Rules
+- [SIEM searches with SIGMA](https://github.com/SigmaHQ/sigma) 
 
 #### Cloud
 - AWS
