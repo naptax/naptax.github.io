@@ -15,5 +15,10 @@
       "url": "https://telegram.me/naptax",
       "image": "images/social/telegram.svg"
     }
+    {
+      "name": "Keybase",
+      "url": "https://keybase.io/naptax",
+      "image": "images/social/keybase.svg"
+    }
   ]
 }
