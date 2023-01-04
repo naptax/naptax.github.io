@@ -17,7 +17,7 @@ Le temps est venu de s'attaquer à un très gros morceau: les techniques d'Anti-
 En effet, les éditeurs commerciaux et les auteurs de malwares protègent leur binaire en y injectant un ou plusieurs mécanismes qui viennent complexifier et donc ralentir et diminuer le reverse de leur code,algo ou données. Ces techniques sont nombreuses et en perpétuelle évolution (comme toute situation "Le chat et la souris" ;-)
 
 A ce stade, nous allons les diviser en 2 grandes catégories :
-1. Les techniques qui viennent complexifier l'analyse statique : **Anti-Static**
+1. Les techniques qui viennent complexifier l'analyse statique : **Anti-Disassembly**
 2. Les techniques qui vienne complexifier l'analyse dynamique : **Anti-Debug**
 
 Dans cette longue série nous allons commencer par l' **OFFUSCATION**
@@ -215,6 +215,9 @@ Et hop, on trouve le vrai code, et donc l'url du serveur C2, c'était le FLAG ;-
 ```
 
 Ok à ce stade là, vous avez du comprendre la technique du **Disassembly Desynchonisation**, passons à la suivante.
+
+### Impossible Disassembly
+
 
 <center>
 <img width="600" src="/images/wip.png">
