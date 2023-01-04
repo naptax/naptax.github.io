@@ -1,6 +1,6 @@
 ---
 author: "Naptax"
-title: "[ANTI-*] 0x000: Anti->Disassembly Part one -"
+title: "[ANTI-*] 0x000: Anti-Disassembly | Part one |"
 date: "2022-12-16"
 tags: 
 - malware
@@ -214,7 +214,7 @@ Et hop, on trouve le vrai code, et donc l'url du serveur C2, c'était le FLAG ;-
 .text:0040103B                 retn
 ```
 
-Ok à ce stade là, vous avez du comprendre la technique du **Dissambly Desynchonisation**, passons à la suivante.
+Ok à ce stade là, vous avez du comprendre la technique du **Disassembly Desynchonisation**, passons à la suivante.
 
 <center>
 <img width="600" src="/images/wip.png">

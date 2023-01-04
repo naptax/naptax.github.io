@@ -46,6 +46,7 @@ menu:
 - CUTTER
 - [HOPPER](https://www.hopperapp.com/)
 - Dev RIZIN Scripts 
+- Dynamic instrumentation avec [FRIDA](https://frida.re/)
 
 #### Langages
 - C/C++
