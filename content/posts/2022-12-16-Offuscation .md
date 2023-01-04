@@ -1,6 +1,6 @@
 ---
 author: "Naptax"
-title: "[ANTI-*] 0x000: Offuscation - Part one -"
+title: "[ANTI-*] 0x000: Anti->Disassembly Part one -"
 date: "2022-12-16"
 tags: 
 - malware
@@ -29,7 +29,7 @@ Certaines techniques complexifient l'analyse statique (par exemple en induisant 
 
 Afin de rentrer dans le sujet, nous allons commencer par les contre-mesures de base puis nous irons voir, billet par billet, du côté des techniques de pointe (croyez-moi, il y a des choses assez dingues !! )
 
-## Complexifier l'Analyse Statique
+## Complexifier l'Analyse Statique : aka Anti-Disassembly
 
 ### Disassembly Desynchronization
 
