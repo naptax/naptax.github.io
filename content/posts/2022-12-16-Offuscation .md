@@ -29,7 +29,7 @@ Certaines techniques complexifient l'analyse statique (par exemple en induisant 
 
 Afin de rentrer dans le sujet, nous allons commencer par les contre-mesures de base puis nous irons voir, billet par billet, du côté des techniques de pointe (croyez-moi, il y a des choses assez dingues !! )
 
-## Complexifier l'Analyse Statique : aka Anti-Disassembly
+## Complexifier l'Analyse Statique : Anti-Disassembly
 
 ### Disassembly Desynchronization
 
@@ -216,9 +216,18 @@ Et hop, on trouve le vrai code, et donc l'url du serveur C2, c'était le FLAG ;-
 
 Ok à ce stade là, vous avez du comprendre la technique du **Disassembly Desynchonisation**, passons à la suivante.
 
-### Impossible Disassembly
-
-
 <center>
 <img width="600" src="/images/wip.png">
 </center>
+
+
+### Impossible Disassembly
+
+### Obscuring Control Flow
+
+### Abusing the Return Pointer
+
+### API Obsfuscation
+
+### Thwarting Stack-Frame Analysis
+
