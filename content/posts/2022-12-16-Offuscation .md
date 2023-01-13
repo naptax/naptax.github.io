@@ -305,7 +305,27 @@ Bien que ```call``` et ```retn``` fonctionnent ensemble, **rien ne nous empêche
 
 
 
-### API Obsfuscation
+### API Calling Obsfuscation
+
+Très souvent utilisée dans les malwares, cette technique consiste a masquer à l'analyste les fonctions d'API externes appelées.
+Il existe pour cela plusieurs techniques, mais la plus répandue est la technique qui consiste à identifier les fonctions d'API par leur hash.
+
+Ces appels API par le hash de leurs fonctions fonctionnent selon le principe suivant :
+
+1. Il faut au préalable que l'auteur du malware pré-calcule le hash du nom de l'API ET **le hash** des **adresses des fonctions** qu'il utilise dans son code (via l'```Export Address Table``` de la DLL)
+
+2. L'auteur du malware implémente une fonction de recherche d'API par son hash
+
+3. Puis l'auteur fait ses call API externes à travers cette correspondance Hash -> API
+
+4. En langage de haut niveau (ex: C), il est nécessaire de déclarer les prototypes de chaque fonction, et ce, afin de gagner en confort d'implémentation
+
+
+Ainsi, les outils d'analyse et l'analyste ne voient pas "en clair dans les String ou l'IAT" les fonctions API utilisées. Et comme vous le savez l'analyse des fonctions API externes utilisées renseigne assez vite sur les opérations réalisées et la nature d'un malware.
+
+Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision
+
+Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce sujet, mais sachez qu'il est assez simple de scripter le reverse de cette technique fort utilisée.
 
 <center>
 <img width="600" src="/images/wip.png">
