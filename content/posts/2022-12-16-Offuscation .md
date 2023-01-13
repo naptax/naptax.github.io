@@ -271,6 +271,10 @@ Nous obtenons d'IDA le désassemblage suivant :
 
 Évidement dans les malwares la pattern est utilisée de manière plus large que sur 4 octets; néanmoins le principe est toujours le même.
 
+<center>
+<img width="200" src="/images/monster-4.png">
+</center>
+
 ### Obscuring Control Flow
 
 Cette technique consiste à ne pas utiliser les opérandes de type JUMP ou CALL pour contrôler le flux d’exécution, rendant ainsi complexe, voire impossible sa rétro-engineering automatique.
@@ -290,6 +294,9 @@ Parmi ces structures de gestion d'exception, l'on retrouve
 Le malware déclenche alors volontairement des exceptions afin d'appeler le callback en charge de la gestion de ce type d'exception.
 Ainsi, le flux d'execution est sous contrôle et son reverse (en analyse statique) devient beaucoup plus complexe pour l'analyste :-(  
 
+<center>
+<img width="200" src="/images/monster-3.png">
+</center>
 
 ### Abusing the Return Pointer
 
@@ -304,6 +311,9 @@ Bien que ```call``` et ```retn``` fonctionnent ensemble, **rien ne nous empêche
 <i class="fa fa-paw"></i>Les désassembleurs ont du mal à interpréter ces jump atypiques, et génèrent donc un code asm incohérent pour la rétro-analyse.
 
 
+<center>
+<img width="200" src="/images/monster-2.png">
+</center>
 
 ### API Calling Obsfuscation
 
@@ -328,9 +338,8 @@ Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne gén
 Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce sujet, mais sachez qu'il est assez simple de scripter le reverse de cette technique fort utilisée.
 
 <center>
-<img width="600" src="/images/wip.png">
+<img width="300" src="/images/monster-1.png">
 </center>
 
-
-### Thwarting Stack-Frame Analysis
+Voici nous avons vu quelques-unes des techniques qui viennent complexifier l'analyse statique d'un code binaire. Il en existe bien d'autres, dont la principale fait l'objet de notre prochain article : **L'offuscation du code**. 
 
