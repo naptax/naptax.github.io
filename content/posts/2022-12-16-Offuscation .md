@@ -216,12 +216,64 @@ Et hop, on trouve le vrai code, et donc l'url du serveur C2, c'était le FLAG ;-
 
 Ok à ce stade là, vous avez du comprendre la technique du **Disassembly Desynchonisation**, passons à la suivante.
 
+### Impossible Disassembly
+
+Là encore, la technique ne date pas d'hier, mais étant toujours utilisée il est important de la connaître.
+Il s'agit ici d'insérer des octets faisant partie de 2 instructions. Bien qu'une telle situation soit parfaitement gérée par le processeur, le désassembleur lui ne comprend pas cette pattern "multi-instructions" et procédera à désassemblage incohérent.
+
+**Le schéma ci-dessous** propose un exemple d'une telle situation. La première instruction de cette séquence de 4 octets est une instruction JMP sur 2 octets. La cible du saut est le deuxième octet de lui-même. Cela ne provoque pas d'erreur, car l'octet FF est le premier octet de la prochaine instruction de 2 octets, INC EAX.
+
+<center>
+<img width="200" src="/images/Impossible.png">
+</center>
+
+Implémentons cette pattern avec un peu de C et d'inline asm :
+
+``` c
+#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\n");
+    __asm__(".byte 0xeb, 0xff, 0xc0");
+    printf("NOT Show in IDA\n");
+    return 0;
+}
+```
+
+
+Et voici comment IDA nous désassemble le binaire généré par ce code !
+<center>
+<img width="500" src="/images/impossible-withTrick.png">
+</center>
+
+<i class="fa fa-paw"></i>Un et un seul print (celui de "Hello World \n")
+
+
+Si maintenant, nous commentons la production de ces 4 octets :
+
+``` c
+#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\n");
+  //  __asm__(".byte 0xeb, 0xff, 0xc0");
+    printf("NOT Show in IDA\n");
+    return 0;
+}
+```
+
+Nous obtenons d'IDA le désassemblage suivant :
+<center>
+<img width="400" src="/images/impossible-NoTrick.png">
+</center>
+
+<i class="fa fa-paw"></i>Nous voyons alors bien nos 2 `printf`.
+
+Évidement dans les malwares la pattern est plus large que 4 octets, néanmoins le principe est toujours le même.
+
 <center>
 <img width="600" src="/images/wip.png">
 </center>
-
-
-### Impossible Disassembly
 
 ### Obscuring Control Flow
 
