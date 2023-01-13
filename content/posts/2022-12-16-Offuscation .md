@@ -269,17 +269,48 @@ Nous obtenons d'IDA le désassemblage suivant :
 
 <i class="fa fa-paw"></i>Nous voyons alors bien nos 2 `printf`.
 
-Évidement dans les malwares la pattern est plus large que 4 octets, néanmoins le principe est toujours le même.
+Évidement dans les malwares la pattern est utilisée de manière plus large que sur 4 octets; néanmoins le principe est toujours le même.
+
+### Obscuring Control Flow
+
+Cette technique consiste à ne pas utiliser les opérandes de type JUMP ou CALL pour contrôler le flux d’exécution, rendant ainsi complexe, voire impossible sa rétro-engineering automatique.
+En place de ces instructions, le code utilise **les structures de l'OS permettant de gérer les exceptions** (et d'une manière plus générale toutes les techniques et moyens de `Callback`).
+
+Parmi ces structures de gestion d'exception, l'on retrouve
+
+- Sous Windows
+	- ```Structure Exception Handler (SEH) ```
+	- ```Vector Exception Handler (VEH) ```
+	- ```Unhandled Exception Handler```
+
+- Sous Linux
+	- Utilisation des signaux Unix
+	- Instructions ```setjmp et longjmp ```
+
+Le malware déclenche alors volontairement des exceptions afin d'appeler le callback en charge de la gestion de ce type d'exception.
+Ainsi, le flux d'execution est sous contrôle et son reverse (en analyse statique) devient beaucoup plus complexe pour l'analyste :-(  
+
+
+### Abusing the Return Pointer
+
+Cette technique d'anti-disassembly consiste,là encore, à embrouiller nos IDA, GHIDRA et HOPPER en obscurcissant le contrôle du flux d'execution. Cette fois-ci en utilisant l'instruction **retn** de manière atypique mais valide.
+
+Un bref rappel sur les instructions ```call``` et ```retn``` : 
+- ```call``` réalise un jump inconditionnel (jmp) et pousse une adresse de retour sur la stack : donc un PUSH et un JMP  
+- ```retn``` tire l'adresse de retour de la stack et y réalise un jmp : donc un POP et un JMP
+
+Bien que ```call``` et ```retn``` fonctionnent ensemble, **rien ne nous empêche d'utiliser un retn en dehors de tout contexte de call**. Posons simplement sur le haut de la pile (push) l'adresse sur laquelle nous souhaitons brancher le flux d'execution, puis appelons retn pour que ce dernier pop la la valeur et y réalise le JMP.
+
+<i class="fa fa-paw"></i>Les désassembleurs ont du mal à interpréter ces jump atypiques, et génèrent donc un code asm incohérent pour la rétro-analyse.
+
+
+
+### API Obsfuscation
 
 <center>
 <img width="600" src="/images/wip.png">
 </center>
 
-### Obscuring Control Flow
-
-### Abusing the Return Pointer
-
-### API Obsfuscation
 
 ### Thwarting Stack-Frame Analysis
 
