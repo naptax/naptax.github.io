@@ -4,7 +4,7 @@ title = "French Malware Analyst"
 theme = "hugo-sustain"
 highlight = true 
 enableEmoji = true
-plausible_analytics_domain = "naptax.github.io"
+plausible_analytics_domain = "naptax.re"
 
 [permalinks]
   post = "/:slug"
