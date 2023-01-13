@@ -20,7 +20,7 @@ A ce stade, nous allons les diviser en 2 grandes catégories :
 1. Les techniques qui viennent complexifier l'analyse statique : **Anti-Disassembly**
 2. Les techniques qui vienne complexifier l'analyse dynamique : **Anti-Debug**
 
-Dans cette longue série nous allons commencer par l' **OFFUSCATION**
+Dans cette longue série nous allons commencer par les techniques d'**Anti-Disassembly**.
 
 ## Offuscation & Anti-Debug
 
