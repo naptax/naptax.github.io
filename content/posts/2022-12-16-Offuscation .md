@@ -24,7 +24,7 @@ Dans cette longue série nous allons commencer par les techniques d'**Anti-Disas
 
 ## Offuscation & Anti-Debug
 
-Il existe aujourd'hui de nombreuses techniques pour complexifier le Reverse ou la simple compréhension d'un code binaire. Chaque acteur combine très souvent plusieurs moyens de protection.
+Il existe aujourd’hui de nombreuses techniques pour complexifier le Reverse ou la simple compréhension d'un code binaire. Chaque acteur combine très souvent plusieurs moyens de protection.
 Certaines techniques complexifient l'analyse statique (par exemple en induisant en erreur les décompilateurs tel qu'IDA, Ghidra, ...). D'autres ont pour objectif de ralentir l'analyse dynamique en utilisant des leurres qui viennent annihiler, voire parfois être offensif lors d'une exécutions sous Debuggeur. 
 
 Afin de rentrer dans le sujet, nous allons commencer par les contre-mesures de base puis nous irons voir, billet par billet, du côté des techniques de pointe (croyez-moi, il y a des choses assez dingues !! )
@@ -333,7 +333,7 @@ Ces appels API par le hash de leurs fonctions fonctionnent selon le principe sui
 
 Ainsi, les outils d'analyse et l'analyste ne voient pas "en clair dans les String ou l'IAT" les fonctions API utilisées. Et comme vous le savez l'analyse des fonctions API externes utilisées renseigne assez vite sur les opérations réalisées et la nature d'un malware.
 
-Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision
+Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision (ex: ```djb2``).
 
 Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce sujet, mais sachez qu'il est assez simple de scripter le reverse de cette technique fort utilisée.
 
@@ -342,4 +342,3 @@ Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce suj
 </center>
 
 Voici nous avons vu quelques-unes des techniques qui viennent complexifier l'analyse statique d'un code binaire. Il en existe bien d'autres, dont la principale fait l'objet de notre prochain article : **L'offuscation du code**. 
-
