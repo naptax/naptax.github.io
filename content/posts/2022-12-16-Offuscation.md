@@ -333,7 +333,7 @@ Ces appels API par le hash de leurs fonctions fonctionnent selon le principe sui
 
 Ainsi, les outils d'analyse et l'analyste ne voient pas "en clair dans les String ou l'IAT" les fonctions API utilisées. Et comme vous le savez l'analyse des fonctions API externes utilisées renseigne assez vite sur les opérations réalisées et la nature d'un malware.
 
-Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision (ex: ```djb2``).
+Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision (ex: ```djb2```).
 
 Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce sujet, mais sachez qu'il est assez simple de scripter le reverse de cette technique fort utilisée.
 
