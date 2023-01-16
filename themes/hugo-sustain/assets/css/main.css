@@ -227,6 +227,7 @@ h5 a:hover {
 {
   font-family: 'Courier New', Courier, monospace;
   font-size: 18px;
+  font-weight: bold;
   padding-top: 20px;
   padding-bottom: 15px;
   color:indianred;
@@ -267,4 +268,11 @@ h5 a:hover {
   border-bottom: 5px solid #27a822;
   padding: 20px 0;
   text-decoration: none !important;
+}
+
+.disclaimer {
+  color:indianred;
+  font-weight: bold;
+  font-family: sans-serif;
+}
 }
