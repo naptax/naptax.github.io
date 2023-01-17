@@ -66,6 +66,10 @@ menu:
 - YARA Rules
 - [SIEM searches with SIGMA](https://github.com/SigmaHQ/sigma) 
 
+#### Sandbox
+- ANY.RUN
+- Cuckoo Sandbox
+
 #### Cloud
 - AWS
 - Microsoft AZURE
