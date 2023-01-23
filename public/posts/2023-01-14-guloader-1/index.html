@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="nAptaX">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <title>GuLoader : Analyse | Part one | | French Malware Analyst</title>
+    <meta name="description" content="Hello,
+Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&rsquo;attaquer à un bon client pour l&rsquo;analyse de Malware, et surtout des techniques d&rsquo;évasion et d&rsquo;anti : le loader GULOADER.
+L&rsquo;histoire de GuLoader GuLoader est un loader de Malware qui a été vu pour la première fois fin 2019. A l&rsquo;époque il n&rsquo;était encore qu&rsquo;un &lsquo;simple&rsquo; downloader utilisé pour diffuser des RAT tels que AgentTesla et Nanocore.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    
+    <link rel="preload stylesheet" href="/css/main.min.css" as="style">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old">
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    <script defer data-domain="naptax.re" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body>
+    <div id="content">
+  
+  <div class="container mb-3">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <i class="fa fa-home"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/posts/">BLOG</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/cv/">ABOUT ME</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/edito-001/">EDITO</a></li>
+              </li>
+            
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+  <div class="container">
+    <h3 class="mt-3"><b><a href="/posts/2023-01-14-guloader-1/">GuLoader : Analyse | Part one |</a></b></h3>
+    <div class="blog-title my-4">
+      <h6>
+        January 14, 2023
+        &nbsp;&nbsp;
+        
+          <span class="badge bg-success">malware</span>
+        
+          <span class="badge bg-success">guloader</span>
+        
+          <span class="badge bg-success">loader</span>
+        
+          <span class="badge bg-success">dropper</span>
+        
+      </h6>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="blogpost">
+          <center>
+<img width="500" src="/images/GuLoader.png">
+</center>
+<p><strong>Hello</strong>,</p>
+<p>Si vous avez suivi les différents <a href="/posts/">billets de PROLOG de ce blog</a>, alors le temps est venu de s&rsquo;attaquer à un bon client pour l&rsquo;analyse de Malware, et surtout des techniques d&rsquo;évasion et d&rsquo;anti : le loader <strong>GULOADER</strong>.</p>
+<h1 id="lhistoire-de-guloader">L&rsquo;histoire de GuLoader</h1>
+<p>GuLoader est un loader de Malware qui a été vu pour la première fois fin 2019. A l&rsquo;époque il n&rsquo;était encore qu&rsquo;un &lsquo;simple&rsquo; downloader utilisé pour diffuser des RAT tels que <a href="https://www.gatewatcher.com/malware-analysis-agent-tesla/">AgentTesla</a> et Nanocore. Il est également connu et référencé sous le nom de <strong>CloudEyE</strong>).</p>
+<p>Puis à partir de 2020, GuLoader se mis a <strong>intégrer un nombre très important de techniques d&rsquo;évasion</strong> (<a href="/posts/2022-12-16-offuscation/">cf. notre série sur ces techniques Anti</a>). Notamment la technique anti qui consiste à ne pas appeler directement les fonctions d&rsquo;API Windows par leur nom, mais par leur hash (<a href="/posts/2022-12-16-offuscation/#api-calling-obsfuscation">cf. notre billet pour le détail de cette technique de API call by Hashing</a>). Comme dans de nombreux malware, le dropper GuLoader utilise l&rsquo;algorithme de Hash <code>DJB2</code> qui a l&rsquo;avantage d&rsquo;être très simple et générant peu de collisions.</p>
+<p>Puis en 2021 GuLoader s&rsquo;est doté d&rsquo;une armée de techniques d&rsquo;Anti-debug, anti-Sandbox, anti-VM afin de rendre son analyse encore plus complexe. Cette complexification s&rsquo;est accompagnée de l&rsquo;utilisation de Visual Basic Script (VBS) pour se propager et de NSIS (Nullsoft Scriptable Install System) pour le packing et le chiffrement de son Payload.</p>
+<p>Nous allons étudier <strong>une des très nombreuses versions de GuLoader</strong>. En effet, il en existe de nombreuses car le groupe derrière ce dropper est très actif et scan tous les papiers concernant leur code. <strong>A chaque nouvelle analyse un peu sérieuse d&rsquo;une de leur version, ils réagissent et modifient rapidement de manière radicale leur malware</strong>.</p>
+<p>Par conséquent, devrions plutôt dire que nous allons analyser &ldquo;une version&rdquo; de GuLoader plutot que GuLoader. En effet chaque update modifie complètement le profil du payload.</p>
+<h3 id="-disclaimer-">⚠️ DISCLAIMER ⚠️</h3>
+<center>
+<img width="800" src="/images/caution.png">
+</center>
+<p class="disclaimer">
+A partir d'ici, je fais l'hypothèse que vous êtes familiés des précautions absolument nécessaires pour manipuler, ouvrir, analyser statiquement, debugger dynamiquement cette matière dangereuse que sont les MALWARES. Si cela n'est pas le cas, alors il faut tout de suite vous arrêter ici si vous ne voulez pas être infectés (et infecter) par les échantillons que nous allons manipuler. Ne le prenez pas à la légère car l'unique finalité des malwares et autres dropper que nous allons analyser est de vous faire du tort, et ce, en utilisant des mécanismes puissants, agressifs et furtifs.
+</p>
+<p>Sur mon Blog, je ne souhaite pas écrire des articles sur comment monter son laboratoire d&rsquo;analyse à base de VM. En effet, pour moi monter ce type de labo est une tache nécessaire mais dans laquelle je trouve peu d&rsquo;intérêt intellectuel, je vous invite donc à suivre par exemple cet excellent guide afin de monter votre labo. Ainsi, vous pourrez faire exploser des malwares avec le plus de sécurité possible. Sachez néanmoins que même avec beaucoup de précautions (et surtout de rigueur), <strong>le risque zero d&rsquo;infection n&rsquo;existe pas</strong>.</p>
+<p>Juste pour votre information, mon labo d&rsquo;analyse est constitué de la manière suivante:</p>
+<ul>
+<li>Je n&rsquo;utilise pas mon Mac de &lsquo;daily&rsquo; pour cette activité</li>
+<li>Utilisation d&rsquo;un desktop orienté Gaming <strong>dédié</strong>, sous Windows 11 avec Licence afin de disposer d&rsquo;Hyper-V, nommé WOPR ;-)</li>
+<li>Tout est <strong>VM Hyper-V</strong> chez moi</li>
+<li>Chaque Malware analysé l&rsquo;est évidement au sein d&rsquo;une <strong>VM</strong> sous Windows 10 avec <a href="https://github.com/mandiant/flare-vm">100% FLARE VM de MANDIANT</a> d&rsquo;installé (<code>Host Based Indicators</code>)</li>
+<li>Les toutes dernières versions de <strong>FLARE VM</strong> fonctionnent parfaitement avec Windows 10 (contrairement aux anciennes qui avaient des problèmes en W10 et W11)</li>
+<li>Les VM INFECTED ne communiquent pas avec le réseau du Desktop Hote (WOPR), ni avec le WIFI et internet : elles disposent de leur propre réseau virtuel privé en vase clos</li>
+<li>J&rsquo;utilise l&rsquo;excellent <strong>RemNux</strong> pour émuler les services internet de base (HTTPx, SSHD, SMTP, SMB, &hellip;) et ainsi analyser les actions réseau des vilains canards (<code>Network Based Indicators</code>)</li>
+<li>L&rsquo;ensemble des VM INFECTED sont stockées sur un disque dur SSD <strong>externe</strong> et <strong>dédié</strong></li>
+<li>Le DD externe dédié avec son sticker BIOHAZARD est systématiquement débranché de l&rsquo;hôte et rangé au tiroir</li>
+<li>Définition et strict respect de <strong>Conventions de nommage des fichiers et des extensions</strong> au sein des VM INFECTED</li>
+<li>Utilisation d&rsquo;aucune extension dans les navigateurs des VM Infected (ex: n&rsquo;allez pas y installer votre password manager pour gagner du temps )</li>
+<li>ET SURTOUT, je ne télécharge JAMAIS mes samples sur le Darkweb (je préfère GITHUB et MALWARE BAZAR)</li>
+</ul>
+<p class="disclaimer">
+Formez-vous sur tout cela AVANT de passer à la suite. Ne pas le faire vous expose de manière certaine à de gros problèmes.
+</p>
+<center>
+<img width="800" src="/images/caution.png">
+</center>
+<center>
+<img width="300" src="/images/explosion.png">
+</center>
+<h1 id="guloader-on-ouvre-la-boite">GULOADER: On ouvre la boite</h1>
+<p>Vous avez lu le <code>Disclaimer</code> ci-dessus ? Alors on y va.</p>
+<p>Ce qui caractérise GuLoader, et donc fait son intérêt d&rsquo;étude, ce sont les nombreuses techniques d&rsquo;anti-* qu&rsquo;il utilise:</p>
+<p>Contre les analyses dynamiques :</p>
+<ul>
+<li><strong>Anti-VM</strong> : GuLoader vérifie l&rsquo;absence de VMWare, QEMU, VirtualBox et se termine lors de toute détection</li>
+<li><strong>Anti-Sandbox</strong> : Le malware vérifie l&rsquo;absence de système de sand-boxing tel que <code>Cuckoo Sandbox</code></li>
+<li><strong>Anti-Debug</strong> : GuLoader vérifie si il est exécuté sous un debugger tel que <code>WinDbg</code> ou <code>OllyDbg</code></li>
+</ul>
+<p>Pour complexifier l&rsquo;analyse statique :</p>
+<ul>
+<li><strong>Appels des API Windows</strong>, non pas par leur nom, mais par leur hash <code>DJB2</code></li>
+<li><strong>Utilisation d&rsquo;un VEH (Vectored Exception Handler)</strong> pour piloter le flux d&rsquo;exécution (plutôt que par des JUMP et des CALL)</li>
+<li><strong>Offuscation du binaire et utilisation d&rsquo;<em>opaque predicates</em></strong></li>
+</ul>
+<p>Dans cette article, nous allons nous intéresser au Loader et à la désofuscation du shellcode. Nous traiterons la suite de l&rsquo;analyse dans les articles suivants.</p>
+<h2 id="le-script-nsis">Le script NSIS</h2>
+<p>Nous allons vite passer cette partie car là n&rsquo;est pas l&rsquo;aspect intéressant ce GuLoader.</p>
+<p>Nous allons donc ouvrir notre Sample avec 7Zip qui <a href="https://nsis.sourceforge.io/Nsis7z_plug-in">possède un handler pour exécuter les scripts NSIS</a>.</p>
+<p>Une fois extraient avec 7-Zip, voici les fichiers qui composent le package:</p>
+<center>
+<img width="500" src="/images/guloader/guloader.1.png">
+</center>
+<p>Jetons un coup d&rsquo;oeil au fichier</p>
+<p>Chargeons le binaire dans IDA. La première partie intéressante est ce petit bout de code, je vous ai mis en commentaire ce que nous pouvons en tirer:</p>
+<p>Ok, on a donc un XOR d du contenu de la zone xx à xx.
+Créons un petit bout de RUST pour décrypter ce code :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::fs::File;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io::prelude::<span style="color:#f92672">*</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io::{BufReader, BufWriter};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt}; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> file <span style="color:#f92672">=</span> File::open(<span style="color:#e6db74">&#34;/guloader/tmp/stage1.bin&#34;</span>).unwrap(); <span style="color:#75715e">// J ouvre le fichier
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> reader <span style="color:#f92672">=</span> BufReader::new(file); <span style="color:#75715e">// J&#39;en produit un Buffer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> enc_code <span style="color:#f92672">=</span> vec![]; <span style="color:#75715e">// Crée un nouveau vecteur contenant des u8
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    reader.read_to_end(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> enc_code).unwrap(); <span style="color:#75715e">// Charge le contenu du buffer dans mon vecteur
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> code_offset <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0000014E</span>; <span style="color:#75715e">// offset du début du code à XORer 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    enc_code <span style="color:#f92672">=</span> enc_code[code_offset<span style="color:#f92672">..</span>].to_vec();
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> key: <span style="color:#66d9ef">u32</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x919E1E2E</span>; <span style="color:#75715e">// la clé avec laquelle est réalisé le XOR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> out <span style="color:#f92672">=</span> vec![]; <span style="color:#75715e">// Crée un vecteur qui va recevoir le code déchiffré
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>enc_code.len() {
+</span></span><span style="display:flex;"><span>        out.push(enc_code[i] <span style="color:#f92672">^</span> key.to_le_bytes()[i <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span>]); <span style="color:#75715e">// fait le XOR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Le modulo 4 permet de s&#39;assurer que la clé est utilisée de manière cyclique pour chacun des bytes de la variable enc_code 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    en utilisant toujours les 4 premiers bytes de la clé pour chiffrer les 8 premiers bytes de la variable enc_code, 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    les 4 prochains bytes de la clé pour chiffrer les 8 prochains bytes de la variable enc_code, etc. */</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> file <span style="color:#f92672">=</span> File::create(<span style="color:#e6db74">&#34;/guloader/tmp/stage2.bin&#34;</span>).unwrap();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> writer <span style="color:#f92672">=</span> BufWriter::new(file);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    writer.write_all(<span style="color:#f92672">&amp;</span>out).unwrap();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><img width="100" src="/images/monster-1.png">
+<p>Une fois déchiffré, on obtient alors le code assembleur suivant:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"></code></pre></div><center>
+<img width="300" src="/images/wip.png">
+</center>
+
+          
+          
+            <div class="related-posts mt-4 py-3">
+              <h5>Related Posts</h5>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      January 1, 2023
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/2022-09-26-edito000/">[ &ndash; Edito &ndash; ] 0x000 - README.TXT</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      December 16, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one |</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      November 1, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+            </div>
+          
+        </div>
+      </div>
+      <div class="disqus">
+        
+      </div>
+    </div>
+  </div>
+
+    </div>
+    
+    <footer class="footer">
+  <div class="container">
+    <div class="text-muted">Powered by <a href="https://gohugo.io/">Hugo with ♥</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+  </body>
+</html>

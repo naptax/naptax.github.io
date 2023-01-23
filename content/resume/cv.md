@@ -27,7 +27,7 @@ menu:
 ## Security Domains
 
 - Reverse Engineering Intel/ARM
-- Malware Hunter 
+- Malware Analysis 
 - Ethical Hacker
 - Security Researcher
 - Fuzzing
@@ -38,23 +38,25 @@ menu:
 
 ## Skills
 
-#### Debugger / Disassembler
+#### Disassemblers
 - [Ghidra](https://ghidra-sre.org/) 
 - IDA ... of course ;-)
 - IDA Python scripts for automation
 - [RIZIN](https://rizin.re/)
 - CUTTER
 - [HOPPER](https://www.hopperapp.com/)
-- Dev RIZIN Scripts 
+- Dev RIZIN Scripts
+
+#### Debuger and Dynamic instrumentation
+- XDbg64
 - Dynamic instrumentation avec [FRIDA](https://frida.re/)
 
 #### Langages
 - C/C++
-- Internal Windows Programming (formed by Pavel Yosifovich) 
-- Assembler x64 
+- Deep Internal Windows Programming
 - Python
 - RUST
-- And sometime [NIM](https://nim-lang.org/) to dance behind AV ;-)
+- And sometime [NIM](https://nim-lang.org/) to dance behind EDR ;-)
 
 #### Frameworks i like
 - [pwntools](https://github.com/Gallopsled/pwntools#readme)

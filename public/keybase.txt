@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/naptax
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://naptax.github.io
+  * I am naptax (https://keybase.io/naptax) on keybase.
+  * I have a public key ASDPXMItjVbCn8_mYQSbAAKCjBOA5L8t_WZJvLOy5CXyCgo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120cf5cc22d8d56c29fcfe661049b0002828c1380e4bf2dfd6649bcb3b2e425f20a0a",
+      "host": "keybase.io",
+      "kid": "0120cf5cc22d8d56c29fcfe661049b0002828c1380e4bf2dfd6649bcb3b2e425f20a0a",
+      "uid": "c50d5ab67af4826d877b0b31525e2f19",
+      "username": "naptax"
+    },
+    "merkle_root": {
+      "ctime": 1672756069,
+      "hash": "bec4dedcdc2e4a2d2378e1e2b4ef7501646c5658ab9945b68b00f7adef2717c84b3485bc6395b478e4b0855c2a026aedf2ac6377741fa94a6adb7f8f7e39ad70",
+      "hash_meta": "af56fbdc52d67dec05522880525a798c6ecfe5fe75adf21a3eea1325c8f850ca",
+      "seqno": 23804506
+    },
+    "service": {
+      "entropy": "Pse5V72sd9CQNn8LyGlcUdwa",
+      "hostname": "naptax.github.io",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "6.0.1"
+  },
+  "ctime": 1672756129,
+  "expire_in": 504576000,
+  "prev": "27bcd67b4fedd68f8f15dec6130de545953ae1f579234bbc4245469a9daee50f",
+  "seqno": 8,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgz1zCLY1Wwp/P5mEEmwACgowTgOS/Lf1mSbyzsuQl8goKp3BheWxvYWTESpcCCMQgJ7zWe0/t1o+PFd7GEw3lRZU64fV5I0u8QkVGmp2u5Q/EIJCGF1MDMQlV9Xg7mpRaXGcc247VV+SUAT/D565syqmmAgHCo3NpZ8RAANPerNvfZNQYBS+qJI/xqDerzBITv90G6dnWEivI7VsyqJnaFXOAB5G5Vd97v264HDqiMoVMlzEkZcbFL7sUD6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIIVTNK19MVNG/xaHoYWcH0yUTgORURtXlOiPTQSrstsBo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/naptax
+
+==================================================================

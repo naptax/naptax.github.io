@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>prolog on pHReAK.IN</title>
+    <title>prolog on French Malware Analyst</title>
     <link>/tags/prolog/</link>
-    <description>Recent content in prolog on pHReAK.IN</description>
+    <description>Recent content in prolog on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/prolog/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-US</language>
+    <lastBuildDate>Sat, 26 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/prolog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>PROLOG 0x000, In Assembler we trust</title>
-      <link>/posts/2022-10-6-prolog000/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <title>[PROLOG] 0x004, Local Shellcode par Stack Buffer OverFlow (Part 2) </title>
+      <link>/posts/2022-11-26-prolog004/</link>
+      <pubDate>Sat, 26 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2022-10-6-prolog000/</guid>
-      <description>Dans ce voyage au cœur des fichiers binaires et du code exécutable se trouve l&amp;rsquo;empereur de tous les langages informatique, la source première du dialogue avec nos CPU : l&amp;rsquo;assembleur.
-Je ne vais pas produire ici sur ce blog des cours d&amp;rsquo;assembleur. Il en existe de nombreux et d&amp;rsquo;excellente facture sur internet. Je vais juste poser quelques rappels qui m&amp;rsquo;apparaissent essentiels pour la suite de notre voyage dans le Reverse Engineering des binaires.</description>
+      <guid>/posts/2022-11-26-prolog004/</guid>
+      <description>Hello,
+Toujours dans cette série de billets d&amp;rsquo;échauffement (série PROLOG), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&amp;rsquo;était un BUFFER OVERFLOW (le billet est ici). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&amp;rsquo;utilisation d&amp;rsquo;un STACK Buffer Overflow.
+Toujours dans un souci de pédagogie, nous allons prendre un exemple simple :
+Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&amp;rsquo;ASLR qui le protège de ce type d&amp;rsquo;exploitation Une execution locale (et non remote) Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &amp;lsquo;bypassable&amp;rsquo; &amp;hellip;</description>
     </item>
     
     <item>
-      <title>PROLOG 0x001, La mémoire</title>
-      <link>/posts/2022-10-6-prolog001/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <title>[PROLOG] 0x003, Un premier Buffer Overflow (Part 1)</title>
+      <link>/posts/2022-10-6-prolog003/</link>
+      <pubDate>Tue, 15 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2022-10-6-prolog001/</guid>
-      <description>Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir seinement dans le reverse enginering : aujourd&amp;rsquo;hui au programme, LA MEMOIRE.
-Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&amp;rsquo;une erreur de départ tres répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 elements suivants :</description>
+      <guid>/posts/2022-10-6-prolog003/</guid>
+      <description>Hello,
+Comme vous avez soigneusement lu les 3 premiers billets de la série PROLOG (si celà n&amp;rsquo;est pas le cas, je vous invite vivement à les lire avant celui-ci : Assembler(1), Mémoire(2), conventions d&amp;rsquo;appels(3)) est venu le temps de les mettre en application.
+Et pour un premier exercice d&amp;rsquo;application, la compréhension d&amp;rsquo;un Buffer Overflow est parfaite. A ce stade de la pédagogie, nous allons prendre un exemple fictif avec une simplicité que vous ne trouverez pas sur le théatre des opérations.</description>
     </item>
     
     <item>
-      <title>PROLOG 0x002, Les conventions d&#39;appels</title>
-      <link>/posts/2022-10-6-prolog002/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <title>[PROLOG] 0x002, Les conventions d&#39;appels</title>
+      <link>/posts/2022-11-11-prolog002/</link>
+      <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2022-10-6-prolog002/</guid>
+      <guid>/posts/2022-11-11-prolog002/</guid>
       <description>Comme leur nom l&amp;rsquo;indique, les conventions d&amp;rsquo;appels définissent des règles communes en matière de passage d&amp;rsquo;arguments et de valeurs retour vers et par une fonction. Bah oui me direz vous&amp;hellip; mais voilà, la difficulté c&amp;rsquo;est qu&amp;rsquo;il existe plusieurs de ces conventions. Par exemple, elles sont différentes entre un LINUX 64-bit et un WINDOWS 64-bit, et encore différentes entre un Linux 32-bits et un Linux 64-bits &amp;hellip;.
 Comme il en existe beaucoup, nous allons nous limiter aux conventions d&amp;rsquo;appels sur processeurs Intel X86 (32-bits et 64 bits).</description>
     </item>
     
     <item>
-      <title>PROLOG 0x003, Un premier Stack Buffer Overflow (simple)</title>
-      <link>/posts/2022-10-6-prolog003/</link>
+      <title>[PROLOG] 0x001, La mémoire</title>
+      <link>/posts/2022-11-01-prolog001/</link>
+      <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2022-11-01-prolog001/</guid>
+      <description>Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&amp;rsquo;hui au programme, LA MÉMOIRE.
+Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&amp;rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :</description>
+    </item>
+    
+    <item>
+      <title>[PROLOG] 0x000, In Assembler we trust</title>
+      <link>/posts/2022-09-26-prolog000/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2022-10-6-prolog003/</guid>
-      <description>Hello,
-Comme vous avez soigneusement lu les 3 premiers billets de la série PROLOG (si celà n&amp;rsquo;est pas le cas, je vous invite vivement à les lire avant celui-ci : Assembler(1), Mémoire(2), conventions d&amp;rsquo;appels(3)) est venu le temps de les mettre en application.
-Et pour un premier excercice, la compréhension d&amp;rsquo;un Buffer Overflow est parfaite. A ce stade de la pédagogie, nous allons prendre un exemple fictif avec une simplicité que vous ne trouverez pas sur le théatre des opérations.</description>
+      <guid>/posts/2022-09-26-prolog000/</guid>
+      <description>Dans ce voyage au cœur des fichiers binaires et du code exécutable se trouve l&amp;rsquo;empereur de tous les langages informatique, la source première du dialogue avec nos CPU : l&amp;rsquo;assembleur.
+Je ne vais pas produire ici sur ce blog des cours d&amp;rsquo;assembleur. Il en existe de nombreux et d&amp;rsquo;excellente facture sur internet. Je vais juste poser quelques rappels qui m&amp;rsquo;apparaissent essentiels pour la suite de notre voyage dans le Reverse Engineering des binaires.</description>
     </item>
     
   </channel>

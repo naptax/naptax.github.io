@@ -1,54 +1,90 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on pHReAK.IN</title>
+    <title>Tags on French Malware Analyst</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on pHReAK.IN</description>
+    <description>Recent content in Tags on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-US</language>
+    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>bof</title>
-      <link>/tags/bof/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <title>dropper</title>
+      <link>/tags/dropper/</link>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/tags/bof/</guid>
+      <guid>/tags/dropper/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>edito</title>
-      <link>/tags/edito/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <title>guloader</title>
+      <link>/tags/guloader/</link>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/tags/edito/</guid>
+      <guid>/tags/guloader/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>loader</title>
+      <link>/tags/loader/</link>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/loader/</guid>
       <description></description>
     </item>
     
     <item>
       <title>malware</title>
       <link>/tags/malware/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>/tags/malware/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>memory</title>
-      <link>/tags/memory/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <title>edito</title>
+      <link>/tags/edito/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/tags/memory/</guid>
+      <guid>/tags/edito/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>crypto</title>
+      <link>/tags/crypto/</link>
+      <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/crypto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bof</title>
+      <link>/tags/bof/</link>
+      <pubDate>Sat, 26 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bof/</guid>
       <description></description>
     </item>
     
     <item>
       <title>prolog</title>
       <link>/tags/prolog/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 26 Nov 2022 00:00:00 +0000</pubDate>
       
       <guid>/tags/prolog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>memory</title>
+      <link>/tags/memory/</link>
+      <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/memory/</guid>
       <description></description>
     </item>
     

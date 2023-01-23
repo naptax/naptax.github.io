@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>edito on pHReAK.IN</title>
+    <title>edito on French Malware Analyst</title>
     <link>/tags/edito/</link>
-    <description>Recent content in edito on pHReAK.IN</description>
+    <description>Recent content in edito on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/edito/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-US</language>
+    <lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/edito/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Edito 0x000</title>
-      <link>/posts/2022-10-6-edito000/</link>
-      <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
+      <title>[ -- Edito -- ] 0x000 - README.TXT</title>
+      <link>/posts/2022-09-26-edito000/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2022-10-6-edito000/</guid>
-      <description>Voilà nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une usine de Ransomware en mode SaaS.</description>
+      <guid>/posts/2022-09-26-edito000/</guid>
+      <description>Voilà, nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une usine de Ransomware en mode SaaS.</description>
     </item>
     
     <item>
-      <title>PROLOG 0x000, In Assembler we trust</title>
-      <link>/posts/2022-10-6-prolog000/</link>
+      <title>[PROLOG] 0x000, In Assembler we trust</title>
+      <link>/posts/2022-09-26-prolog000/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2022-10-6-prolog000/</guid>
+      <guid>/posts/2022-09-26-prolog000/</guid>
       <description>Dans ce voyage au cœur des fichiers binaires et du code exécutable se trouve l&amp;rsquo;empereur de tous les langages informatique, la source première du dialogue avec nos CPU : l&amp;rsquo;assembleur.
 Je ne vais pas produire ici sur ce blog des cours d&amp;rsquo;assembleur. Il en existe de nombreux et d&amp;rsquo;excellente facture sur internet. Je vais juste poser quelques rappels qui m&amp;rsquo;apparaissent essentiels pour la suite de notre voyage dans le Reverse Engineering des binaires.</description>
     </item>
