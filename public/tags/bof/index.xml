@@ -16,7 +16,7 @@
       <description>Hello,
 Toujours dans cette série de billets d&amp;rsquo;échauffement (série PROLOG), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&amp;rsquo;était un BUFFER OVERFLOW (le billet est ici). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&amp;rsquo;utilisation d&amp;rsquo;un STACK Buffer Overflow.
 Toujours dans un souci de pédagogie, nous allons prendre un exemple simple :
-Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&amp;rsquo;ASLR qui le protège de ce type d&amp;rsquo;exploitation Une execution locale (et non remote) Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &amp;lsquo;bypassable&amp;rsquo; &amp;hellip;</description>
+ Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&amp;rsquo;ASLR qui le protège de ce type d&amp;rsquo;exploitation Une execution locale (et non remote)  Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &amp;lsquo;bypassable&amp;rsquo; &amp;hellip;</description>
     </item>
     
     <item>

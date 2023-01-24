@@ -96,12 +96,12 @@ En convention <code>cdecl</code> la responsabilité de nettoyage de la stack <st
 <li>les registres EAX, ECX et EDX doivent être sauvegardés par l&rsquo;appelant</li>
 <li>tous les autres registres doivent être sauvegardés (au besoin) par l&rsquo;appelé</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a3</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a2</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a1</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">call</span> <span style="color:#66d9ef">additionne</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">add</span> <span style="color:#66d9ef">esp</span>,<span style="color:#ae81ff">12</span>        <span style="color:#75715e">; et hop je te remets le pointeur de pile où il était avant le call
-</span></span></span></code></pre></div><h3 id="stdcall"><code>STDCALL</code></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a3</span>
+<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a2</span>
+<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a1</span>
+<span style="color:#a6e22e">call</span> <span style="color:#66d9ef">additionne</span>
+<span style="color:#a6e22e">add</span> <span style="color:#66d9ef">esp</span>,<span style="color:#ae81ff">12</span>        <span style="color:#75715e">; et hop je te remets le pointeur de pile où il était avant le call
+</span></code></pre></div><h3 id="stdcall"><code>STDCALL</code></h3>
 <p>Cette convention est utilisée pour les appels de fonctions de <strong>l&rsquo;API Win32</strong>.</p>
 <p>Les principales (liste non exhaustive) propriétés de cette convention d&rsquo;appel sont:</p>
 <ul>
@@ -112,14 +112,14 @@ En convention <code>cdecl</code> la responsabilité de nettoyage de la stack <st
 <li>les registres EAX, ECX et EDX doivent être sauvegardés par l&rsquo;appelant</li>
 <li>tous les autres registres doivent être sauvegardés (au besoin) par l&rsquo;appelé</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a3</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a2</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a1</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">call</span> <span style="color:#66d9ef">additionne</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span>additionne:
-</span></span><span style="display:flex;"><span><span style="color:#75715e">; ....
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">ret</span> <span style="color:#ae81ff">12</span>      <span style="color:#75715e">; et hop je te remets le pointeur de pile où il était avant le call
-</span></span></span></code></pre></div><h3 id="microsoft-fastcall"><code>Microsoft FASTCALL</code></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a3</span>
+<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a2</span>
+<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">a1</span>
+<span style="color:#a6e22e">call</span> <span style="color:#66d9ef">additionne</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm">additionne:
+<span style="color:#75715e">; ....
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">ret</span> <span style="color:#ae81ff">12</span>      <span style="color:#75715e">; et hop je te remets le pointeur de pile où il était avant le call
+</span></code></pre></div><h3 id="microsoft-fastcall"><code>Microsoft FASTCALL</code></h3>
 <p>Les principales (liste non exhaustive) propriétés de cette convention d&rsquo;appel sont:</p>
 <ul>
 <li>utilise les registres ECX et EDX pour passer les 2 premiers arguments (de la gauche vers la droite) à la fonction appelée. Puis utilise la stack pour passer les arguments suivants (mais cette fois-ci de le la droite vers la gauche)</li>

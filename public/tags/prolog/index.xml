@@ -16,7 +16,7 @@
       <description>Hello,
 Toujours dans cette série de billets d&amp;rsquo;échauffement (série PROLOG), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&amp;rsquo;était un BUFFER OVERFLOW (le billet est ici). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&amp;rsquo;utilisation d&amp;rsquo;un STACK Buffer Overflow.
 Toujours dans un souci de pédagogie, nous allons prendre un exemple simple :
-Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&amp;rsquo;ASLR qui le protège de ce type d&amp;rsquo;exploitation Une execution locale (et non remote) Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &amp;lsquo;bypassable&amp;rsquo; &amp;hellip;</description>
+ Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&amp;rsquo;ASLR qui le protège de ce type d&amp;rsquo;exploitation Une execution locale (et non remote)  Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &amp;lsquo;bypassable&amp;rsquo; &amp;hellip;</description>
     </item>
     
     <item>
@@ -47,7 +47,7 @@ Comme il en existe beaucoup, nous allons nous limiter aux conventions d&amp;rsqu
       
       <guid>/posts/2022-11-01-prolog001/</guid>
       <description>Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&amp;rsquo;hui au programme, LA MÉMOIRE.
-Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&amp;rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :</description>
+Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible.</description>
     </item>
     
     <item>

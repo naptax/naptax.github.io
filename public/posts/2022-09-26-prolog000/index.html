@@ -95,14 +95,14 @@ Je ne vais pas produire ici sur ce blog des cours d&rsquo;assembleur. Il en exis
 <p>L&rsquo;assembleur est la &ldquo;dernière&rdquo; grammaire/abstraction/représentation qu&rsquo;un humain peut raisonnablement utiliser pour écrire les instructions qu&rsquo;il souhaite faire exécuter par le CPU. Ce code est ensuite traduit en hexa et en binaire. Et oui, vous pourriez directement programmer en binaire si vous aviez un temps infini ;-)</p>
 <h3 id="tailles-et-unités">Tailles et unités</h3>
 <p>Il m’apparaît intéressant de rappeler ici quelques unités sur les informations que nous allons manipuler :</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#f92672">-</span> BYTE <span style="color:#f92672">-</span> un <span style="color:#a6e22e">Octet</span> (<span style="color:#ae81ff">8</span> bits) <span style="color:#f92672">|</span> Permet de stocker des valeurs entre <span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">255</span> ou <span style="color:#f92672">-</span><span style="color:#ae81ff">128</span> <span style="color:#960050;background-color:#1e0010">à</span> <span style="color:#ae81ff">127</span> 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> WORD <span style="color:#f92672">-</span> <span style="color:#a6e22e">Word</span> (<span style="color:#ae81ff">16</span> bits) <span style="color:#f92672">|</span> permet de stocker des valeurs entre <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">65535</span> ou <span style="color:#f92672">-</span><span style="color:#ae81ff">32768</span> <span style="color:#960050;background-color:#1e0010">à</span> <span style="color:#ae81ff">32767</span> 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> DWORD <span style="color:#f92672">-</span> Double <span style="color:#a6e22e">word</span> (<span style="color:#ae81ff">32</span> bits) <span style="color:#f92672">|</span> Permet de stocker des valeurs de <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">232</span> 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> QWORD <span style="color:#f92672">-</span> Quad <span style="color:#a6e22e">word</span> (<span style="color:#ae81ff">64</span> bits) <span style="color:#f92672">|</span> Permet de stocker des valeurs de <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">64</span>
-</span></span></code></pre></div><h3 id="les-registres-des-cpu-x86-et-x64">Les registres des CPU x86 et x64</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#f92672">-</span> BYTE <span style="color:#f92672">-</span> un Octet (<span style="color:#ae81ff">8</span> bits) <span style="color:#f92672">|</span> Permet de stocker des valeurs entre <span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">255</span> ou <span style="color:#f92672">-</span><span style="color:#ae81ff">128</span> <span style="color:#960050;background-color:#1e0010">à</span> <span style="color:#ae81ff">127</span> 
+
+<span style="color:#f92672">-</span> WORD <span style="color:#f92672">-</span> Word (<span style="color:#ae81ff">16</span> bits) <span style="color:#f92672">|</span> permet de stocker des valeurs entre <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">65535</span> ou <span style="color:#f92672">-</span><span style="color:#ae81ff">32768</span> <span style="color:#960050;background-color:#1e0010">à</span> <span style="color:#ae81ff">32767</span> 
+
+<span style="color:#f92672">-</span> DWORD <span style="color:#f92672">-</span> Double word (<span style="color:#ae81ff">32</span> bits) <span style="color:#f92672">|</span> Permet de stocker des valeurs de <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">232</span> 
+
+<span style="color:#f92672">-</span> QWORD <span style="color:#f92672">-</span> Quad word (<span style="color:#ae81ff">64</span> bits) <span style="color:#f92672">|</span> Permet de stocker des valeurs de <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">64</span>
+</code></pre></div><h3 id="les-registres-des-cpu-x86-et-x64">Les registres des CPU x86 et x64</h3>
 <p>Chaque CPU dispose d&rsquo;un ensemble de registres d’intérêt général, 8 pour x86 et 16 pour x86-64. Un registre est une zone mémoire particulière, intégrée au CPU, dont l&rsquo;accès est ultrarapide et qui permet de stocker des données non-typées de manière (très) temporaire. C&rsquo;est par ces/ses registres (mais pas uniquement) que le CPU reçoit et &ldquo;transfert&rdquo; les informations, les conserve temporairement et les transmet selon les instructions de son unité de contrôle (ECU).</p>
 <p>En architecture 32-bits, les registres ont une capacité de stockage de 4 octets. Sur les CPU 64 bits, les registres ont une capacité de stockage de 8 octets.</p>
 
@@ -189,19 +189,19 @@ Les suffixes utilisés pour adresser les bits de faible poids des <em>New regist
 <h3 id="a-un-même-assembleur-2-syntaxes-">A un même assembleur, 2 syntaxes :</h3>
 <p>Pour des raisons historiques, il existe 2 syntaxes possibles pour un même code assembleur : La syntaxe AT&amp;T et la syntaxe INTEL. Comprenez bien : il s&rsquo;agit du même assembleur (donc des mêmes instructions). Seules les conventions d&rsquo;écriture changent.</p>
 <p>Prenons un code qui en langage C serait:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">62</span>;
-</span></span><span style="display:flex;"><span>j <span style="color:#f92672">=</span> i;
-</span></span></code></pre></div><p><strong>Syntaxe INTEL</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>,<span style="color:#ae81ff">0x3e</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">ebp-8</span>],<span style="color:#66d9ef">rax</span>
-</span></span></code></pre></div><p><strong>Syntaxe AT&amp;T</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">movq</span> <span style="color:#66d9ef">$0x3e</span>,%rax
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">movq</span> %rax,-<span style="color:#ae81ff">8</span>(%ebp)
-</span></span></code></pre></div><p>Les principales différences entre les 2 syntaxes sont résumées dans le tableau ci-dessous :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">62</span>;
+j <span style="color:#f92672">=</span> i;
+</code></pre></div><p><strong>Syntaxe INTEL</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>,<span style="color:#ae81ff">0x3e</span>
+<span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">ebp-8</span>],<span style="color:#66d9ef">rax</span>
+</code></pre></div><p><strong>Syntaxe AT&amp;T</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">movq</span> <span style="color:#66d9ef">$0x3e</span>,%rax
+<span style="color:#a6e22e">movq</span> %rax,-<span style="color:#ae81ff">8</span>(%ebp)
+</code></pre></div><p>Les principales différences entre les 2 syntaxes sont résumées dans le tableau ci-dessous :</p>
 <img src="/images/asm-syntax.png" width="520">
 <p>A titre personnel, j&rsquo;ai une préférence pour la syntaxe Intel. Sachez néanmoins que nous allons beaucoup utiliser le débugger GDB, et que ce dernier utilise par défaut la syntaxe AT&amp;T. Si comme moi vous voulez lui faire générer de l&rsquo;Intel, c&rsquo;est possible.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set disassembly-flavor intel
-</span></span></code></pre></div><p>A ce stade, nous avons 2 notions essentielles avec lesquelles il vous faut vous familiariser : <code> La stack et les conventions d'appel</code>. Justement, c&rsquo;est tout l&rsquo;objet <a href="/posts/2022-11-01-prolog001/" title="Et avant toute sur la mémoire">du billet suivant.</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">set disassembly-flavor intel
+</code></pre></div><p>A ce stade, nous avons 2 notions essentielles avec lesquelles il vous faut vous familiariser : <code> La stack et les conventions d'appel</code>. Justement, c&rsquo;est tout l&rsquo;objet <a href="/posts/2022-11-01-prolog001/" title="Et avant toute sur la mémoire">du billet suivant.</a></p>
 
           
           
