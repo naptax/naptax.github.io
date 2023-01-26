@@ -6,22 +6,49 @@
     <description>Recent content in Tags on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>edito</title>
-      <link>/tags/edito/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <title>dropper</title>
+      <link>/tags/dropper/</link>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/tags/edito/</guid>
+      <guid>/tags/dropper/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>guloader</title>
+      <link>/tags/guloader/</link>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/guloader/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>loader</title>
+      <link>/tags/loader/</link>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/loader/</guid>
       <description></description>
     </item>
     
     <item>
       <title>malware</title>
       <link>/tags/malware/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>/tags/malware/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>edito</title>
+      <link>/tags/edito/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/edito/</guid>
       <description></description>
     </item>
     

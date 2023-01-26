@@ -14,8 +14,8 @@
       
       <guid>/posts/2023-01-14-guloader-1/</guid>
       <description>Hello,
-Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&amp;rsquo;attaquer à un bon client pour l&amp;rsquo;analyse de Malware, et surtout des techniques d&amp;rsquo;évasion et d&amp;rsquo;anti : le loader GULOADER.
-L&amp;rsquo;histoire de GuLoader GuLoader est un loader de Malware qui a été vu pour la première fois fin 2019. A l&amp;rsquo;époque il n&amp;rsquo;était encore qu&amp;rsquo;un &amp;lsquo;simple&amp;rsquo; downloader utilisé pour diffuser des RAT tels que AgentTesla et Nanocore.</description>
+Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&amp;rsquo;attaquer à un bon client pour l&amp;rsquo;analyse de Malware, et surtout des techniques d&amp;rsquo;évasion et d&amp;rsquo;anti : le loader GULOADER. GuLOADER c &amp;lsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
+L&amp;rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019.</description>
     </item>
     
   </channel>
