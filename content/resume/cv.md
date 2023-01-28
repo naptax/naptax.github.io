@@ -42,6 +42,7 @@ menu:
 - [Ghidra](https://ghidra-sre.org/) 
 - IDA ... of course ;-)
 - IDA Python scripts for automation
+- [BINARY NINJA](https://binary.ninja/) :heart: :heart: (my favorite one's) with a lot of API Python NINJA BINARY :heart: :heart:
 - [RIZIN](https://rizin.re/)
 - CUTTER
 - [HOPPER](https://www.hopperapp.com/)
