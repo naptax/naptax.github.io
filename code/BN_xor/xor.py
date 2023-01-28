@@ -23,3 +23,4 @@ print(f'Binaire (size = {len(code_after)} ) APRES le xor:\t', bytearray(code_aft
 view.write(start_addr, bytearray(code_after))
 
 view.update_analysis_and_wait()
+view.save('c:\\temp\part2.bin')
