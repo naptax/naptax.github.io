@@ -333,7 +333,7 @@ Ces appels API par le hash de leurs fonctions fonctionnent selon le principe sui
 
 Ainsi, les outils d'analyse et l'analyste ne voient pas "en clair dans les String ou l'IAT" les fonctions API utilisées. Et comme vous le savez l'analyse des fonctions API externes utilisées renseigne assez vite sur les opérations réalisées et la nature d'un malware.
 
-Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision (ex: ```djb2```).
+Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision. Parmi les nombreuses fonctions de hash disponibles, on retrouve souvent : ```djb2``` [algo ici](http://www.cse.yorku.ca/~oz/hash.html). Elle a l'avantage td'être simple, ne générant pas de collision et rapide. Néanmoins du point de vue attaquant, cet algo a l'inconvénient d'utiliser ce que j'appelle **"des constantes signatures"**. Ces constantes signatures permettront à l'analyste d'identifier la présence de cette fonction de hash. Dans le cas de ```djb2``` la constante signature est **0x1505h (5381d)**. C'est pourquoi les Malwares les plus avancés masquent cette constante en la décomposant ou la chiffrant.   
 
 Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce sujet, mais sachez qu'il est assez simple de scripter le reverse de cette technique fort utilisée.
 
@@ -341,4 +341,4 @@ Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce suj
 <img width="300" src="/images/monster-1.png">
 </center>
 
-Voici nous avons vu quelques-unes des techniques qui viennent complexifier l'analyse statique d'un code binaire. Il en existe bien d'autres, dont la principale fait l'objet de notre prochain article : **L'offuscation du code**. 
+Voici nous avons vu quelques-unes des techniques qui viennent complexifier l'analyse statique d'un code binaire. Il en existe bien d'autres, dont la principale fait l'objet de notre prochain article : **Packer et unpacking**. 
