@@ -52,6 +52,10 @@ menu:
 - XDbg64
 - Dynamic instrumentation avec [FRIDA](https://frida.re/)
 
+### Binary Emulation
+- Dumpulator
+- [UNICORN](https://www.unicorn-engine.org/)
+
 #### Langages
 - C/C++
 - Deep Internal Windows Programming
@@ -61,6 +65,7 @@ menu:
 
 #### Frameworks i like
 - [pwntools](https://github.com/Gallopsled/pwntools#readme)
+- [UNICORN](https://www.unicorn-engine.org/)
 - [Google oss-fuzz](https://github.com/google/oss-fuzz)
 
 #### Threat management
