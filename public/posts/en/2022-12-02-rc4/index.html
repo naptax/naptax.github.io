@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="nAptaX">
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/img/favicon.ico">
+    <title>[CRYPTO] 0x001: RC4  | French Malware Analyst</title>
+    <meta name="description" content="Hello,
+Les auteurs de Malware écrivent le code de leur payload avec 3 préoccupations techniques principales:
+Atteindre l&rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Usurper) : c&rsquo;est la raison d’être de leur Payload Passer sous les radars des logiciels de sécurité (ex: EDR, AV) en étant le plus discret et surtout atypique possible Rendre la tache des Malware Analysts la plus complexe possible (Anti-Debug tricks, cryptage, offuscation, &hellip;) C&rsquo;est pourquoi les malwares font une utilisation intensive de différents algo de chiffrement symétriques et asymétriques.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    
+    <link rel="preload stylesheet" href="/css/main.min.css" as="style">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old">
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    <script defer data-domain="naptax.re" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body>
+    <div id="content">
+  
+  <div class="container mb-3">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="//localhost:1313/">
+        <i class="fa fa-home"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/posts/">BLOG</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/cv/">ABOUT ME</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/edito-001/">EDITO</a></li>
+              </li>
+            
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+  <div class="container">
+    <h3 class="mt-3"><b><a href="//localhost:1313/posts/en/2022-12-02-rc4/">[CRYPTO] 0x001: RC4 </a></b></h3>
+    <div class="blog-title my-4">
+      <h6>
+        December 2, 2022
+        &nbsp;&nbsp;
+        
+          <span class="badge bg-success">crypto</span>
+        
+      </h6>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="blogpost">
+          <center>
+<img width="500" src="/images/chut.png">
+</center>
+<p><strong>Hello</strong>,</p>
+<p>Les auteurs de Malware écrivent le code de leur payload avec 3 préoccupations techniques principales:</p>
+<ol>
+<li>Atteindre l&rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Usurper) : c&rsquo;est la raison d’être de leur Payload</li>
+<li>Passer sous les radars des logiciels de sécurité (ex: EDR, AV) en étant le plus discret et surtout atypique possible</li>
+<li>Rendre la tache des Malware Analysts la plus complexe possible (Anti-Debug tricks, cryptage, offuscation, &hellip;)</li>
+</ol>
+<p>C&rsquo;est pourquoi les malwares font une utilisation intensive de différents algo de <strong>chiffrement</strong> symétriques et asymétriques.
+Il est donc nécessaire d&rsquo;en maîtriser quelques-uns pour pouvoir identifier et comprendre &ldquo;le petit manège&rdquo;.</p>
+<p>Je vous propose de commencer par <strong>le plus simple</strong> de ces algo de chiffrement : RC4</p>
+<h1 id="son-histoire">Son histoire</h1>
+<p>RC4 (Rivest Cipher 4) est un algorithme de chiffrement en continu conçu en 1987 par Ronald Rivest (l&rsquo;un des inventeurs du RSA).
+Les détails de RC4 furent initialement tenus secrets mais en 1994, une description du chiffrement fut postée de manière anonyme sur la liste de diffusion <a href="https://cryptoanarchy.wiki/getting-started/what-is-the-cypherpunks-mailing-list">USENET alt.cypherpunks</a>.</p>
+<p>RC4 a été utilisé dans des protocoles comme WEP, WPA et TLS.</p>
+<p>Les raisons de son succès sont liées à sa grande simplicité et à sa vitesse de chiffrement. En revanche, son utilisation dans le cadre de protocole de sécurité est terminée en raison de certaines faiblesses mise à jour. En effet RC4 n&rsquo;utilise pas de vecteur d&rsquo;initialisation, en plus de la clé. Un vecteur d&rsquo;initialisation indépendant de la clé permet de garantir une sécurité suffisante. Ainsi les même messages chiffrés deux fois avec la même clé ne produisent pas la même sortie. <strong>Malgré ses faiblesses, RC4 est encore massivement utilisé par les malwares</strong>.</p>
+<p>RC4 est un algorithme de <strong>chiffrement en continu, également appelé chiffrement à flot (stream cipher)</strong>. Le chiffrement à flot est l&rsquo;une des deux grandes catégories de chiffrements modernes en cryptographie <strong>symétrique</strong>; l&rsquo;autre étant le chiffrement par bloc. Un chiffrement à flot est constitué d&rsquo;un générateur de nombres pseudo-aléatoires avec lequel on opère un XOR entre un bit à la sortie du générateur et un bit provenant du message à chiffrer.</p>
+<p>Aux cotés de RC4, l&rsquo;on trouve d&rsquo;autres (plus modernes et plus sécurisés) algo de chiffrement à flot : notamment <strong>SALSA 20</strong>, dont on remarque l&rsquo;utilisation croissante dans les malwares.</p>
+<h1 id="principe-du-chiffrement-rc4">Principe du chiffrement RC4</h1>
+<p>La clé RC4 permet d’initialiser un tableau de 256 octets en répétant la clef autant de fois que nécessaire pour remplir le tableau. Par la suite, des opérations très simples sont effectuées : les octets sont déplacés dans le tableau, des additions sont effectuées, etc. Le but est de mélanger autant que possible le tableau. On obtient alors une suite de bits pseudo-aléatoires qui sont utilisés pour chiffrer les données via un XOR.</p>
+<p>Pour générer le flot de bits, l&rsquo;algorithme dispose d&rsquo;un état interne composé de 2 parties :</p>
+<ol>
+<li>Une permutation <strong>P</strong> de tous les 256 octets possibles</li>
+<li>Deux pointeurs <strong>i</strong> et <strong>j</strong> qui servent d&rsquo;index dans un tableau</li>
+</ol>
+<p>La permutation est initialisée grâce à la clé de taille variable et au key schedule.</p>
+<p>Nous avons donc une séquence de chiffrement/déchiffrement très simple, composée des 4 étapes séquentielles suivantes :</p>
+<ol>
+<li>Initialisation de notre tableau d&rsquo;état interne</li>
+<li>KSA du tableau d&rsquo;état avec notre clé</li>
+<li>Generation du Keystream avec un PRNG</li>
+<li>Exécution du XOR &ldquo;membre a membre&rdquo; entre l input et le Keystream</li>
+</ol>
+<p>Chacune de ces étapes sont simples et trés identifiables (nous allons y revenir &hellip;)</p>
+<h1 id="la-pratique-en-c">La pratique en C</h1>
+<p>Vous trouverez ci-dessous mon implémentation de RC4 en C. Celle-ci n&rsquo;est pas optimisée et vous en trouverez certainement des meilleures sur le net. Par exemple, je laisse le soin au compilateur C de trouver la meilleure optimisation de mes opérations de <code>modulo</code> (nous allons vite disséquer/vérifier cela en ASM reversé&hellip;) Néanmoins j&rsquo;estime qu&rsquo;implémenter soi-meme un RC4 est un exercice intéressant.</p>
+<p><strong>Toutes les explications sont dans les commentaires</strong>.</p>
+<script type="application/javascript" src="https://gist.github.com/naptax/4019fb213871ad933436c9646d334480.js?file=RC4Impl.c"></script>
+
+<center>
+<img width="300" src="/images/clue.png">
+</center>
+<h1 id="identifier-lusage-de-rc4-dans-un-code-binaire">Identifier l&rsquo;usage de RC4 dans un code binaire</h1>
+<p>Maintenant que nous connaissons un peu mieux RC4, on peut en tirer les macro-facteurs d&rsquo;identification suivants (tous reliés par un AND ;-) :</p>
+<ul>
+<li>Commence par une boucle d&rsquo;init de 256 (100h)</li>
+<li>Réalise des Modulo 256 (100h)</li>
+<li>Une boucle KSA de 100h itérations</li>
+<li>Procède à des swaps</li>
+<li>Utilise une clé unique</li>
+</ul>
+<p>Compilons notre implémentation exemple, puis posons la sous notre microscope IDA afin de pointer chacune des étapes. Comme nous sommes en mode tuto, j&rsquo;ai été sympa et j&rsquo;ai compilé le programme C en incluant les informations de debug dans le binaire ;-) , évidemment dans le malware cela ne sera jamais le cas (sauf pour les plus mauvais d&rsquo;entres-eux).</p>
+<p><strong>Mais avant d&rsquo;ouvrir IDA, il nous faut faire un focus sur la fonction MODULO</strong>.</p>
+<h2 id="reconnaitre-un-modulo-en-assembleur">Reconnaitre un modulo en assembleur</h2>
+<p>Nous savons que RC4 réalise des opérations de Modulo 256.</p>
+<p>Il existe plusieurs manières d&rsquo;implémenter un <em>mod 256</em> en ASM:</p>
+<ol>
+<li>Une <strong>très/trés lente</strong> pour nos processeurs i64, basée sur des DIV ou IDIV  <a href="https://stackoverflow.com/questions/41183935/why-does-gcc-use-multiplication-by-a-strange-number-in-implementing-integer-divi">ici pour creuser le sujet</a></li>
+<li>Une optimisée, reposant sur des multiplications et des décalages de bit</li>
+</ol>
+<h4 id="the-good-way">The good Way</h4>
+<p>256 étant un nombre pair (c-á-d dont la division euclidienne par 2 donne un reste à 0), alors nous allons pouvoir calculer notre modulo par décalage de bit.
+Rappelons d&rsquo;abord les grands principes du décalage de bit:</p>
+<ul>
+<li>Décaler de N bits vers la droite (&raquo;) revient à diviser par 2 puissance N</li>
+<li>Décaler de N bits vers la gauche (&laquo;) correspond à une multiplication par 2 puissance N</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">short</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>b00011100; <span style="color:#75715e">// soit 28 en décimal
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">short</span> b;
+</span></span><span style="display:flex;"><span>b <span style="color:#f92672">=</span> a <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// b vaut maintenant 0b01110000 // 112 en decimal, soit 28 * 2^2  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>b <span style="color:#f92672">=</span> a <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// b vaut maintenant 0b00000001 // 1 en decimal (pour la partie entière), soit 28 / 2^4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>a <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// a vaut maintenant 0b11100000 // 224 en decimal, soit 28 * 2^3
+</span></span></span></code></pre></div><p>Par conséquent, le compilateur (ex: x86-64 gcc -O2) implémentera notre mod 256 de la manière suivante :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span>        <span style="color:#a6e22e">mov</span>     edx, edi
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sar</span>     edx, <span style="color:#ae81ff">31</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">shr</span>     edx, <span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">lea</span>     eax, [rdi<span style="color:#f92672">+</span>rdx]
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">movzx</span>   eax, al
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sub</span>     eax, edx
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ret</span>
+</span></span></code></pre></div><p>ou encore avec x64 msvc:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">a$</span> <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">int</span> modulus(int) PROC                             <span style="color:#75715e">; modulus</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mov</span>     <span style="color:#66d9ef">DWORD</span> PTR [rsp<span style="color:#f92672">+</span><span style="color:#ae81ff">8</span>], ecx
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mov</span>     eax, <span style="color:#66d9ef">DWORD</span> PTR a$[rsp]
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">cdq</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">and</span>     edx, <span style="color:#ae81ff">255</span>                      <span style="color:#75715e">; 000000ffH</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">add</span>     eax, edx
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">and</span>     eax, <span style="color:#ae81ff">255</span>                      <span style="color:#75715e">; 000000ffH</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sub</span>     eax, edx
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ret</span>     <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">int</span> modulus(int) ENDP                             <span style="color:#75715e">; modulus</span>
+</span></span></code></pre></div><p>Notre boucle de 256 itérations d&rsquo;initialisation se présente sous la forme suivante:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">initialize</span>(char<span style="color:#f92672">*</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">xor</span>     eax, eax
+</span></span><span style="display:flex;"><span>.L2:
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mov</span>     <span style="color:#66d9ef">BYTE</span> PTR [rdi<span style="color:#f92672">+</span>rax], al
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">add</span>     rax, <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">cmp</span>     rax, <span style="color:#ae81ff">256</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">jne</span>     .L2
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ret</span>
+</span></span></code></pre></div><p>Une fois l&rsquo;utilisation de RC4 identifiée par ces différents signaux, il faut alors vous mettre en recherche de la génération KSA afin d&rsquo;y localiser et extraire la clé magique ;-) Attention néanmoins les auteurs de Malware utilisant RC4 aiment bien flouter un peu leur clé, mais là encore le reverse du code nous permet d&rsquo;inverser celà.</p>
+<h3 id="1-tiens-tiens-une-boucle-dinit-de-256-itérations-">1. Tiens tiens, une boucle d&rsquo;init de 256 itérations &hellip;</h3>
+<img src="/images/Graph-Initialize.png">
+<h3 id="2-boucle-de-xor-avec-le-keystream">2. Boucle de XOR avec le Keystream</h3>
+<img src="/images/Graph-xor.png">
+<h3 id="commencer-à-dissimuler--les-string-du-binaire">Commencer à dissimuler : les String du binaire</h3>
+<p>Evidement un malware ne stockera pas sa clé secrète en clair dans une simple string; comme c&rsquo;est ici le cas dans notre programme exemple (<code>u_char *key = &quot;password&quot;</code>). Un simple examen des String dans les sections Data du binaire permettrait alors d&rsquo;afficher les string candidates à être une clé déchiffrement (surtout quand la clé est &ldquo;password&rdquo; ;-)</p>
+<p>L&rsquo;auteur d&rsquo;un malware masquera donc ses String avec des procédés tel que celui qui consiste à ajouter/soustraire/modulo inverse/&hellip; un chiffre aux octets de sa chaine de caractère, puis à les Pusher sur la pile. Ainsi une simple recherche des String dans les premières phases de l&rsquo;analyse statique ne donnerait aucun indice ASCII.</p>
+<p>Disons pour notre exemple que nous souhaitons dissimuler password en additionnant 3 aux octets de la chaîne puis les pousser sur la stack.
+(Si vous cherchez CyberChef, <a href="https://gchq.github.io/CyberChef/">il est par là ;-)</a></p>
+<ul>
+<li>password = 0x64 72 6f 77 73 73 61 70 (je rappelle que nous sommes en <strong>Little Endian</strong> sur nos processeurs)</li>
+<li>on ajoute 3 = 0x67 75 71 80 77 77 64 73</li>
+</ul>
+<p>On push (dans le bon ordre svp ;-) et on place cette string encodée dans ebx:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#ae81ff">0x77776473</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#ae81ff">0x67757180</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> ebx, esp    <span style="color:#960050;background-color:#1e0010">&#39;</span> ebx contient maintenant notre cl<span style="color:#960050;background-color:#1e0010">é</span> <span style="color:#e6db74">&#34;codée&#34;</span> 
+</span></span></code></pre></div><p>Lorsque nous avons besoins de notre clé (au moment de la génération du KSA de notre RC4 par exemple), alors:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> edx, <span style="color:#ae81ff">8</span>              <span style="color:#960050;background-color:#1e0010">&#39;</span> Nous avons <span style="color:#ae81ff">8</span> octets <span style="color:#960050;background-color:#1e0010">à</span> d<span style="color:#960050;background-color:#1e0010">é</span>coder
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>decode:
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">BYTE</span> [ebx<span style="color:#f92672">+</span>edx], <span style="color:#ae81ff">0x3</span> <span style="color:#960050;background-color:#1e0010">&#39;</span> on soustrait <span style="color:#ae81ff">3</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">dec</span> edx
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">jns</span> decode
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#a6e22e">ebx</span> contient donc maintenant notre cl<span style="color:#960050;background-color:#1e0010">é</span> en clair  
+</span></span></code></pre></div><p>Il existe bien d&rsquo;autres techniques pour masquer nos String d&rsquo;une analyse statique de premier niveau. Nous en verrons d&rsquo;autres dans la série de billets à venir sur les techniques ANTI- .</p>
+<p>Une prochaine fois, nous analyserons un autre algorithme de chiffrement à clé symétrique en flux (Cipher Stream) très utilisé et proche des concepts de RC4 : <strong>SALSA20</strong> &hellip;. Stay tuned</p>
+<center>
+<img width="500" src="/images/coffre.png">
+</center>
+
+          
+          
+            <div class="related-posts mt-4 py-3">
+              <h5>Related Posts</h5>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      December 2, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-12-02-rc4/">[CRYPTO] 0x001: RC4 (French version)</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+            </div>
+          
+        </div>
+      </div>
+      <div class="disqus">
+        
+      </div>
+    </div>
+  </div>
+
+    </div>
+    
+    <footer class="footer">
+  <div class="container">
+    <div class="text-muted">Powered by <a href="https://gohugo.io/">Hugo with ♥</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+  </body>
+</html>

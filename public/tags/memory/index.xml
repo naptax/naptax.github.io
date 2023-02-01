@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>memory on French Malware Analyst</title>
-    <link>/tags/memory/</link>
+    <link>//localhost:1313/tags/memory/</link>
     <description>Recent content in memory on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 01 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/memory/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/tags/memory/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>[PROLOG] 0x001, La mémoire</title>
-      <link>/posts/2022-11-01-prolog001/</link>
+      <title>[PROLOG] 0x001, La mémoire | (French version)</title>
+      <link>//localhost:1313/posts/fr/2022-11-01-prolog001/</link>
       <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2022-11-01-prolog001/</guid>
+      <guid>//localhost:1313/posts/fr/2022-11-01-prolog001/</guid>
       <description>Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&amp;rsquo;hui au programme, LA MÉMOIRE.
-Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible.</description>
+Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&amp;rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :</description>
     </item>
     
   </channel>

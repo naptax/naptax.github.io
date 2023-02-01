@@ -78,7 +78,7 @@ html, body {
 
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   text-align: center;
 }
 
@@ -91,7 +91,7 @@ html, body {
 }
 
 .container a {
-  color: #27a822;
+  color: #068344;
   text-decoration: none;
 }
 
@@ -255,12 +255,12 @@ h5 a:hover {
 .list-post-title  
 {
   font-family:'Courier New', Courier, monospace;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
 }
 
 .list-post-title a 
 {
- font-size: 15px;
+ font-size: 18px;
 }
 
 /* Footer  */

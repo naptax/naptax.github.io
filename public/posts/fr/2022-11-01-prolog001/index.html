@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="nAptaX">
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/img/favicon.ico">
+    <title>[PROLOG] 0x001, La mémoire | (French version) | French Malware Analyst</title>
+    <meta name="description" content="Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&rsquo;hui au programme, LA MÉMOIRE.
+Lorsque l&rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&rsquo;assembleur est LA barrière d&rsquo;entrée complexe. En réalité, l&rsquo;assembleur est d&rsquo;une syntaxe simplissime, d&rsquo;une logique totale et donc d&rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    
+    <link rel="preload stylesheet" href="/css/main.min.css" as="style">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old">
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    <script defer data-domain="naptax.re" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body>
+    <div id="content">
+  
+  <div class="container mb-3">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="//localhost:1313/">
+        <i class="fa fa-home"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/posts/">BLOG</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/cv/">ABOUT ME</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/edito-001/">EDITO</a></li>
+              </li>
+            
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+  <div class="container">
+    <h3 class="mt-3"><b><a href="//localhost:1313/posts/fr/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire | (French version)</a></b></h3>
+    <div class="blog-title my-4">
+      <h6>
+        November 1, 2022
+        &nbsp;&nbsp;
+        
+          <span class="badge bg-success">malware</span>
+        
+          <span class="badge bg-success">memory</span>
+        
+          <span class="badge bg-success">prolog</span>
+        
+      </h6>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="blogpost">
+          <center>
+<figure><img src="/images/stack.png" height="60"/>
+</figure>
+
+</center>
+<p>Second billet de notre série <strong>PROLOG</strong> qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&rsquo;hui au programme, LA MÉMOIRE.</p>
+<p>Lorsque l&rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&rsquo;assembleur est LA barrière d&rsquo;entrée complexe. En réalité, l&rsquo;assembleur est d&rsquo;une syntaxe simplissime, d&rsquo;une logique totale et donc d&rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :</p>
+<ol>
+<li>Le fonctionnement de mémoire et plus particulièrement de la Stack</li>
+<li>Les registres</li>
+<li>Les conventions d&rsquo;appels définies par <code>l'ABI (_Application Binary Interface_)</code></li>
+<li><strong>Le fonctionnement de la Stack ;-)</strong></li>
+</ol>
+<h2 id="la-mémoire">La mémoire</h2>
+<p>Vaste sujet que la mémoire. Je vais synthétiser ici les principaux éléments qui nous seront nécessaires pour notre reverse des malwares x64.</p>
+<p>Chaque processus en cours d&rsquo;exécution obtient son propre espace d&rsquo;adressage virtuel. La quantité d&rsquo;espace dépend de l&rsquo;architecture (32-bits ou 64-bits), des paramètres système et du système d&rsquo;exploitation.</p>
+<p>Seule une petite partie de cet espace virtuel au sein de chaque processus est mappée à la mémoire physique. Il existe différentes manières d&rsquo;effectuer le mapping de la mémoire virtuelle à physique grâce à l&rsquo;utilisation de la pagination et de la traduction d&rsquo;adresses.</p>
+<center>
+<figure><img src="/images/memory-full.png" width="600"/>
+</figure>
+
+</center>
+<p>Les différentes sections de la mémoire virtuelle :
+
+
+
+
+
+<table class='table table-striped table-bordered'>
+<thead>
+<tr>
+<th>Section</th>
+<th>Données stockées<br/>dans la section</th>
+<th>Exemple en C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>.text</strong></td>
+<td>Correspond essentiellement à la partie .text du fichier exécutable binaire. Il contient les instructions a executer. Sa taille est fixée au moment de l&rsquo;exécution lorsque le processus est chargé pour la première fois</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>.rodata</strong></td>
+<td>Stocke les variables <strong>globales initialiées</strong> (en lecture seule)</td>
+<td><code>int x = 10;</code></td>
+</tr>
+<tr>
+<td><strong>.data</strong></td>
+<td>Stocke les variables <strong>globales initialiées</strong></td>
+<td><code>int x = 10;</code></td>
+</tr>
+<tr>
+<td><strong>.bss</strong></td>
+<td>Stocke les variables <strong>globales NON initialiées</strong> (en lecture/ecriture, mais non éxécutable)</td>
+<td><code>int x;</code></td>
+</tr>
+<tr>
+<td><strong>HEAP (le tas)</strong></td>
+<td>Stocke des variables allouées dynamiquement et se développe de la mémoire à adresse inférieure vers la mémoire à adresse supérieure. L&rsquo;allocation de mémoire est contrôlée par les fonctions <code>malloc(), realloc() et free()</code>.</td>
+<td><code>int x = malloc(sizeof(int);</code></td>
+</tr>
+<tr>
+<td><strong><em>shared librairies</em></strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>STACK (la pile)</strong></td>
+<td>La pile garder une trace des appels de fonction (récursivement) et se développe de la mémoire à adresse supérieure vers la mémoire à adresse inférieure. La pile stocke les variables locales. Si le processus est multithread, chaque thread aura une pile unique (mais un tas commun)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+
+<BR/></p>
+<h2 id="mais-cest-quoi-la-stack-">Mais c&rsquo;est quoi la Stack ?</h2>
+<center>
+<figure><img src="/images/stackicon.png" width="100"/>
+</figure>
+
+</center>
+<p>La stack, la pile en français, est une mémoire volatile, rapide d&rsquo;accès et organisée selon le principe LIFO (Last-in, First-out). On utilise l&rsquo;instruction <code>PUSH</code> pour stocker une valeur dans la pile (on dit alors &ldquo;empiler&rdquo;) (ex:<code>PUSH 0xf56a46</code>). On utilise l&rsquo;instruction <code>POP</code> pour extraire/dépiler la dernière valeur empilée et la placer dans le registre du CPU spécifié dans notre POP (ex:<code>POP ecx</code>).</p>
+<ul>
+<li>
+<p>Le registre <strong>EBP</strong> stocke l&rsquo;adresse de la base/début de la stack frame actuelle (elle désigne <strong>l&rsquo;adresse la plus haute de la stack</strong> frame en cours d&rsquo;exécution)</p>
+</li>
+<li>
+<p>Le registre <strong>ESP</strong> stocke l&rsquo;adresse du dessus  de la pile (TOP), c&rsquo;est-à-dire l&rsquo;adresse de la fin actuelle de la pile du processus en cours. Elle désigne donc <strong>l&rsquo;adresse la plus basse de la stack</strong>.</p>
+</li>
+<li>
+<p>N&rsquo;oubliez pas qu&rsquo;un <code>PUSH</code> décrémente <code>ESP</code> et qu&rsquo;un <code>POP</code> incrémente <code>ESP</code>.</p>
+</li>
+</ul>
+<p>Quand une fonction est exécutée, une Stack Frame (cadre de pile) est créée pour stocker ses informations (ex: ses variables locales). Cette nouvelle stack frame vient s&rsquo;empiler sur la stack du thread. Quand cette fonction est terminée, la stack frame est abandonné. C&rsquo;est-à-dire que les registres ESP et EBP pointent à nouveau sur la Stack Frame de l&rsquo;appelant. Le flux d’exécution (dont l&rsquo;adresse de la prochaine instruction est stockée dans le registre EIP) continue alors dans l&rsquo;appelant à l&rsquo;adresse qui suit le call. Cette adresse de retour (<em>return address</em>) ayant été préalablement sauvegardée sur la pile par l&rsquo;appelant (via l&rsquo;instruction <code>CALL</code>).</p>
+<ul>
+<li>La valeur (c.-à-d. son adresse) d&rsquo;EBP reste fixe pour la stack frame</li>
+<li>La valeur d&rsquo;ESP varie (vers le haut ou vers le bas) en fonction des données (nombre et taille) empilées ou dépilées sur cette stack frame</li>
+<li>Vous aurez noté que cette stack frame mesure à un instant t (EBP-ESP)</li>
+</ul>
+<p>Regardons maintenant sur un schéma cette histoire d&rsquo;appelant (<em>caller</em>) et d&rsquo;appelé (<em>callee</em>), d&rsquo;un point de vue des stack frame :</p>
+<center>
+<figure><img src="/images/stack-1-2.png" width="600"/>
+</figure>
+
+</center>
+<h3 id="naviguer-dans-la-stack">Naviguer dans la Stack</h3>
+<p>La stack est utilisée pour stocker :</p>
+<ol>
+<li>Les variables locales d&rsquo;une fonction</li>
+<li>Des arguments d&rsquo;appel d&rsquo;une fonction</li>
+<li>Des adresses de retour</li>
+</ol>
+<p><strong>Mais où trouve-t-on ces différentes informations dans la stack et comment y accède-t-on ?</strong></p>
+<p>On navigue dans une stack par adresses relatives (offset); relatives par rapport à son haut (c.-à-d. par rapport au registre ESP), ou relatives par rapport à sa base (le registre EBP).</p>
+<p><strong>N&rsquo;oubliez pas que sur x86 et x64 l&rsquo;on décrémente ESP pour monter dans la stack (par exemple au fur et à mesure des allocations mémoire statiques) et que l&rsquo;on incrémente ESP pour descendre dans la stack</strong>. Au début cela est un peu perturbant, mais vous verrez, on s&rsquo;y fait très vite : &ldquo;<em>Plus pour descendre</em>&rdquo;, &ldquo;<em>Moins pour monter</em>&rdquo; ;-) par exemple pour réserver de la mémoire sur la stack, on diminue ESP de la taille à réserver :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">esp</span>, <span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#66d9ef">taille</span> <span style="color:#960050;background-color:#1e0010">à</span> <span style="color:#66d9ef">r</span><span style="color:#960050;background-color:#1e0010">é</span><span style="color:#66d9ef">server</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
+</span></span></code></pre></div><h3 id="le-passage-darguments-par-la-stack">Le Passage d&rsquo;arguments par la stack</h3>
+<p>Il existe plusieurs conventions qui permettent de spécifier les modalités de passage d&rsquo;arguments à une fonction (paramètres émis par l&rsquo;<strong>appelant</strong> et donc reçus par l&rsquo;<strong>appelé</strong>). Nous étudierons plus bas ces différentes conventions d&rsquo;appel (<em>convention call</em>). Ce qui nous intéresse ici pour le moment, c&rsquo;est de comprendre où et comment ces arguments passés par la stack se positionnent en mémoire. L&rsquo;objectif est évidemment de pouvoir accéder aux valeurs de ces paramètres.</p>
+<p>Prenons l&rsquo;appel de fonction C suivante :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__attribute__</span>((__cdecl__)) <span style="color:#a6e22e">additionne</span>(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> somme<span style="color:#f92672">=</span><span style="color:#a6e22e">additionne</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>,<span style="color:#ae81ff">40</span>); 
+</span></span></code></pre></div><p><strong>Note</strong> <em>: à ce stade ne faites pas attention aux mots clés <code>__cdecl___</code> et <code>__attribute__</code> qui permettent juste de faire en sorte que le compilateur C 32-bits utilise la stack (et non pas les registres) pour passer les arguments à la fonction. Nous y reviendrons juste après lorsque nous verrons les différentes conventions d&rsquo;appel.</em></p>
+<p>Notre compilateur C 32 bits aurait donc traduit ce code C par le code assembleur suivant (sur un x86 32-bit<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#ae81ff">0x28</span>      <span style="color:#75715e">; argument 3 | 40 en decimal
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">push</span> <span style="color:#ae81ff">0x1e</span>      <span style="color:#75715e">; argument 2 | 30 en decimal
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">push</span> <span style="color:#ae81ff">0x14</span>      <span style="color:#75715e">; argument 1 | 20 en decimal
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">call</span> <span style="color:#66d9ef">additionne</span> <span style="color:#75715e">; additionne(20,30,40)
+</span></span></span></code></pre></div><p>La stack frame de la fonction <code>main()</code> <strong>JUSTE AVANT L&rsquo;EXÉCUTION DE LA PREMIÈRE INSTRUCTION</strong> de la fonction <code>additionne()</code> serait alors la suivante :</p>
+<center>
+<figure><img src="/images/stack-1-1.png" width="600"/>
+</figure>
+
+</center>
+<p>Avant d&rsquo;appeler la fonction <code>additionne</code>, la fonction <code>main()</code> sauvegarde les registres EAX, ECX et EDX, seulement si ces derniers risquent d’être écrasés par la fonction <code>additionne</code> qu&rsquo;il s’apprête à appeler. En l&rsquo;occurrence notre fonction <code>additionne</code> n’utilisera que les registres EAX et EDX.</p>
+<p>Puis <code>main</code> <strong>push</strong> sur la pile les 3 arguments avec lesquels il va appeler la fonction <code>additionne</code>.</p>
+<p>Et enfin vient le temps du CALL. En assembleur l&rsquo;instruction <code>CALL</code> réalise les actions suivantes :</p>
+<ol>
+<li>Le contenu du registre EIP est poussé sur la pile</li>
+<li>Transfert le fux d’exécution vers l&rsquo;adresse de la fonction à appeler (grâce au registre spécial EIP)</li>
+</ol>
+<p>Ainsi nous obtenons une stack frame de <code>main</code> avec son adresse de retour sauvegardée sur le haut de la pile. Cette adresse de retour permettra au flux d’exécution de reprendre à l&rsquo;adresse où il était juste avant son <code>CALL</code>, lorsqu&rsquo;il sortira de la fonction appelée (ici <code>additionne</code>). Ainsi, le flux ne souffrira d&rsquo;aucune interruption.</p>
+<p>Dans cette perspective <code>main()</code> est la fonction <strong>&ldquo;appelante&rdquo;</strong> de la fonction <code>additionne</code>. Intéressons-nous maintenant à la fonction appelée : <code>additionne()</code>.
+Prenons par exemple son code C suivant:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__attribute__</span>((__cdecl__)) <span style="color:#a6e22e">additionne</span>(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">+</span>b<span style="color:#f92672">+</span>c;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>, dont la compilation en assembleur 32-bits donne:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000118d</span>         <span style="color:#66d9ef">push</span>       <span style="color:#66d9ef">ebp</span>                       <span style="color:#75715e">; PROLOGUE de la fonction 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000118e</span>         <span style="color:#66d9ef">mov</span>        <span style="color:#66d9ef">ebp</span>, <span style="color:#66d9ef">esp</span>                  <span style="color:#75715e">;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00001190</span>         <span style="color:#66d9ef">mov</span>        <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">dword</span> [<span style="color:#66d9ef">ebp</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">8</span>]        <span style="color:#75715e">; int a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00001193</span>         <span style="color:#66d9ef">mov</span>        <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">dword</span> [<span style="color:#66d9ef">ebp</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">12</span>]       <span style="color:#75715e">; int b
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00001196</span>         <span style="color:#66d9ef">add</span>        <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">eax</span>                  <span style="color:#75715e">; allez hop (a+b) dans edx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00001198</span>         <span style="color:#66d9ef">mov</span>        <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">dword</span> [<span style="color:#66d9ef">ebp</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">16</span>]       <span style="color:#75715e">; int c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000119b</span>         <span style="color:#66d9ef">add</span>        <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">edx</span>                  <span style="color:#75715e">; allez hop (edx + c) dans eax
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000119d</span>         <span style="color:#66d9ef">pop</span>        <span style="color:#66d9ef">ebp</span>                       <span style="color:#75715e">;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000119e</span>         <span style="color:#66d9ef">ret</span>                                  <span style="color:#75715e">; par convention le resultat de la fonction est posée dans eax
+</span></span></span></code></pre></div><p>On distingue 3 parties dans le code de cette fonction :</p>
+<ol>
+<li>Son prologue</li>
+<li>Son traitement</li>
+<li>Son épilogue</li>
+</ol>
+<p><strong>Le prologue de la fonction <em>additionne</em></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000118d</span>         <span style="color:#66d9ef">push</span>       <span style="color:#66d9ef">ebp</span>                       <span style="color:#75715e">; Sauvegarde EBP sur la pile 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000118e</span>         <span style="color:#66d9ef">mov</span>        <span style="color:#66d9ef">ebp</span>, <span style="color:#66d9ef">esp</span>                  <span style="color:#75715e">; Définit l&#39;EBP de notre fonction en la faisant pointer sue ESP
+</span></span></span></code></pre></div><p>Le rôle du prologue d&rsquo;une fonction est donc :</p>
+<ol>
+<li>De sauvegarder sur la pile l&rsquo;adresse stockée dans EBP</li>
+<li>De construire une nouvelle stack frame vide pour la fonction appelée. En positionnant EBP (la base de la pile) sur ESP</li>
+</ol>
+<p><strong>L&rsquo;épilogue de la fonction <em>additionne</em></strong>
+L&rsquo;épilogue de la fonction est ici constitué par la simple instruction <code>RET</code>; instruction qui réalise plusieurs actions :</p>
+<ol>
+<li>Retire de la pile l&rsquo;adresse de retour précédemment stockée (via un POP)</li>
+<li>Dirige le flux d’exécution sur cette adresse (qui est l&rsquo;adresse qui suit le CALL par lequel nous sommes rentrés dans la fonction appelée)</li>
+</ol>
+<p>Ok, vous avez compris comment fonctionne la stack, étudions maintenant comment l&rsquo;utiliser sous Windows et sous Linux ?
+Et comme l&rsquo;informatique ne s&rsquo;est pas construite en une foi, chaque OS possède des conventions différentes : en route pour les ABI &hellip;</p>
+<center>
+<figure><img src="/images/abi.png" width="200"/>
+</figure>
+
+</center>
+<h2 id="labi-application-binary-interface">L&rsquo;ABI (Application Binary Interface)</h2>
+<p>Une ABI définit la manière dont les structures de données et les données sont accessibles dans le code machine. Pour exemple les conventions d&rsquo;appels (que nous allons voir un peu plus bas) sont définies au sein des ABI</p>
+<p>Adhérer à une ABI (qui peut, ou non, être officiellement standardisée) est généralement le travail d&rsquo;un compilateur (pour produire le binaire) et d&rsquo;un système d&rsquo;exploitation (pour exécuter le binaire). Cependant, un développeur peut avoir à traiter directement avec une ABI lors de l&rsquo;écriture d&rsquo;un programme utilisant plusieurs langages de programmation (ex: C pour Windows et Assembleur), ou même de la compilation d&rsquo;un programme écrit dans le même langage avec différents compilateurs.</p>
+<p>Quand on manipule du code assembleur issu du reverse d&rsquo;un programme binaire, nous sommes dans l&rsquo;obligation de prendre en compte l&rsquo;ABI qu&rsquo;il utilise.</p>
+<p>Les détails couverts par une ABI incluent les éléments suivants :</p>
+<ol>
+<li>
+<p><strong>Jeu d&rsquo;instructions</strong> du processeur, avec des détails tels que la structure des registres, l&rsquo;organisation de la pile, les types d&rsquo;accès à la mémoire, etc.</p>
+</li>
+<li>
+<p><strong>Tailles</strong>, dispositions et alignements des types de données de base auxquels le processeur peut accéder directement</p>
+</li>
+<li>
+<p><strong>Convention d&rsquo;appel</strong>, qui contrôle la façon dont les arguments des fonctions sont passés et les valeurs de retour récupérées. Par exemple, l&rsquo;ABI définit les éléments suivants :</p>
+<ul>
+<li>Si tous les paramètres sont passés sur la pile, et/ou certains sont passés dans des registres</li>
+<li>Quels registres sont utilisés pour quels paramètres de fonction</li>
+<li>Si le premier paramètre de fonction passé sur la pile est poussé en premier ou en dernier</li>
+</ul>
+</li>
+<li>
+<p>Comment une application doit effectuer des appels système au système d&rsquo;exploitation, et si l&rsquo;ABI spécifie des appels système directs plutôt que des appels de procédure, les numéros d&rsquo;appel système</p>
+</li>
+<li>
+<p>Dans le cas d&rsquo;un système d&rsquo;exploitation complet, l&rsquo;ABI de l&rsquo;OS normalise le format binaire des fichiers objets, des bibliothèques binaires, &hellip;</p>
+</li>
+</ol>
+<p>Dans notre quête aux malwares sur les OS 64-bits, nous allons principalement croiser le chemin des 2 ABI suivantes :</p>
+<ul>
+<li>System V AMD</li>
+<li>Microsoft x64</li>
+</ul>
+<BR/>
+<p><strong>Parler des ABI, c&rsquo;est parler des conventions d&rsquo;appel, et pour cela, je vous ai préparé <a href="/posts/fr/2022-11-11-prolog002/">le petit billet suivant.</a></strong></p>
+<BR/>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><em>je précise ici sur x86, car sur ARM et x64 le mot clé <code>__cdecl</code> n&rsquo;est pas pris en compte par le compilateur. En effet, la convention exige que sur processeur ARM et x64, les paramètres soient passés autant que possible par les registres, puis seulement ensuite par la stack.</em>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+          
+          
+            <div class="related-posts mt-4 py-3">
+              <h5>Related Posts</h5>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      September 26, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-09-26-prolog000/">[PROLOG] 0x000, In Assembler we trust (French version)</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+            </div>
+          
+        </div>
+      </div>
+      <div class="disqus">
+        
+      </div>
+    </div>
+  </div>
+
+    </div>
+    
+    <footer class="footer">
+  <div class="container">
+    <div class="text-muted">Powered by <a href="https://gohugo.io/">Hugo with ♥</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+  </body>
+</html>

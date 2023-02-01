@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="nAptaX">
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/img/favicon.ico">
+    <title>[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version) | French Malware Analyst</title>
+    <meta name="description" content="Hello,
+Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d&rsquo;Anti-Analyse. Et oui, les binaires sont des patients qui ne se laissent pas ausculter comme cela &hellip; En effet, les éditeurs commerciaux et les auteurs de malwares protègent leur binaire en y injectant un ou plusieurs mécanismes qui viennent complexifier et donc ralentir et diminuer le reverse de leur code,algo ou données. Ces techniques sont nombreuses et en perpétuelle évolution (comme toute situation &ldquo;Le chat et la souris&rdquo; ;-)">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    
+    <link rel="preload stylesheet" href="/css/main.min.css" as="style">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old">
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    <script defer data-domain="naptax.re" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body>
+    <div id="content">
+  
+  <div class="container mb-3">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="//localhost:1313/">
+        <i class="fa fa-home"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/posts/">BLOG</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/cv/">ABOUT ME</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/edito-001/">EDITO</a></li>
+              </li>
+            
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+  <div class="container">
+    <h3 class="mt-3"><b><a href="//localhost:1313/posts/fr/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version)</a></b></h3>
+    <div class="blog-title my-4">
+      <h6>
+        December 16, 2022
+        &nbsp;&nbsp;
+        
+          <span class="badge bg-success">malware</span>
+        
+      </h6>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="blogpost">
+          <center>
+<img width="600" src="/images/obfuscated.png">
+</center>
+<p><strong>Hello</strong>,</p>
+<p>Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d&rsquo;Anti-Analyse. Et oui, les binaires sont des patients qui ne se laissent pas ausculter comme cela &hellip;
+En effet, les éditeurs commerciaux et les auteurs de malwares protègent leur binaire en y injectant un ou plusieurs mécanismes qui viennent complexifier et donc ralentir et diminuer le reverse de leur code,algo ou données. Ces techniques sont nombreuses et en perpétuelle évolution (comme toute situation &ldquo;Le chat et la souris&rdquo; ;-)</p>
+<p>A ce stade, nous allons les diviser en 2 grandes catégories :</p>
+<ol>
+<li>Les techniques qui viennent complexifier l&rsquo;analyse statique : <strong>Anti-Disassembly</strong></li>
+<li>Les techniques qui vienne complexifier l&rsquo;analyse dynamique : <strong>Anti-Debug</strong></li>
+</ol>
+<p>Dans cette longue série nous allons commencer par les techniques d&rsquo;<strong>Anti-Disassembly</strong>.</p>
+<h2 id="offuscation--anti-debug">Offuscation &amp; Anti-Debug</h2>
+<p>Il existe aujourd’hui de nombreuses techniques pour complexifier le Reverse ou la simple compréhension d&rsquo;un code binaire. Chaque acteur combine très souvent plusieurs moyens de protection.
+Certaines techniques complexifient l&rsquo;analyse statique (par exemple en induisant en erreur les décompilateurs tel qu&rsquo;IDA, Ghidra, &hellip;). D&rsquo;autres ont pour objectif de ralentir l&rsquo;analyse dynamique en utilisant des leurres qui viennent annihiler, voire parfois être offensif lors d&rsquo;une exécutions sous Debuggeur.</p>
+<p>Afin de rentrer dans le sujet, nous allons commencer par les contre-mesures de base puis nous irons voir, billet par billet, du côté des techniques de pointe (croyez-moi, il y a des choses assez dingues !! )</p>
+<h2 id="complexifier-lanalyse-statique--anti-disassembly">Complexifier l&rsquo;Analyse Statique : Anti-Disassembly</h2>
+<h3 id="disassembly-desynchronization">Disassembly Desynchronization</h3>
+<p>Commençons par l&rsquo;une des plus ancienne technique, mais parfois encore utilisée. Cette technique consiste à faire produire au désassembleur un code incorrect en plaçant des octets de données à des emplacements où ce dernier s&rsquo;attend à trouver des octets d&rsquo;instruction.
+Par exemple, l&rsquo;exécution ne doit pas nécessairement revenir à l&rsquo;instruction suivant un CALL après la fin de la fonction; l&rsquo;adresse de retour de la fonction peut être délibérément modifiée pendant l&rsquo;exécution de cette dernière. Ainsi, il devient possible de placer des octets de données après CALL pour perturber le désassemblage puisque le flow n&rsquo;y passera jamais.</p>
+<p>Prenons un exemple:</p>
+<p>Voici le code assembleur <strong>original</strong>, c-à-d créé par l&rsquo;auteur du malware (ici en MASM)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">.code</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">main</span> PROC
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">xor</span> eax, eax
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">xor</span> ebx, ebx
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">call</span> loc_bizarre
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">db</span> <span style="color:#e6db74">&#39;password&#39;</span>,<span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>loc_bizarre:
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">pop</span> ebx
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">INVOKE</span> ExitProcess, eax
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ret</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">main</span> ENDP
+</span></span></code></pre></div><p>Notre cher IDA ayant beau être un <strong>disassembler Flow-Oriented</strong>, il reversera le code binaire par le code asm suivant:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">_main@0</span>         proc near               <span style="color:#75715e">; CODE XREF: main()↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>                 <span style="color:#a6e22e">xor</span>     eax, eax
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401012</span>                 <span style="color:#a6e22e">xor</span>     ebx, ebx
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401014</span>                 <span style="color:#a6e22e">call</span>    near ptr loc_40101E<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401019</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401019</span>                 <span style="color:#a6e22e">push</span>    <span style="color:#ae81ff">6F6C6C65h</span>       <span style="color:#75715e">; uExitCode</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">E</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">E</span> loc_40101E:                             <span style="color:#75715e">; CODE XREF: main()+4↑p</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">E</span>                 add     [ebx<span style="color:#f92672">+</span><span style="color:#ae81ff">50h</span>], bl
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401021</span>                 <span style="color:#a6e22e">call</span>    _ExitProcess@4  <span style="color:#75715e">; ExitProcess(x)</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401026</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401026</span>                 <span style="color:#a6e22e">retn</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401026</span> <span style="color:#a6e22e">_main@0</span>         endp
+</span></span></code></pre></div><p>Vous constatez qu&rsquo;IDA a interprété les octets de la donnée &lsquo;password&rsquo; située juste derrière notre CALL comme du code :-( L&rsquo;auteur du malware est donc satisfait car il fait 2 choses en une:</p>
+<ol>
+<li>Il masque sa data</li>
+<li>Il embrouille IDA et donc la personne qui Reverse</li>
+</ol>
+<p>Heureusement il est possible avec IDA ou Ghidra de convertir en Data le code produit (et l&rsquo;inverse également).
+Pour cela on sélectionne notre octet de code douteux, puis on appuie sur <strong>la touche D</strong> pour lui dire <strong>&ldquo;Hey mec, c&rsquo;est de la Data ces BYTES;-)&rdquo;</strong>.
+On se retrouve ensuite avec un code désassemblé qui reproduit bien cette fois-ci le code original et ne masque plus cette précieuse chaine de caractères :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">_main@0</span>         proc near               <span style="color:#75715e">; CODE XREF: main()↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#75715e">; FUNCTION CHUNK AT .text:0040107C SIZE 00000FC0 BYTES</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>                 <span style="color:#a6e22e">xor</span>     eax, eax
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401012</span>                 <span style="color:#a6e22e">xor</span>     ebx, ebx
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401014</span>                 <span style="color:#a6e22e">call</span>    loc_401022
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401014</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401019</span>                 <span style="color:#66d9ef">db</span> <span style="color:#ae81ff">70h</span>                  <span style="color:#75715e">; p</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">A</span>                 db  <span style="color:#ae81ff">61h</span> <span style="color:#75715e">; a             ; a</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">B</span>                 db <span style="color:#ae81ff">73h</span>                  <span style="color:#75715e">; s</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">C</span>                 db  <span style="color:#ae81ff">73h</span> <span style="color:#75715e">; s             ; s</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">D</span>                 db <span style="color:#ae81ff">77h</span>                  <span style="color:#75715e">; w</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">E</span>                 db  <span style="color:#ae81ff">6Fh</span> <span style="color:#75715e">; o             ; o</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">F</span>                 db <span style="color:#ae81ff">72h</span>                  <span style="color:#75715e">; r</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401020</span>                 <span style="color:#66d9ef">db</span>  <span style="color:#ae81ff">64h</span> <span style="color:#75715e">; d             ; d</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401021</span>                 <span style="color:#66d9ef">db</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401022</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401022</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401022</span> loc_401022:                             <span style="color:#75715e">; CODE XREF: main()+4↑p</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401022</span>                 <span style="color:#a6e22e">pop</span>     ebx
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401023</span>                 <span style="color:#a6e22e">push</span>    eax             <span style="color:#75715e">; uExitCode</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401024</span>                 <span style="color:#a6e22e">call</span>    _ExitProcess@4  <span style="color:#75715e">; ExitProcess(x)</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401029</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401029</span>                 <span style="color:#a6e22e">retn</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401029</span> <span style="color:#a6e22e">_main@0</span>         endp
+</span></span></code></pre></div><h3 id="que-faut-il-en-comprendre-">Que faut-il en comprendre ?</h3>
+<p>Et bien qu&rsquo;en connaissant le fonctionnement interne d&rsquo;IDA (on ne parlera même pas ici des autres &hellip;) et bien les auteurs de malwares (ou toute personne qui souhaiterait complexifier le reverse de son binaire) peuvent occulter un premier niveau d&rsquo;analyse.</p>
+<p>Voyons maintenant quelques autres tricks de <strong>Disassemby Desynchronization</strong>.</p>
+<center>
+<img width="200" src="/images/magiclamp.png">
+</center>
+<h3 id="le-jump-inconditionnel">Le jump inconditionnel</h3>
+<p>La technique ici consiste à construire un jump inconditionnel en juxtaposant un JZ et un JNZ sur la même destination.</p>
+<p>Voici le code <strong>original</strong> tel qu&rsquo;écrit par son auteur:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">.code</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">main</span> PROC
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mov</span> eax, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">test</span> eax, eax
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">jz</span>  short near ptr loc_chelou
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">jnz</span>  short near ptr loc_chelou
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">db</span> <span style="color:#e6db74">&#39;http://c2.naptax.re/&#39;</span>, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>loc_chelou:
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">pop</span> ebx
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">add</span> ebx, <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">INVOKE</span> ExitProcess, eax
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ret</span> 
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">main</span> ENDP
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">END</span> main   
+</span></span></code></pre></div><p>Mais notre IDA est un peu flouté par cette pattern et traduit donc les octets qui suivent le JNZ comme du code et non comme les données (quelles sont).
+Résultat, c&rsquo;est du n&rsquo;importe quoi ;-)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#75715e">; int __cdecl main(int argc, const char **argv, const char **envp)</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">_main@0</span>         proc near               <span style="color:#75715e">; CODE XREF: main()↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">argc</span>            <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#66d9ef">dword</span> ptr  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">argv</span>            <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#66d9ef">dword</span> ptr  <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">envp</span>            <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#66d9ef">dword</span> ptr  <span style="color:#ae81ff">0Ch</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#75715e">; FUNCTION CHUNK AT .text:0040105A SIZE 00000FF7 BYTES</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>                 <span style="color:#a6e22e">mov</span>     eax, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401015</span>                 <span style="color:#a6e22e">test</span>    eax, eax
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401017</span>                 <span style="color:#a6e22e">jz</span>      short near ptr loc_40102F<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401019</span>                 <span style="color:#a6e22e">jnz</span>     short near ptr loc_40102F<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">B</span>                 push    <span style="color:#ae81ff">3A707474h</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401020</span>                 <span style="color:#a6e22e">das</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401021</span>                 <span style="color:#a6e22e">das</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401022</span>                 <span style="color:#a6e22e">arpl</span>    [edx], si
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401024</span>                 <span style="color:#a6e22e">outs</span>    dx, <span style="color:#66d9ef">byte</span> ptr cs:[esi]
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401026</span>                 <span style="color:#a6e22e">popa</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401027</span>                 <span style="color:#a6e22e">jo</span>      short loc_40109D
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401029</span>                 <span style="color:#a6e22e">popa</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040102</span><span style="color:#a6e22e">A</span>                 js      short loc_40105A
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040102</span><span style="color:#a6e22e">C</span>                 jb      short loc_401093
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040102</span><span style="color:#a6e22e">E</span>                 das
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040102</span><span style="color:#a6e22e">F</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040102</span><span style="color:#a6e22e">F</span> loc_40102F:                             <span style="color:#75715e">; CODE XREF: main()+7↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040102</span><span style="color:#a6e22e">F</span>                                         <span style="color:#75715e">; main()+9↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040102</span><span style="color:#a6e22e">F</span>                 add     [ebx<span style="color:#f92672">-</span><span style="color:#ae81ff">7Dh</span>], bl
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401032</span>                 <span style="color:#a6e22e">retn</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401032</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401033</span>                 <span style="color:#66d9ef">db</span> <span style="color:#ae81ff">0Ah</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401034</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401034</span>                 <span style="color:#a6e22e">push</span>    eax             <span style="color:#75715e">; uExitCode</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401035</span>                 <span style="color:#a6e22e">call</span>    _ExitProcess@4  <span style="color:#75715e">; ExitProcess(x)</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040103</span><span style="color:#a6e22e">A</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040103</span><span style="color:#a6e22e">A</span>                 retn
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040103</span><span style="color:#a6e22e">A</span> _main@0         endp <span style="color:#75715e">; sp-analysis failed  </span>
+</span></span></code></pre></div><p>Positionnons nous juste derrière ce JNZ, et aidons un peu IDA <strong>en tapant sur D</strong> pour lui dire (&ldquo;Hey là, c&rsquo;est de la <strong>D</strong>ata mec&rdquo;).
+Et hop, on trouve le vrai code, et donc l&rsquo;url du serveur C2, c&rsquo;était le FLAG ;-)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#75715e">; int __cdecl main(int argc, const char **argv, const char **envp)</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">_main@0</span>         proc near               <span style="color:#75715e">; CODE XREF: main()↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">argc</span>            <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#66d9ef">dword</span> ptr  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">argv</span>            <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#66d9ef">dword</span> ptr  <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#a6e22e">envp</span>            <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#66d9ef">dword</span> ptr  <span style="color:#ae81ff">0Ch</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span> <span style="color:#75715e">; FUNCTION CHUNK AT .text:0040105B SIZE 00000FF7 BYTES</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401010</span>                 <span style="color:#a6e22e">mov</span>     eax, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401015</span>                 <span style="color:#a6e22e">test</span>    eax, eax
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401017</span>                 <span style="color:#a6e22e">jz</span>      short loc_401031
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401019</span>                 <span style="color:#a6e22e">jnz</span>     short loc_401031
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401019</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040101</span><span style="color:#a6e22e">B</span> aHttpsC2NaptaxR db <span style="color:#e6db74">&#39;https://c2.naptax.re/&#39;</span>,<span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401031</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401031</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401031</span> loc_401031:                             <span style="color:#75715e">; CODE XREF: main()+7↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401031</span>                                         <span style="color:#75715e">; main()+9↑j</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401031</span>                 <span style="color:#a6e22e">pop</span>     ebx
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401032</span>                 <span style="color:#a6e22e">add</span>     ebx, <span style="color:#ae81ff">0Ah</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401035</span>                 <span style="color:#a6e22e">push</span>    eax             <span style="color:#75715e">; uExitCode</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">00401036</span>                 <span style="color:#a6e22e">call</span>    _ExitProcess@4  <span style="color:#75715e">; ExitProcess(x)</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040103</span><span style="color:#a6e22e">B</span> <span style="color:#75715e">; ---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>.text:<span style="color:#960050;background-color:#1e0010">0040103</span><span style="color:#a6e22e">B</span>                 retn
+</span></span></code></pre></div><p>Ok à ce stade là, vous avez du comprendre la technique du <strong>Disassembly Desynchonisation</strong>, passons à la suivante.</p>
+<h3 id="impossible-disassembly">Impossible Disassembly</h3>
+<p>Là encore, la technique ne date pas d&rsquo;hier, mais étant toujours utilisée il est important de la connaître.
+Il s&rsquo;agit ici d&rsquo;insérer des octets faisant partie de 2 instructions. Bien qu&rsquo;une telle situation soit parfaitement gérée par le processeur, le désassembleur lui ne comprend pas cette pattern &ldquo;multi-instructions&rdquo; et procédera à désassemblage incohérent.</p>
+<p><strong>Le schéma ci-dessous</strong> propose un exemple d&rsquo;une telle situation. La première instruction de cette séquence de 4 octets est une instruction JMP sur 2 octets. La cible du saut est le deuxième octet de lui-même. Cela ne provoque pas d&rsquo;erreur, car l&rsquo;octet FF est le premier octet de la prochaine instruction de 2 octets, INC EAX.</p>
+<center>
+<img width="200" src="/images/Impossible.png">
+</center>
+<p>Implémentons cette pattern avec un peu de C et d&rsquo;inline asm :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Hello, World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">__asm__</span>(<span style="color:#e6db74">&#34;.byte 0xeb, 0xff, 0xc0&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;NOT Show in IDA</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Et voici comment IDA nous désassemble le binaire généré par ce code !</p>
+<center>
+<img width="500" src="/images/impossible-withTrick.png">
+</center>
+<p><i class="fa fa-paw"></i>Un et un seul print (celui de &ldquo;Hello World \n&rdquo;)</p>
+<p>Si maintenant, nous commentons la production de ces 4 octets :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Hello, World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//  __asm__(&#34;.byte 0xeb, 0xff, 0xc0&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;NOT Show in IDA</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Nous obtenons d&rsquo;IDA le désassemblage suivant :</p>
+<center>
+<img width="400" src="/images/impossible-NoTrick.png">
+</center>
+<p><i class="fa fa-paw"></i>Nous voyons alors bien nos 2 <code>printf</code>.</p>
+<p>Évidement dans les malwares la pattern est utilisée de manière plus large que sur 4 octets; néanmoins le principe est toujours le même.</p>
+<center>
+<img width="200" src="/images/monster-4.png">
+</center>
+<h3 id="obscuring-control-flow">Obscuring Control Flow</h3>
+<p>Cette technique consiste à ne pas utiliser les opérandes de type JUMP ou CALL pour contrôler le flux d’exécution, rendant ainsi complexe, voire impossible sa rétro-engineering automatique.
+En place de ces instructions, le code utilise <strong>les structures de l&rsquo;OS permettant de gérer les exceptions</strong> (et d&rsquo;une manière plus générale toutes les techniques et moyens de <code>Callback</code>).</p>
+<p>Parmi ces structures de gestion d&rsquo;exception, l&rsquo;on retrouve</p>
+<ul>
+<li>
+<p>Sous Windows</p>
+<ul>
+<li><code>Structure Exception Handler (SEH) </code></li>
+<li><code>Vector Exception Handler (VEH) </code></li>
+<li><code>Unhandled Exception Handler</code></li>
+</ul>
+</li>
+<li>
+<p>Sous Linux</p>
+<ul>
+<li>Utilisation des signaux Unix</li>
+<li>Instructions <code>setjmp et longjmp </code></li>
+</ul>
+</li>
+</ul>
+<p>Le malware déclenche alors volontairement des exceptions afin d&rsquo;appeler le callback en charge de la gestion de ce type d&rsquo;exception.
+Ainsi, le flux d&rsquo;execution est sous contrôle et son reverse (en analyse statique) devient beaucoup plus complexe pour l&rsquo;analyste :-(</p>
+<center>
+<img width="200" src="/images/monster-3.png">
+</center>
+<h3 id="abusing-the-return-pointer">Abusing the Return Pointer</h3>
+<p>Cette technique d&rsquo;anti-disassembly consiste,là encore, à embrouiller nos IDA, GHIDRA et HOPPER en obscurcissant le contrôle du flux d&rsquo;execution. Cette fois-ci en utilisant l&rsquo;instruction <strong>retn</strong> de manière atypique mais valide.</p>
+<p>Un bref rappel sur les instructions <code>call</code> et <code>retn</code> :</p>
+<ul>
+<li><code>call</code> réalise un jump inconditionnel (jmp) et pousse une adresse de retour sur la stack : donc un PUSH et un JMP</li>
+<li><code>retn</code> tire l&rsquo;adresse de retour de la stack et y réalise un jmp : donc un POP et un JMP</li>
+</ul>
+<p>Bien que <code>call</code> et <code>retn</code> fonctionnent ensemble, <strong>rien ne nous empêche d&rsquo;utiliser un retn en dehors de tout contexte de call</strong>. Posons simplement sur le haut de la pile (push) l&rsquo;adresse sur laquelle nous souhaitons brancher le flux d&rsquo;execution, puis appelons retn pour que ce dernier pop la la valeur et y réalise le JMP.</p>
+<p><i class="fa fa-paw"></i>Les désassembleurs ont du mal à interpréter ces jump atypiques, et génèrent donc un code asm incohérent pour la rétro-analyse.</p>
+<center>
+<img width="200" src="/images/monster-2.png">
+</center>
+<h3 id="api-calling-obsfuscation">API Calling Obsfuscation</h3>
+<p>Très souvent utilisée dans les malwares, cette technique consiste a masquer à l&rsquo;analyste les fonctions d&rsquo;API externes appelées.
+Il existe pour cela plusieurs techniques, mais la plus répandue est la technique qui consiste à identifier les fonctions d&rsquo;API par leur hash.</p>
+<p>Ces appels API par le hash de leurs fonctions fonctionnent selon le principe suivant :</p>
+<ol>
+<li>
+<p>Il faut au préalable que l&rsquo;auteur du malware pré-calcule le hash du nom de l&rsquo;API ET <strong>le hash</strong> des <strong>adresses des fonctions</strong> qu&rsquo;il utilise dans son code (via l&rsquo;<code>Export Address Table</code> de la DLL)</p>
+</li>
+<li>
+<p>L&rsquo;auteur du malware implémente une fonction de recherche d&rsquo;API par son hash</p>
+</li>
+<li>
+<p>Puis l&rsquo;auteur fait ses call API externes à travers cette correspondance Hash -&gt; API</p>
+</li>
+<li>
+<p>En langage de haut niveau (ex: C), il est nécessaire de déclarer les prototypes de chaque fonction, et ce, afin de gagner en confort d&rsquo;implémentation</p>
+</li>
+</ol>
+<p>Ainsi, les outils d&rsquo;analyse et l&rsquo;analyste ne voient pas &ldquo;en clair dans les String ou l&rsquo;IAT&rdquo; les fonctions API utilisées. Et comme vous le savez l&rsquo;analyse des fonctions API externes utilisées renseigne assez vite sur les opérations réalisées et la nature d&rsquo;un malware.</p>
+<p>Il faut néanmoins veiller à utiliser/implémenter une fonction de hash ne générant pas de collision. Parmi les nombreuses fonctions de hash disponibles, on retrouve souvent : <code>djb2</code> <a href="http://www.cse.yorku.ca/~oz/hash.html">algo ici</a>. Elle a l&rsquo;avantage td&rsquo;être simple, ne générant pas de collision et rapide. Néanmoins du point de vue attaquant, cet algo a l&rsquo;inconvénient d&rsquo;utiliser ce que j&rsquo;appelle <strong>&ldquo;des constantes signatures&rdquo;</strong>. Ces constantes signatures permettront à l&rsquo;analyste d&rsquo;identifier la présence de cette fonction de hash. Dans le cas de <code>djb2</code> la constante signature est <strong>0x1505h (5381d)</strong>. C&rsquo;est pourquoi les Malwares les plus avancés masquent cette constante en la décomposant ou la chiffrant.</p>
+<p>Nous rentrerons dans le détail plus tard dans un petit billet dédié à ce sujet, mais sachez qu&rsquo;il est assez simple de scripter le reverse de cette technique fort utilisée.</p>
+<center>
+<img width="300" src="/images/monster-1.png">
+</center>
+<p>Voici nous avons vu quelques-unes des techniques qui viennent complexifier l&rsquo;analyse statique d&rsquo;un code binaire. Il en existe bien d&rsquo;autres, dont la principale fait l&rsquo;objet de notre prochain article : <strong>Packer et unpacking</strong>.</p>
+
+          
+          
+            <div class="related-posts mt-4 py-3">
+              <h5>Related Posts</h5>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      November 1, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire | (French version)</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      September 26, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-09-26-prolog000/">[PROLOG] 0x000, In Assembler we trust (French version)</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+            </div>
+          
+        </div>
+      </div>
+      <div class="disqus">
+        
+      </div>
+    </div>
+  </div>
+
+    </div>
+    
+    <footer class="footer">
+  <div class="container">
+    <div class="text-muted">Powered by <a href="https://gohugo.io/">Hugo with ♥</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+  </body>
+</html>

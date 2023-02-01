@@ -4,5 +4,6 @@ date: {{ .Date }}
 image: images/writer.jpeg
 menu:
   main:
-    name: "Edito"
+    name: 
+langue: {{ .Langue }}
 ---

@@ -2,7 +2,7 @@
 title: '{{ humanize .Name }}'
 description: ''
 date: {{ .Date }}
-draft: true
+draft: false
 categories: []
 tags: []
 ---

