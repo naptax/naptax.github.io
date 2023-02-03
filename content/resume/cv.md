@@ -39,18 +39,17 @@ menu:
 ## Skills
 
 #### Disassemblers
-- [Ghidra](https://ghidra-sre.org/) 
+- [Ghidra](https://ghidra-sre.org/) , Laid mais Efficace ;-)
 - IDA ... of course ;-)
 - IDA Python scripts for automation
 - [BINARY NINJA](https://binary.ninja/) :heart: :heart: (my favorite one's) with a lot of API Python NINJA BINARY :heart: :heart:
-- [RIZIN](https://rizin.re/)
-- CUTTER
-- [HOPPER](https://www.hopperapp.com/)
+- [RIZIN](https://rizin.re/) quand j'ai besoin ou envie d'une approche 100% CLI
+- [HOPPER](https://www.hopperapp.com/) quand je suis sous Mac
 - Dev RIZIN Scripts
 
 #### Debuger and Dynamic instrumentation
 - XDbg64
-- Dynamic instrumentation avec [FRIDA](https://frida.re/)
+- Dynamic Binary Instrumentation (DBI) avec [FRIDA](https://frida.re/)
 
 ### Binary Emulation
 - Dumpulator
@@ -75,7 +74,7 @@ menu:
 - [SIEM searches with SIGMA](https://github.com/SigmaHQ/sigma) 
 
 #### Sandbox
-- ANY.RUN
+- ANY.RUN :heart:
 - Cuckoo Sandbox
 
 #### Cloud
