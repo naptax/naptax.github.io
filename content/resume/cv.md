@@ -54,6 +54,7 @@ menu:
 ### Binary Emulation
 - Dumpulator
 - [UNICORN](https://www.unicorn-engine.org/)
+- [MANDIANT Speakeasy](https://github.com/mandiant/speakeasy) :heart: :heart:
 
 #### Langages
 - C/C++
