@@ -107,6 +107,7 @@ html, body {
 .container a {
   color: steelblue;
   text-decoration: none;
+  font-family: 'Righteous', cursive;
 }
 
 .container a:hover {
@@ -230,7 +231,7 @@ h5 a:hover {
 }
 .blogpost h2 
 {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Righteous', cursive;
   font-size: 28px;
   color:steelblue;
   padding-top: 18px;
@@ -239,7 +240,7 @@ h5 a:hover {
 
 .blogpost h3 
 {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Righteous', cursive;
   font-size: 18px;
   font-weight: bold;
   padding-top: 20px;
@@ -264,7 +265,7 @@ h5 a:hover {
 {
   font-size: 50px;
   color: steelblue;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Righteous', cursive;
   padding-bottom: 30px;
 }
 
