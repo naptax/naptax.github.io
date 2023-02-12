@@ -58,6 +58,20 @@ html, body {
   border-color: #000000;
 }
 
+/*** Menu  Fixes *****/
+.fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  background-color: lightsteelblue;
+}
+
+.withmargintop { 
+  margin-top: 100px;
+}
+
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu > li > a {
     color: #000000;
@@ -275,4 +289,4 @@ h5 a:hover {
   font-weight: bold;
   font-family: sans-serif;
 }
-}
+
