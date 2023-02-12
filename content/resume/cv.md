@@ -15,7 +15,7 @@ menu:
 <img src="/images/author_cropped.png" width="200"> 
 </center>
 
-> My name is Eric (Aka **nAPTaX**), i'm a 48 years old :skateboard: SKATER, father of 4 and :farmer: ETHICAL
+> My name is Eric (Aka **nAPTaX**), i'm a french forties: :skateboard: SKATER, father of 4 and :farmer: ETHICAL
 > HACKER with a love for low level :heart: **Reverse Engineering** :heart:.  
 
 > I co-founded several IT & Cloud companies for 20 years.
@@ -66,6 +66,7 @@ menu:
 #### Frameworks i like
 - [pwntools](https://github.com/Gallopsled/pwntools#readme)
 - [UNICORN](https://www.unicorn-engine.org/)
+- [CAPSTONE](https://www.capstone-engine.org/)
 - [Google oss-fuzz](https://github.com/google/oss-fuzz)
 
 #### Threat management
