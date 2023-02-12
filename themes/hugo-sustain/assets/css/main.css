@@ -105,7 +105,7 @@ html, body {
 }
 
 .container a {
-  color: #068344;
+  color: steelblue;
   text-decoration: none;
 }
 
@@ -148,7 +148,7 @@ html, body {
 
 .panel h4 a,
 h5 a {
-  color: #27a822;
+  color: steelblue;
 }
 
 .panel h4 a:hover,
@@ -232,7 +232,7 @@ h5 a:hover {
 {
   font-family: 'Courier New', Courier, monospace;
   font-size: 28px;
-  color:#267723;
+  color:steelblue;
   padding-top: 18px;
   padding-bottom: 12px;
 }
@@ -260,10 +260,12 @@ h5 a:hover {
   padding-bottom: 35px;
 }
 
-.my-5
+.my-h4
 {
-  font-size: 30px;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 50px;
+  color: steelblue;
+  font-family: 'Montserrat', sans-serif;
+  padding-bottom: 30px;
 }
 
 .list-post-title  
