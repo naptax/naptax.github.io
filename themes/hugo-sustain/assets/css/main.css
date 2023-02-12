@@ -9,7 +9,7 @@ html, body {
   background-size: cover;
   font-family: 'Source Sans Pro', sans-serif;
   /* The html and body elements cannot have any padding or margin. */
-  border-top: 3px solid #28a924;
+  border-top: 3px solid rgb(100, 123, 152);
 }
 
 /* Wrapper for page content to push down footer */
@@ -36,7 +36,7 @@ html, body {
 .navbar .navbar-nav > li > a:focus,
 .navbar .navbar-text,
 .navbar-toggler {
-  color: #000000;
+  color: #fff;
 }
 
 .navbar-nav > .active > a,
@@ -65,7 +65,7 @@ html, body {
   right: 0;
   left: 0;
   z-index: 1030;
-  background-color: lightsteelblue;
+  background-color: rgb(100, 123, 152);
 }
 
 .withmargintop { 
@@ -74,12 +74,12 @@ html, body {
 
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu > li > a {
-    color: #000000;
+    color: #fff;
   }
 
   .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #000000;
+    color: #fff;
   }
 
   .navbar-nav .open .dropdown-menu > .active > a,
@@ -263,7 +263,7 @@ h5 a:hover {
 .my-5
 {
   font-size: 30px;
-  font-family: fantasy;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .list-post-title  
@@ -279,7 +279,7 @@ h5 a:hover {
 
 /* Footer  */
 .footer {
-  border-bottom: 5px solid #27a822;
+  border-bottom: 5px solid rgb(100, 123, 152);
   padding: 20px 0;
   text-decoration: none !important;
 }
