@@ -39,7 +39,7 @@ menu:
 ## Skills
 
 #### Disassemblers
-- [Ghidra](https://ghidra-sre.org/) , Laid mais Efficace ;-)
+- [Ghidra](https://ghidra-sre.org/) , Laid mais Efficace : Merci la NSA ;-)
 - IDA ... of course ;-)
 - IDA Python scripts for automation
 - [BINARY NINJA](https://binary.ninja/) :heart: :heart: (my favorite one's) with a lot of API Python NINJA BINARY :heart: :heart:
@@ -50,6 +50,7 @@ menu:
 #### Debuger and Dynamic instrumentation
 - XDbg64
 - Dynamic Binary Instrumentation (DBI) avec [FRIDA](https://frida.re/)
+- My swiss knife [Angr](https://angr.io/)
 
 ### Binary Emulation
 - Dumpulator
