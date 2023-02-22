@@ -20,6 +20,8 @@ menu:
 
 > I co-founded several IT & Cloud companies for 20 years.
 
+> Maybe you prefer a [corporate and printable CV here](https://cv.naptax.re)
+
  <center>
   <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
 </center>

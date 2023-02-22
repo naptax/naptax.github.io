@@ -87,7 +87,7 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
 <p>Si vous avez suivi les différents <a href="/posts/">billets de PROLOG de ce blog</a>, alors le temps est venu de s&rsquo;attaquer à un bon client pour l&rsquo;analyse de Malware, et surtout des techniques d&rsquo;évasion et d&rsquo;anti : le loader <strong>GULOADER</strong>. <strong>GuLOADER c &rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way</strong></p>
 <h1 id="lhistoire-de-guloader">L&rsquo;histoire de GuLoader</h1>
 <p>GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019. A l&rsquo;époque il n&rsquo;était encore qu&rsquo;un &lsquo;simple&rsquo; downloader utilisé pour diffuser des RAT tels que <a href="https://www.gatewatcher.com/malware-analysis-agent-tesla/">AgentTesla</a> et Nanocore. Il est également connu et référencé sous le nom de <strong>CloudEyE</strong>).</p>
-<p>Puis à partir de 2020, GuLoader se mit à <strong>intégrer un nombre très important de techniques d&rsquo;évasion</strong> (<a href="/posts/fr/2022-12-16-offuscation/">cf. notre série sur ces techniques Anti</a>). Notamment la technique anti qui consiste à ne pas appeler directement les fonctions d&rsquo;API Windows par leur nom, mais par leur hash (<a href="//localhost:1313/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">cf. notre billet pour le détail de cette technique de API call by Hashing</a>). Comme dans de nombreux malware, le dropper GuLoader utilise l&rsquo;algorithme de Hash <code>DJB2</code> qui a l&rsquo;avantage d&rsquo;être très simple et générant peu de collisions.</p>
+<p>Puis à partir de 2020, GuLoader se mit à <strong>intégrer un nombre très important de techniques d&rsquo;évasion</strong> (<a href="/posts/en/2022-12-16-offuscation/">cf. notre série sur ces techniques Anti</a>). Notamment la technique anti qui consiste à ne pas appeler directement les fonctions d&rsquo;API Windows par leur nom, mais par leur hash (<a href="//localhost:1313/posts/en/2022-12-16-offuscation/#api-calling-obsfuscation">cf. notre billet pour le détail de cette technique de API call by Hashing</a>). Comme dans de nombreux malware, le dropper GuLoader utilise l&rsquo;algorithme de Hash <code>DJB2</code> qui a l&rsquo;avantage d&rsquo;être très simple et générant peu de collisions.</p>
 <p>Puis en 2021 GuLoader s&rsquo;est doté d&rsquo;une armée de techniques d&rsquo;Anti-debug, anti-Sandbox, anti-VM afin de rendre son analyse encore plus complexe. Cette complexification s&rsquo;est accompagnée de l&rsquo;utilisation de Visual Basic Script (VBS) pour se propager et de NSIS (Nullsoft Scriptable Install System) pour le packing et le chiffrement de son Payload.</p>
 <p>Nous allons ici étudier <strong>une des très nombreuses versions de GuLoader</strong>. En effet, il en existe de très nombreuses car le groupe derrière ce dropper est très actif et scan tous les papiers concernant leur code. <strong>A chaque nouvelle analyse un peu sérieuse d&rsquo;une de leur version, ils réagissent et modifient rapidement de manière radicale leur malware</strong>.</p>
 <p>Par conséquent, nous devrions plutôt dire que nous allons analyser &ldquo;une version&rdquo; de GuLoader plutôt que GuLoader. En effet chaque update modifie complètement le profil du payload.</p>
@@ -268,12 +268,12 @@ Et en RE, quand on constate que quelqu&rsquo;un s&rsquo;est donné du mal pour m
 <center>
 <img width="750" src="/images/guloader/guloader-bn-0x12ad5.png">
 </center>
-<p>Si vous avez suivi <a href="//localhost:1313/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">mon petit article sur les techniques d&rsquo;anti-disassembly</a>, alors <strong>la constante 0x1505h (5381d) a du retenir votre attention</strong>.</p>
+<p>Si vous avez suivi <a href="//localhost:1313/posts/en/2022-12-16-offuscation/#api-calling-obsfuscation">mon petit article sur les techniques d&rsquo;anti-disassembly</a>, alors <strong>la constante 0x1505h (5381d) a du retenir votre attention</strong>.</p>
 <p><a href="http://www.cse.yorku.ca/~oz/hash.html">En effet <strong>5381</strong> est une &ldquo;constante signature&rdquo; dans l&rsquo;algorithme de hash <strong>DJB2</strong></a>. Cette algo de hash est très souvent utilisé pour faire du hashing dans les malwares (tout comme la valeur 256 caractérise un chiffrement RC4: cf mon article sur ce sujet). Il est simple, rapide et avec très peu de collisions.</p>
 <p>On aurait donc cette fonction en 0x12AD5 qui implémenterait un hash DJB2. On va donc prendre cette hypothèse et nommer la fonction comme une <code>maybe_calcul_hash()</code>.</p>
 <p>Regardons maintenant <strong>qui appelle cette fonction de hash</strong>, pour voir si notre hypothèse tient la route:
 <img width="750" src="/images/guloader/guloader-bn-0x12ad5-Callers.png"></p>
-<p>Mais dites donc on ne serait pas en train d&rsquo;essayer de nous masquer des <strong>appels API Windows par la technique d&rsquo;API Hash Calling en utilisant un Hash DJB2</strong> (<a href="//localhost:1313/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">ici sur mon blog</a>) <strong>??? !!</strong></p>
+<p>Mais dites donc on ne serait pas en train d&rsquo;essayer de nous masquer des <strong>appels API Windows par la technique d&rsquo;API Hash Calling en utilisant un Hash DJB2</strong> (<a href="//localhost:1313/posts/en/2022-12-16-offuscation/#api-calling-obsfuscation">ici sur mon blog</a>) <strong>??? !!</strong></p>
 <p><strong>Mais si ! Allez vous êtes vus les gars</strong></p>
 <center>
 <img width="700" src="/images/unboxing.png">
@@ -311,7 +311,7 @@ Et en RE, quand on constate que quelqu&rsquo;un s&rsquo;est donné du mal pour m
                   </div>
                   <div class="col-8">
                     <h6 style="text-align: left">
-                      <b><a href="/posts/fr/2022-09-26-edito000/">[ &ndash; Edito &ndash; ] 0x000 - README.TXT | (French version)</a></b>
+                      <b><a href="/posts/en/2022-09-26-edito000/">[ &ndash; Edito &ndash; ] 0x000 - README.TXT |</a></b>
                     </h6>
                   </div>
                 </div>
@@ -319,12 +319,12 @@ Et en RE, quand on constate que quelqu&rsquo;un s&rsquo;est donné du mal pour m
                 <div class="row">
                   <div class="col-4">
                     <h6 style="text-align: right">
-                      December 16, 2022
+                      January 1, 2023
                     </h6>
                   </div>
                   <div class="col-8">
                     <h6 style="text-align: left">
-                      <b><a href="/posts/fr/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version)</a></b>
+                      <b><a href="/posts/fr/2022-09-26-edito000/">[ &ndash; Edito &ndash; ] 0x000 - README.TXT | (French version)</a></b>
                     </h6>
                   </div>
                 </div>

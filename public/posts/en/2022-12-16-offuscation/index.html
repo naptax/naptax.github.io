@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52615&amp;path=livereload" data-no-instant defer></script>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="nAptaX">
-    <link rel="shortcut icon" type="image/x-icon" href="//localhost:52615/img/favicon.ico">
-    <title>[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version) | French Malware Analyst</title>
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/img/favicon.ico">
+    <title>[ANTI-*] 0x000: Anti-Disassembly | Part one ) | French Malware Analyst</title>
     <meta name="description" content="Hello,
 Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d&rsquo;Anti-Analyse. Et oui, les binaires sont des patients qui ne se laissent pas ausculter comme cela &hellip; En effet, les éditeurs commerciaux et les auteurs de malwares protègent leur binaire en y injectant un ou plusieurs mécanismes qui viennent complexifier et donc ralentir et diminuer le reverse de leur code,algo ou données. Ces techniques sont nombreuses et en perpétuelle évolution (comme toute situation &ldquo;Le chat et la souris&rdquo; ;-)">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -14,10 +14,6 @@ Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d
     <link rel="preload stylesheet" href="/css/main.min.css" as="style">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@1,400bold&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;1,100&family=Source+Code+Pro&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-    
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -31,13 +27,14 @@ Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d
   
   <div class="container mb-3">
   <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid fixed-top">
-      <a class="navbar-brand" href="//localhost:52615/">
-        <img src="/images/Naptax-logo.png" width="70px">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="//localhost:1313/">
+        <i class="fa fa-home"></i>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
         <i class="fa fa-bars"></i>
       </button>
+
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           
@@ -62,8 +59,8 @@ Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d
 </nav>
 
 
-  <div class="container withmargintop">
-    <h3 class="mt-3"><b><a href="//localhost:52615/posts/fr/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version)</a></b></h3>
+  <div class="container">
+    <h3 class="mt-3"><b><a href="//localhost:1313/posts/en/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one )</a></b></h3>
     <div class="blog-title my-4">
       <h6>
         December 16, 2022
@@ -359,12 +356,12 @@ Il existe pour cela plusieurs techniques, mais la plus répandue est la techniqu
                 <div class="row">
                   <div class="col-4">
                     <h6 style="text-align: right">
-                      November 1, 2022
+                      December 16, 2022
                     </h6>
                   </div>
                   <div class="col-8">
                     <h6 style="text-align: left">
-                      <b><a href="/posts/fr/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire | (French version)</a></b>
+                      <b><a href="/posts/fr/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version)</a></b>
                     </h6>
                   </div>
                 </div>
@@ -372,12 +369,25 @@ Il existe pour cela plusieurs techniques, mais la plus répandue est la techniqu
                 <div class="row">
                   <div class="col-4">
                     <h6 style="text-align: right">
-                      September 26, 2022
+                      November 1, 2022
                     </h6>
                   </div>
                   <div class="col-8">
                     <h6 style="text-align: left">
-                      <b><a href="/posts/fr/2022-09-26-prolog000/">[PROLOG] 0x000, In Assembler we trust (French version)</a></b>
+                      <b><a href="/posts/en/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire</a></b>
+                    </h6>
+                  </div>
+                </div>
+              
+                <div class="row">
+                  <div class="col-4">
+                    <h6 style="text-align: right">
+                      November 1, 2022
+                    </h6>
+                  </div>
+                  <div class="col-8">
+                    <h6 style="text-align: left">
+                      <b><a href="/posts/fr/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire | (French version)</a></b>
                     </h6>
                   </div>
                 </div>
@@ -396,7 +406,7 @@ Il existe pour cela plusieurs techniques, mais la plus répandue est la techniqu
     
     <footer class="footer">
   <div class="container">
-    <div class="text-muted">From France with ♥</a>
+    <div class="text-muted">Powered by <a href="https://gohugo.io/">Hugo with ♥</a>
     </div>
   </div>
 </footer>

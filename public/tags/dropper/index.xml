@@ -2,28 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>dropper on French Malware Analyst</title>
-    <link>//localhost:1313/tags/dropper/</link>
+    <link>//localhost:52615/tags/dropper/</link>
     <description>Recent content in dropper on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/tags/dropper/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>GuLoader : Analyse | Part one </title>
-      <link>//localhost:1313/posts/en/2023-01-14-guloader-1/</link>
-      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>//localhost:1313/posts/en/2023-01-14-guloader-1/</guid>
-      <description>Hello,
-Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&amp;rsquo;attaquer à un bon client pour l&amp;rsquo;analyse de Malware, et surtout des techniques d&amp;rsquo;évasion et d&amp;rsquo;anti : le loader GULOADER. GuLOADER c &amp;rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
-L&amp;rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019.</description>
-    </item>
-    
+    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:52615/tags/dropper/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GuLoader : Analyse | Part one | (French version)</title>
-      <link>//localhost:1313/posts/fr/2023-01-14-guloader-1/</link>
+      <link>//localhost:52615/posts/fr/2023-01-14-guloader-1/</link>
       <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2023-01-14-guloader-1/</guid>
+      <guid>//localhost:52615/posts/fr/2023-01-14-guloader-1/</guid>
       <description>Hello,
 Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&amp;rsquo;attaquer à un bon client pour l&amp;rsquo;analyse de Malware, et surtout des techniques d&amp;rsquo;évasion et d&amp;rsquo;anti : le loader GULOADER. GuLOADER c &amp;rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
 L&amp;rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019.</description>
