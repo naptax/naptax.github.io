@@ -106,8 +106,8 @@ menu:
 - **Les Pentesters du dimanche** ... 
 
 ## Je suis en train d'apprendre
-- Les ICS (Industrial Control System)
-- La sécurité des ICS
+- Désofuscation des virtual machine obfuscators avec [MIASM](https://github.com/cea-sec/miasm)
+- Reverse des Mixed Boolean-Arithmetic (MBA) expressions et [Execution symbolique](https://arxiv.org/pdf/1610.00502.pdf)   
 - _SIEMENS TIA Portal_ (en hommage a [STUXNET](https://github.com/research-virus/stuxnet))
 
  <center>
