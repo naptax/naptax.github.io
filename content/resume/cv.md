@@ -50,12 +50,12 @@ menu:
 - Dev RIZIN Scripts
 
 #### Debuger and Dynamic instrumentation
-- XDbg64
+- XDbg64 (Respect to Duncan [@mrexodia](https://github.com/mrexodia))
 - Dynamic Binary Instrumentation (DBI) avec [FRIDA](https://frida.re/)
 - My swiss knife [Angr](https://angr.io/)
 
 ### Binary Emulation
-- Dumpulator
+- Dumpulator (Again respect to Duncan [@mrexodia](https://github.com/mrexodia/dumpulator))
 - [UNICORN](https://www.unicorn-engine.org/)
 - [MANDIANT Speakeasy](https://github.com/mandiant/speakeasy) :heart: :heart:
 
