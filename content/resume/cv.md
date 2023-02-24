@@ -32,7 +32,7 @@ menu:
 - Malware Analysis 
 - Ethical Hacker
 - Security Researcher
-- Fuzzing
+- Fuzzing 
 
  <center>
   <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
