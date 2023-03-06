@@ -25,9 +25,8 @@ MALWARE, RANSOMWARE pour les néophytes ce sont des maux informatiques, pour les
 
 Pour un Ethical hacker, un Malware, c'est du Code à reverser pour comprendre, apprendre avec l'objectif de lutter contre ce fléau des temps modernes : un mystère a creuser : Le REVERSE ENGINEERING, la disciple reine de la sécurité consiste à analyser le code et les comportements d'un programme dont on ne dispose pas du code source. Cette définition n'est pas tout à fait la bonne, car pour un hacker : on a toujours le code source, il est juste exprimé avec un langage et des patterns qui aux premiers abords peuvent paraître un peu raides: Architecture des microprocesseurs X86 et ARM et leur assembleur respectif.
 
-<center>
-<img width="200" src="/images/ransomware.png"> 
-</center>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_pkbvwwvg/bienvenida.sifz.4ECFE884.json"  background="transparent"  speed="1"  style="width: 80; height: 80;"  loop  autoplay></lottie-player>
 
 Voilà vous l'aurez peut-être compris, suite à l'évènement sur l'Hopital de Corbeil-Essone j'ouvre ce blog aujourd’hui pour poser un petit cailloux à la diffusion du savoir en Reverse Engineering. Je choisi de le faire en Français car ce sujet est peu traité (alors qu'il est passionnant), car je suis un amoureux des lettres françaises et par ce que je sature de n'entendre parler que des Hackers américains, russes, chinois et coréens.
 

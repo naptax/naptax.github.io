@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52615&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="nAptaX">
-    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:52615/img/favicon.ico">
     <title>GuLoader : Analyse | Part one | (French version) | French Malware Analyst</title>
     <meta name="description" content="Hello,
 Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&rsquo;attaquer à un bon client pour l&rsquo;analyse de Malware, et surtout des techniques d&rsquo;évasion et d&rsquo;anti : le loader GULOADER. GuLOADER c &rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
@@ -15,6 +15,10 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
     <link rel="preload stylesheet" href="/css/main.min.css" as="style">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@1,400bold&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;1,100&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -28,14 +32,13 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
   
   <div class="container mb-3">
   <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="//localhost:1313/">
-        <i class="fa fa-home"></i>
+    <div class="container-fluid fixed-top">
+      <a class="navbar-brand" href="//localhost:52615/">
+        <img src="/images/Naptax-logo.png" width="70px">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
         <i class="fa fa-bars"></i>
       </button>
-
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           
@@ -60,8 +63,8 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
 </nav>
 
 
-  <div class="container">
-    <h3 class="mt-3"><b><a href="//localhost:1313/posts/fr/2023-01-14-guloader-1/">GuLoader : Analyse | Part one | (French version)</a></b></h3>
+  <div class="container withmargintop">
+    <h3 class="mt-3"><b><a href="//localhost:52615/posts/fr/2023-01-14-guloader-1/">GuLoader : Analyse | Part one | (French version)</a></b></h3>
     <div class="blog-title my-4">
       <h6>
         January 14, 2023
@@ -87,7 +90,7 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
 <p>Si vous avez suivi les différents <a href="/posts/">billets de PROLOG de ce blog</a>, alors le temps est venu de s&rsquo;attaquer à un bon client pour l&rsquo;analyse de Malware, et surtout des techniques d&rsquo;évasion et d&rsquo;anti : le loader <strong>GULOADER</strong>. <strong>GuLOADER c &rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way</strong></p>
 <h1 id="lhistoire-de-guloader">L&rsquo;histoire de GuLoader</h1>
 <p>GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019. A l&rsquo;époque il n&rsquo;était encore qu&rsquo;un &lsquo;simple&rsquo; downloader utilisé pour diffuser des RAT tels que <a href="https://www.gatewatcher.com/malware-analysis-agent-tesla/">AgentTesla</a> et Nanocore. Il est également connu et référencé sous le nom de <strong>CloudEyE</strong>).</p>
-<p>Puis à partir de 2020, GuLoader se mit à <strong>intégrer un nombre très important de techniques d&rsquo;évasion</strong> (<a href="/posts/fr/2022-12-16-offuscation/">cf. notre série sur ces techniques Anti</a>). Notamment la technique anti qui consiste à ne pas appeler directement les fonctions d&rsquo;API Windows par leur nom, mais par leur hash (<a href="//localhost:1313/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">cf. notre billet pour le détail de cette technique de API call by Hashing</a>). Comme dans de nombreux malware, le dropper GuLoader utilise l&rsquo;algorithme de Hash <code>DJB2</code> qui a l&rsquo;avantage d&rsquo;être très simple et générant peu de collisions.</p>
+<p>Puis à partir de 2020, GuLoader se mit à <strong>intégrer un nombre très important de techniques d&rsquo;évasion</strong> (<a href="/posts/fr/2022-12-16-offuscation/">cf. notre série sur ces techniques Anti</a>). Notamment la technique anti qui consiste à ne pas appeler directement les fonctions d&rsquo;API Windows par leur nom, mais par leur hash (<a href="//localhost:52615/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">cf. notre billet pour le détail de cette technique de API call by Hashing</a>). Comme dans de nombreux malware, le dropper GuLoader utilise l&rsquo;algorithme de Hash <code>DJB2</code> qui a l&rsquo;avantage d&rsquo;être très simple et générant peu de collisions.</p>
 <p>Puis en 2021 GuLoader s&rsquo;est doté d&rsquo;une armée de techniques d&rsquo;Anti-debug, anti-Sandbox, anti-VM afin de rendre son analyse encore plus complexe. Cette complexification s&rsquo;est accompagnée de l&rsquo;utilisation de Visual Basic Script (VBS) pour se propager et de NSIS (Nullsoft Scriptable Install System) pour le packing et le chiffrement de son Payload.</p>
 <p>Nous allons ici étudier <strong>une des très nombreuses versions de GuLoader</strong>. En effet, il en existe de très nombreuses car le groupe derrière ce dropper est très actif et scan tous les papiers concernant leur code. <strong>A chaque nouvelle analyse un peu sérieuse d&rsquo;une de leur version, ils réagissent et modifient rapidement de manière radicale leur malware</strong>.</p>
 <p>Par conséquent, nous devrions plutôt dire que nous allons analyser &ldquo;une version&rdquo; de GuLoader plutôt que GuLoader. En effet chaque update modifie complètement le profil du payload.</p>
@@ -95,7 +98,7 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
 <center>
 <img width="800" src="/images/caution.png">
 </center>
-<p class="disclaimer">
+<p class="disclaimer"><a name="disclaimer"></a>
 A partir d'ici, je fais l'hypothèse que vous êtes familiers des précautions absolument nécessaires pour manipuler, ouvrir, analyser statiquement, debugger dynamiquement cette matière dangereuse que sont les MALWARES. Si cela n'est pas le cas, alors il faut tout de suite vous arrêter ici si vous ne voulez pas être infectés (et infecter) par les échantillons que nous allons manipuler. Ne le prenez pas à la légère car l'unique finalité des malwares et autres dropper que nous allons analyser est de vous faire du tort, et ce, en utilisant des mécanismes puissants, agressifs et furtifs.
 </p>
 <p>Sur mon Blog, je ne souhaite pas écrire des articles sur comment monter son laboratoire d&rsquo;analyse à base de VM. En effet, pour moi monter ce type de labo est une tache nécessaire mais dans laquelle je trouve peu d&rsquo;intérêt intellectuel, je vous invite donc à suivre par exemple cet excellent guide afin de monter votre labo. Ainsi, vous pourrez faire exploser des malwares avec le plus de sécurité possible. Sachez néanmoins que même avec beaucoup de précautions (et surtout de rigueur), <strong>le risque zéro d&rsquo;infection n&rsquo;existe pas</strong>.</p>
@@ -159,8 +162,8 @@ Intéressons-nous à ce gros fichier <code>rudesbies.Par</code></p>
 </span></span></code></pre></div><p>Mais cette fois, rien de connu dans la <a href="https://github.com/horsicq/Detect-It-Easy/tree/master/db">DB de signatures DiE</a>.</p>
 <h2 id="désofuscation-du-shell-code-phase-1">Désofuscation du Shell Code Phase 1</h2>
 <p>Chargeons alors ce binaire dans <strong>BINARY NINJA</strong>. La première partie intéressante est ce petit bout de code, je vous ai mis en commentaire ce que nous pouvons en tirer:
-Jusqu&rsquo;à l&rsquo;adresse, que du JUNK Code n&rsquo;ayant aucun impact sur le flux d&rsquo;exécution.</p>
-<p>La première instruction intéressante se situe à <code>+0x00000025</code>, un JMP qui nous mène sur un premier CALL <code>+0x0000002A</code></p>
+Jusqu&rsquo;à l&rsquo;adresse <code>+0x00000025</code>, que du JUNK Code n&rsquo;ayant aucun impact sur le flux d&rsquo;exécution.</p>
+<p>La première instruction intéressante se situe à <code>+0x00000025</code>: un JMP qui nous mène sur un premier CALL <code>+0x0000002A</code></p>
 <img width="700" src="/images/guloader/guloader-bn-1.png">
 <p>Là encore, beaucoup de JUNK code, c&rsquo;est pourquoi je n&rsquo;ai conservé ci-dessous que les instructions de la fonction <code>+0x0000002a</code> qui nous intéressent:</p>
 <img width="700" src="/images/guloader/guloader-bn-2.png">
@@ -190,7 +193,7 @@ Jusqu&rsquo;à l&rsquo;adresse, que du JUNK Code n&rsquo;ayant aucun impact sur 
 <li>Ah :-) on XOR le code avec la clé <code>0x91 9e 1e 2e</code></li>
 <li>Et on boucle 0x17208/4 fois, en avançant par 4 octets</li>
 </ul>
-<p><strong>Ok, on a donc une première boucle qui XOR tout le code à partir de l&rsquo;adresse de l&rsquo;adresse  avec <code>0x919e1e2e</code>  comme clé.</strong></p>
+<p><strong>Ok, on a donc une première boucle qui XOR tout le code à partir de l&rsquo;adresse <code>0x0000014e</code> avec <code>0x919e1e2e</code>  comme clé.</strong></p>
 <p>Créons un petit bout de RUST pour déchiffrer ce code offusqué:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::fs::File;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::io::prelude::<span style="color:#f92672">*</span>;
@@ -215,9 +218,6 @@ Jusqu&rsquo;à l&rsquo;adresse, que du JUNK Code n&rsquo;ayant aucun impact sur 
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>enc_code.len() {
 </span></span><span style="display:flex;"><span>        out.push(enc_code[i] <span style="color:#f92672">^</span> key.to_le_bytes()[i <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span>]); <span style="color:#75715e">// fait le XOR
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Le modulo 4 permet de s&#39;assurer que la clé est utilisée de manière cyclique pour chacun des bytes de la variable enc_code 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    en utilisant toujours les 4 premiers bytes de la clé pour chiffrer les 8 premiers bytes de la variable enc_code, 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    les 4 prochains bytes de la clé pour chiffrer les 8 prochains bytes de la variable enc_code, etc. */</span>
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> file <span style="color:#f92672">=</span> File::create(<span style="color:#e6db74">&#34;/home/naptax/tmp/stage2.bin&#34;</span>).unwrap();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> writer <span style="color:#f92672">=</span> BufWriter::new(file);
@@ -243,7 +243,7 @@ Jusqu&rsquo;à l&rsquo;adresse, que du JUNK Code n&rsquo;ayant aucun impact sur 
 <p>Allez, sauvegardons ce nouveau binaire fraîchement déchiffré et regardons ce <strong>stage2.bin</strong> avec ❤️ BINARY NINJA ❤️ (ou votre Disassembleur préféré).</p>
 <h2 id="désofuscation-du-shell-code-phase-2--arrivée-du-hashing">Désofuscation du Shell Code Phase 2 : Arrivée du hashing</h2>
 <p>Une première lecture du code désassemblé laisse sceptique: Encore et encore du JUNK code :-(</p>
-<p>Néanmoins, à force de JMP vers des JMP ;=) on fini par identifier tout de même plusieurs fonctions qui semblent procéder au calcul de constantes, et ce afin de les masquer.
+<p>Néanmoins, à force de JMP vers des JMP de CALL ;=) on fini par identifier tout de même plusieurs fonctions qui semblent procéder au calcul de constantes, et ce afin de les masquer.
 Et en RE, quand on constate que quelqu&rsquo;un s&rsquo;est donné du mal pour masquer une information : c&rsquo;est là que l&rsquo;on doit chercher ;-)</p>
 <center>
 <i class="fa fa-low-vision fa-1x" style="color:green;"> </i>
@@ -268,19 +268,82 @@ Et en RE, quand on constate que quelqu&rsquo;un s&rsquo;est donné du mal pour m
 <center>
 <img width="750" src="/images/guloader/guloader-bn-0x12ad5.png">
 </center>
-<p>Si vous avez suivi <a href="//localhost:1313/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">mon petit article sur les techniques d&rsquo;anti-disassembly</a>, alors <strong>la constante 0x1505h (5381d) a du retenir votre attention</strong>.</p>
-<p><a href="http://www.cse.yorku.ca/~oz/hash.html">En effet <strong>5381</strong> est une &ldquo;constante signature&rdquo; dans l&rsquo;algorithme de hash <strong>DJB2</strong></a>. Cette algo de hash est très souvent utilisé pour faire du hashing dans les malwares (tout comme la valeur 256 caractérise un chiffrement RC4: cf mon article sur ce sujet). Il est simple, rapide et avec très peu de collisions.</p>
+<p>Si vous avez suivi <a href="//localhost:52615/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">mon petit article sur les techniques d&rsquo;anti-disassembly</a>, alors <strong>la constante 0x1505h (5381d) a du retenir votre attention</strong>.</p>
+<p><a href="http://www.cse.yorku.ca/~oz/hash.html">En effet <strong>5381</strong> est une &ldquo;constante signature&rdquo; dans l&rsquo;algorithme de hash <strong>DJB2</strong></a>. Cette algo de hash est très souvent utilisé pour faire du hashing dans les malwares (tout comme la valeur 256 caractérise un chiffrement RC4: <a href="//localhost:52615/posts/fr/2022-12-02-rc4/">cf mon article sur ce sujet</a>). Il est simple, rapide et avec très peu de collisions.</p>
 <p>On aurait donc cette fonction en 0x12AD5 qui implémenterait un hash DJB2. On va donc prendre cette hypothèse et nommer la fonction comme une <code>maybe_calcul_hash()</code>.</p>
 <p>Regardons maintenant <strong>qui appelle cette fonction de hash</strong>, pour voir si notre hypothèse tient la route:
 <img width="750" src="/images/guloader/guloader-bn-0x12ad5-Callers.png"></p>
-<p>Mais dites donc on ne serait pas en train d&rsquo;essayer de nous masquer des <strong>appels API Windows par la technique d&rsquo;API Hash Calling en utilisant un Hash DJB2</strong> (<a href="//localhost:1313/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">ici sur mon blog</a>) <strong>??? !!</strong></p>
-<p><strong>Mais si ! Allez vous êtes vus les gars</strong></p>
+<p>Mais dites donc on ne serait pas en train d&rsquo;essayer de nous masquer des <strong>appels API Windows par la technique d&rsquo;API Hash Calling en utilisant un Hash DJB2</strong> (<a href="//localhost:52615/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">ici sur mon blog</a>) <strong>??? !!</strong></p>
+<p>Dans tous les cas, les auteurs de ce machin se sont donnés bien du mal pour nous le cacher&hellip;</p>
+<p><strong>Continuons notre enquête &hellip;</strong></p>
 <center>
 <img width="700" src="/images/unboxing.png">
 </center>
 <h2 id="désofuscation-du-shell-code-phase-3--les-fonctions-windows-appelées">Désofuscation du Shell Code Phase 3 : Les fonctions Windows appelées</h2>
-<p>Mais alors, il appelle quoi comme fonctions Windows et avec quels paramètres ce <em>f..ing</em> GuLoader (<em>MD5:14d52119459ef12be3a2f9a3a6578ee3255580f679b1b54de0990b6ba403b0fe</em>) ?</p>
-<p>Dans tous les cas, les auteurs de ce machin se sont donnés bien du mal pour nous le cacher&hellip;</p>
+<p>Si les auteurs se sont donnés la peine d&rsquo;implémenter un Hash DJB2, c&rsquo;est certainement pour masquer leurs appels de fonctions Windows.
+Mais alors, il appelle quoi comme fonctions Windows et avec quels paramètres ce <em>f..ing</em> GuLoader (<em>MD5:14d52119459ef12be3a2f9a3a6578ee3255580f679b1b54de0990b6ba403b0fe</em>) ?</p>
+<p>On continue notre exploration du JUNK Code, jusqu&rsquo;à à nouveau tomber sur une fonction qui semble faire quelque chose de réel en <code>+0x12fc1</code>.
+Voici à quoi ressemble la fonction en IL une fois retravaillée sous BINARY NINJA (Du rename + élimination des <code>Opaque Predicates</code>):</p>
+<center>
+<img width="750" src="/images/guloader/guloader-bn-XorFunction.png">
+</center>
+<p>Cette fois-ci c&rsquo;est assez lisible dans le texte, il s&rsquo;agit d&rsquo;une fonction de XOR qui prend en paramètre un buffer et la clé à appliquer sur le XOR.
+On y voit bien les 2 boucles imbriquées du XOR (sur la longueur de la clé et sur la longueur du Buffer à &lsquo;XORer&rsquo;).</p>
+<p><strong>Regardons maintenant qui utilise cette fonction custom de XOR, avec quels buffers et clés en entrée pour comprendre ce, qu&rsquo;à nouveau, on souhaite nous cacher</strong> &hellip;.</p>
+<center>
+<img width="750" src="/images/guloader/guloader-bn-XorFunctionCALLERS.png">
+</center>
+<p>Pour déterminer les valeurs d&rsquo;entrée et de sortie des paramètres de cette fonction lors de ces appels, il existe plusieurs catégories de techniques:</p>
+<ol>
+<li>Continuer en <strong>Analyse Statique manuelle</strong> sous BINARY NINJA (c&rsquo;est hard)</li>
+<li>Switcher en <strong>Analyse Dynamique manuelle</strong> par une exécution sous un debugger</li>
+<li>Utiliser un framework de simulation dynamique pour coder et simuler notre fonction (ex: le sublime <a href="https://www.unicorn-engine.org/">UNICORN</a>)</li>
+<li>Adopter une approche de <strong>Static Binary Instrumentation (SBI)</strong></li>
+<li>Utiliser un moteur de <strong>Dynamic Binary Instrumentation (DBI)</strong>, tel que <strong>Pin d&rsquo;Intel</strong>, <a href="https://frida.re/">FRIDA</a> ou <a href="https://qbdi.quarkslab.com/">QBDI de Quarklab</a></li>
+</ol>
+<p>Je décide donc de changer d&rsquo;approche et d&rsquo;essayer une approche dynamique que je n&rsquo;ai jamais utilisée auparavant mais dont des confrères m&rsquo;ont vanté les mérites. Je vais produire <a href="https://learn.microsoft.com/en-us/windows/win32/debug/minidump-files">un dump mémoire léger</a> de ce binaire en Phase 2, puis le charger avec l&rsquo;outil d&rsquo;émulation <a href="https://github.com/mrexodia/dumpulator">Dumpulator</a>. Je vais également faire la même chose (juste pour la gloire) avec FRIDA en y injectant un peu de code tracing ❤️</p>
+<p>Si nous avions continué en analyse statique pure, nous aurions pu constater (avec un peu de ruse et surtout du temps d&rsquo;analyse) que les auteurs de ce GuLoader (MD5:) utilisent toujours la même méthode pour passer les paramètres <em>key, keyLen, buffer et bufferLen</em> à notre fonction de calcul de XOR:</p>
+<ol>
+<li>Récupèration de la <code>Return Address</code> préalablement sauvegardée sur le haut de la pile par le CALL appelant</li>
+<li>Passage en argument de cette Return Address à la fonction de Hash en tant que Début de <strong>la clé</strong> de Hash</li>
+</ol>
+<p>Puis, le mic-mac des XOR juste pour nous masquer <strong>la longueur de la clé (0x36)</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span>    <span style="color:#ae81ff">0xd2faef</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp <span style="color:#960050;background-color:#1e0010">{</span>var_4_1<span style="color:#960050;background-color:#1e0010">}</span>], <span style="color:#ae81ff">0xd44408d8</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0xd496f237</span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp <span style="color:#960050;background-color:#1e0010">{</span>var_4_2<span style="color:#960050;background-color:#1e0010">}</span>], <span style="color:#ae81ff">0x5943447e</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0x8dd5b649</span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp], <span style="color:#ae81ff">0x8dd5b67f</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0x36</span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span></code></pre></div><p>Soit une longueur de clé 0x36 bytes</p>
+<ol start="3">
+<li>L&rsquo;adresse du Buffer est poussé sur la pile</li>
+<li>L&rsquo;adresse de la taille du Buffer est aussi poussé sur la pile</li>
+</ol>
+<img width="900" src="/images/guloader/guloader-bn-callduXor.png">
+<p>Cela y est nous avons nos 4 paramètres pour faire notre XOR, en avant la musique</p>
+<p>Pour retrouver la clé en analyse statique, c&rsquo;est simple, on copie les 0x36 bytes juste derrière le CALL, c-à-d de <code>0x13a6e à 0x13a6e+0x36 (0x13aa4)</code>
+Et nous avons bien la clé d&rsquo;une longueur de 0x36 bytes:</p>
+<p><code>b697cd32c7143eea5fb5fd3fa3dba8aaebe6226c89b9501c20806c888f58a2ba8ebc6b0a94e5bded795a2757109b8997d87e8080ee4aeb</code></p>
+<p>La valeur du buffer à décoder avec cette clée est quant à elle logée en <code>[ebp+0x140]</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">000139</span><span style="color:#a6e22e">bc</span>  ffb540010000       push    <span style="color:#66d9ef">dword</span> [ebp<span style="color:#f92672">+</span><span style="color:#ae81ff">0x140</span>]  
+</span></span></code></pre></div><p>C&rsquo;est bon, il ne nous reste plus qu&rsquo;à passer en dynamique pour connaitre les valeurs dans la pile en breakant à 0x139ca</p>
+<center>
+<img width="300" src="/images/monster-6.png">
+</center>
+<h3 id="on-passe-en-dynamique-et-on-sort-dumpulator-">On passe en dynamique et on sort Dumpulator &hellip;</h3>
+<p>Avec ce type de code et <strong>Dumpulator</strong>, l&rsquo;étape N°1 consiste à faire un Dump Mémoire au format <em>Minidump</em>.</p>
+<p>Pour produire ce type de dump mémoire, à ce jour (Version 3.3.39) il n&rsquo;y a rien dans la GUI du Debugger de Binary Ninja. Il faut savoir que l&rsquo;introduction d&rsquo;un debugger dans BINARY NINJA est somme toute assez récente et que son concepteur <a href="https://twitter.com/PeterLaFosse">@PeterLaFosse</a> a fait un choix qui me parait fort judicieux: Intégrer dans la GUI &lsquo;juste&rsquo; un Front-end pour des moteurs de debugger existants. A ce jour BINARY NINJA en propose par défaut 2 sous Windows (LLDB et WinDbg) et un sous LINUX (LLDB).</p>
+<p>Je vous donne une astuce pas très connue, Bien que la GUI BINARY NINJA ne donne accès pour le moment qu&rsquo;à quelques fonctions de base WinDbg, son mode console sait exécuter/transmettre 100% des fonctions de winDbg. Par conséquent, vous pouvez générer votre Dump au format <code>Minidump</code> sans quitter votre cher BINARY NINJA :-)</p>
+<p>Mais pour pouvoir réaliser ce dump, il nous faut charger le shellcode en Dynamique (mémoire + Thread): <strong>l&rsquo;éxécuter</strong>. Or, souvenez vous que le fichier binaire que nous analysons actuellement ````GuLoader-Stage2.bin``` n&rsquo;est pas un PE file et ne peut donc pas faire l&rsquo;objet d&rsquo;une exécution directe (Souvenez vous que ce ShellCode était au départ embarqué dans un autre fichier binaire (lui était un PE file) dont la seule fonction était de créer l&rsquo;environnement d&rsquo;éxécution (allocation mémoire + Creation Thread), de faire son XOR sur le code pour déchiffrer le Shellcode, puis de lui passer la main. Il nous faut donc un petit wrapper pour :</p>
+<ol>
+<li><strong>Allouer</strong> de la mémoire exécutable</li>
+<li><strong>Charger</strong> le Shellcode dans cet espace mémoire</li>
+<li><strong>Créer</strong> un thread</li>
+<li><strong>Lancer le thread</strong></li>
+<li>**En connaitre le <em>Entry Point</em> pour pouvoir faire notre mapping entre la vision dynamique fournie par le Debugger et notre analyse statique (le coode source ;-) dans BINARY NINJA</li>
+</ol>
+<p>Pour faire ces 4 opérations basiques, je vous propose le simple programme C suivant:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"></code></pre></div><p>Ok, maintenant exécutons tout ce petit monde sous debugger <strong>une première fois pour générer notre dump mémoire</strong>. <strong>Pour ça j&rsquo;espère que vous avez bien lu le <a href="//localhost:52615/posts/fr/2023-01-14-guloader-1/#disclaimer"><strong>DISCLAIMER</strong></a> ci-dessus.</strong></p>
+<p>Ok, on a le DUMP mémoire au bon format. On peut donc maintenant commencer à le travailler avec Dumpulator</p>
+<p>Ce qui va nous intéresser de tracer ici c&rsquo;est la valeur des registres et de la stack après chaque appel de la fonction (<code>sub_0x12fc1</code> , que nous avons pour plus confort ;-) renommé <code>Calcul_XOR</code>.</p>
 <center>
 <img width="300" src="/images/wip.png">
 </center>
@@ -343,7 +406,7 @@ Et en RE, quand on constate que quelqu&rsquo;un s&rsquo;est donné du mal pour m
     
     <footer class="footer">
   <div class="container">
-    <div class="text-muted">Powered by <a href="https://gohugo.io/">Hugo with ♥</a>
+    <div class="text-muted">From France with ♥</a>
     </div>
   </div>
 </footer>

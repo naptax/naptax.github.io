@@ -20,6 +20,8 @@ menu:
 
 > I co-founded several IT & Cloud companies for 20 years.
 
+> Maybe you prefer a [corporate and printable CV here](https://cv.naptax.re)
+
  <center>
   <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
 </center>
@@ -30,7 +32,7 @@ menu:
 - Malware Analysis 
 - Ethical Hacker
 - Security Researcher
-- Fuzzing
+- Fuzzing 
 
  <center>
   <a href="https://keybase.io/naptax"><i class="fa fa-paw"></i></a>
@@ -39,7 +41,7 @@ menu:
 ## Skills
 
 #### Disassemblers
-- [Ghidra](https://ghidra-sre.org/) , Laid mais Efficace ;-)
+- [Ghidra](https://ghidra-sre.org/) , Laid mais Efficace : Merci la NSA ;-)
 - IDA ... of course ;-)
 - IDA Python scripts for automation
 - [BINARY NINJA](https://binary.ninja/) :heart: :heart: (my favorite one's) with a lot of API Python NINJA BINARY :heart: :heart:
@@ -48,11 +50,12 @@ menu:
 - Dev RIZIN Scripts
 
 #### Debuger and Dynamic instrumentation
-- XDbg64
+- XDbg64 (Respect to Duncan [@mrexodia](https://github.com/mrexodia))
 - Dynamic Binary Instrumentation (DBI) avec [FRIDA](https://frida.re/)
+- My swiss knife [Angr](https://angr.io/)
 
 ### Binary Emulation
-- Dumpulator
+- Dumpulator (Again respect to Duncan [@mrexodia](https://github.com/mrexodia/dumpulator))
 - [UNICORN](https://www.unicorn-engine.org/)
 - [MANDIANT Speakeasy](https://github.com/mandiant/speakeasy) :heart: :heart:
 
@@ -75,7 +78,7 @@ menu:
 - YARA Rules
 - [SIEM searches with SIGMA](https://github.com/SigmaHQ/sigma) 
 
-#### Sandbox
+#### Sandbox (mais pas très fan ...)
 - ANY.RUN :heart:
 - Cuckoo Sandbox
 
@@ -103,8 +106,8 @@ menu:
 - **Les Pentesters du dimanche** ... 
 
 ## Je suis en train d'apprendre
-- Les ICS (Industrial Control System)
-- La sécurité des ICS
+- Désofuscation des virtual machine obfuscators avec [MIASM](https://github.com/cea-sec/miasm)
+- Reverse des Mixed Boolean-Arithmetic (MBA) expressions et [Execution symbolique](https://arxiv.org/pdf/1610.00502.pdf)   
 - _SIEMENS TIA Portal_ (en hommage a [STUXNET](https://github.com/research-virus/stuxnet))
 
  <center>

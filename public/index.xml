@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FRENCH MALWARE HUNTERS CORNER on French Malware Analyst</title>
-    <link>//localhost:1313/</link>
+    <link>//localhost:52615/</link>
     <description>Recent content in FRENCH MALWARE HUNTERS CORNER on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:52615/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GuLoader : Analyse | Part one | (French version)</title>
-      <link>//localhost:1313/posts/fr/2023-01-14-guloader-1/</link>
+      <link>//localhost:52615/posts/fr/2023-01-14-guloader-1/</link>
       <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2023-01-14-guloader-1/</guid>
+      <guid>//localhost:52615/posts/fr/2023-01-14-guloader-1/</guid>
       <description>Hello,
 Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&amp;rsquo;attaquer à un bon client pour l&amp;rsquo;analyse de Malware, et surtout des techniques d&amp;rsquo;évasion et d&amp;rsquo;anti : le loader GULOADER. GuLOADER c &amp;rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
 L&amp;rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019.</description>
@@ -20,29 +20,29 @@ L&amp;rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été 
     
     <item>
       <title>[ -- Edito -- ] 0x000 - README.TXT | (French version)</title>
-      <link>//localhost:1313/posts/fr/2022-09-26-edito000/</link>
+      <link>//localhost:52615/posts/fr/2022-09-26-edito000/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-09-26-edito000/</guid>
+      <guid>//localhost:52615/posts/fr/2022-09-26-edito000/</guid>
       <description>Voilà, nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une usine de Ransomware en mode SaaS.</description>
     </item>
     
     <item>
       <title>[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version)</title>
-      <link>//localhost:1313/posts/fr/2022-12-16-offuscation/</link>
+      <link>//localhost:52615/posts/fr/2022-12-16-offuscation/</link>
       <pubDate>Fri, 16 Dec 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-12-16-offuscation/</guid>
+      <guid>//localhost:52615/posts/fr/2022-12-16-offuscation/</guid>
       <description>Hello,
 Le temps est venu de s&amp;rsquo;attaquer à un très gros morceau: les techniques d&amp;rsquo;Anti-Analyse. Et oui, les binaires sont des patients qui ne se laissent pas ausculter comme cela &amp;hellip; En effet, les éditeurs commerciaux et les auteurs de malwares protègent leur binaire en y injectant un ou plusieurs mécanismes qui viennent complexifier et donc ralentir et diminuer le reverse de leur code,algo ou données. Ces techniques sont nombreuses et en perpétuelle évolution (comme toute situation &amp;ldquo;Le chat et la souris&amp;rdquo; ;-)</description>
     </item>
     
     <item>
       <title>[CRYPTO] 0x001: RC4 (French version)</title>
-      <link>//localhost:1313/posts/fr/2022-12-02-rc4/</link>
+      <link>//localhost:52615/posts/fr/2022-12-02-rc4/</link>
       <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-12-02-rc4/</guid>
+      <guid>//localhost:52615/posts/fr/2022-12-02-rc4/</guid>
       <description>Hello,
 Les auteurs de Malware écrivent le code de leur payload avec 3 préoccupations techniques principales:
 Atteindre l&amp;rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Usurper) : c&amp;rsquo;est la raison d’être de leur Payload Passer sous les radars des logiciels de sécurité (ex: EDR, AV) en étant le plus discret et surtout atypique possible Rendre la tache des Malware Analysts la plus complexe possible (Anti-Debug tricks, cryptage, offuscation, &amp;hellip;) C&amp;rsquo;est pourquoi les malwares font une utilisation intensive de différents algo de chiffrement symétriques et asymétriques.</description>
@@ -50,10 +50,10 @@ Atteindre l&amp;rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Us
     
     <item>
       <title>[PROLOG] 0x004, Local Shellcode par Stack Buffer OverFlow (Part 2) (French version) </title>
-      <link>//localhost:1313/posts/fr/2022-11-26-prolog004/</link>
+      <link>//localhost:52615/posts/fr/2022-11-26-prolog004/</link>
       <pubDate>Sat, 26 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-11-26-prolog004/</guid>
+      <guid>//localhost:52615/posts/fr/2022-11-26-prolog004/</guid>
       <description>Hello,
 Toujours dans cette série de billets d&amp;rsquo;échauffement (série PROLOG), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&amp;rsquo;était un BUFFER OVERFLOW (le billet est ici). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&amp;rsquo;utilisation d&amp;rsquo;un STACK Buffer Overflow.
 Toujours dans un souci de pédagogie, nous allons prendre un exemple simple :
@@ -62,10 +62,10 @@ Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;au
     
     <item>
       <title>[PROLOG] 0x003, Un premier Buffer Overflow (Part 1) | (French version)</title>
-      <link>//localhost:1313/posts/fr/2022-10-6-prolog003/</link>
+      <link>//localhost:52615/posts/fr/2022-10-6-prolog003/</link>
       <pubDate>Tue, 15 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-10-6-prolog003/</guid>
+      <guid>//localhost:52615/posts/fr/2022-10-6-prolog003/</guid>
       <description>Hello,
 Comme vous avez soigneusement lu les 3 premiers billets de la série PROLOG (si celà n&amp;rsquo;est pas le cas, je vous invite vivement à les lire avant celui-ci : Assembler(1), Mémoire(2), conventions d&amp;rsquo;appels(3)) est venu le temps de les mettre en application.
 Et pour un premier exercice d&amp;rsquo;application, la compréhension d&amp;rsquo;un Buffer Overflow est parfaite. A ce stade de la pédagogie, nous allons prendre un exemple fictif avec une simplicité que vous ne trouverez pas sur le théatre des opérations.</description>
@@ -73,51 +73,51 @@ Et pour un premier exercice d&amp;rsquo;application, la compréhension d&amp;rsq
     
     <item>
       <title>[PROLOG] 0x002, Les conventions d&#39;appels | (French version)</title>
-      <link>//localhost:1313/posts/fr/2022-11-11-prolog002/</link>
+      <link>//localhost:52615/posts/fr/2022-11-11-prolog002/</link>
       <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-11-11-prolog002/</guid>
+      <guid>//localhost:52615/posts/fr/2022-11-11-prolog002/</guid>
       <description>Comme leur nom l&amp;rsquo;indique, les conventions d&amp;rsquo;appels définissent des règles communes en matière de passage d&amp;rsquo;arguments et de valeurs retour vers et par une fonction. Bah oui me direz vous&amp;hellip; mais voilà, la difficulté c&amp;rsquo;est qu&amp;rsquo;il existe plusieurs de ces conventions. Par exemple, elles sont différentes entre un LINUX 64-bit et un WINDOWS 64-bit, et encore différentes entre un Linux 32-bits et un Linux 64-bits &amp;hellip;.
 Comme il en existe beaucoup, nous allons nous limiter aux conventions d&amp;rsquo;appels sur processeurs Intel X86 (32-bits et 64 bits).</description>
     </item>
     
     <item>
       <title>[PROLOG] 0x001, La mémoire | (French version)</title>
-      <link>//localhost:1313/posts/fr/2022-11-01-prolog001/</link>
+      <link>//localhost:52615/posts/fr/2022-11-01-prolog001/</link>
       <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-11-01-prolog001/</guid>
+      <guid>//localhost:52615/posts/fr/2022-11-01-prolog001/</guid>
       <description>Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&amp;rsquo;hui au programme, LA MÉMOIRE.
 Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&amp;rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :</description>
     </item>
     
     <item>
       <title>[PROLOG] 0x000, In Assembler we trust (French version)</title>
-      <link>//localhost:1313/posts/fr/2022-09-26-prolog000/</link>
+      <link>//localhost:52615/posts/fr/2022-09-26-prolog000/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/posts/fr/2022-09-26-prolog000/</guid>
+      <guid>//localhost:52615/posts/fr/2022-09-26-prolog000/</guid>
       <description>Dans ce voyage au cœur des fichiers binaires et du code exécutable se trouve l&amp;rsquo;empereur de tous les langages informatique, la source première du dialogue avec nos CPU : l&amp;rsquo;assembleur.
 Je ne vais pas produire ici sur ce blog des cours d&amp;rsquo;assembleur. Il en existe de nombreux et d&amp;rsquo;excellente facture sur internet. Je vais juste poser quelques rappels qui m&amp;rsquo;apparaissent essentiels pour la suite de notre voyage dans le Reverse Engineering des binaires.</description>
     </item>
     
     <item>
       <title>About Me</title>
-      <link>//localhost:1313/cv/</link>
+      <link>//localhost:52615/cv/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/cv/</guid>
-      <description>My name is Eric (Aka nAPTaX), i&amp;rsquo;m a 48 years old 🛹 SKATER, father of 4 and 🧑‍🌾 ETHICAL HACKER with a love for low level ❤️ Reverse Engineering ❤️.
+      <guid>//localhost:52615/cv/</guid>
+      <description>My name is Eric (Aka nAPTaX), i&amp;rsquo;m a french forties: 🛹 SKATER, father of 4 and 🧑‍🌾 ETHICAL HACKER with a love for low level ❤️ Reverse Engineering ❤️.
 I co-founded several IT &amp;amp; Cloud companies for 20 years.
-Security Domains Reverse Engineering Intel/ARM Malware Analysis Ethical Hacker Security Researcher Fuzzing Skills Disassemblers Ghidra IDA &amp;hellip; of course ;-) IDA Python scripts for automation BINARY NINJA ❤️ ❤️ (my favorite one&amp;rsquo;s) with a lot of API Python NINJA BINARY ❤️ ❤️ RIZIN CUTTER HOPPER Dev RIZIN Scripts Debuger and Dynamic instrumentation XDbg64 Dynamic instrumentation avec FRIDA Binary Emulation Dumpulator UNICORN Langages C/C++ Deep Internal Windows Programming Python RUST And sometime NIM to dance behind EDR ;-) Frameworks i like pwntools UNICORN Google oss-fuzz Threat management CVE Evaluation Framework MITRE ATT&amp;amp;CK YARA Rules SIEM searches with SIGMA Sandbox ANY.</description>
+Security Domains Reverse Engineering Intel/ARM Malware Analysis Ethical Hacker Security Researcher Fuzzing Skills Disassemblers Ghidra , Laid mais Efficace ;-) IDA &amp;hellip; of course ;-) IDA Python scripts for automation BINARY NINJA ❤️ ❤️ (my favorite one&amp;rsquo;s) with a lot of API Python NINJA BINARY ❤️ ❤️ RIZIN quand j&amp;rsquo;ai besoin ou envie d&amp;rsquo;une approche 100% CLI HOPPER quand je suis sous Mac Dev RIZIN Scripts Debuger and Dynamic instrumentation XDbg64 Dynamic Binary Instrumentation (DBI) avec FRIDA Binary Emulation Dumpulator UNICORN MANDIANT Speakeasy ❤️ ❤️ Langages C/C++ Deep Internal Windows Programming Python RUST And sometime NIM to dance behind EDR ;-) Frameworks i like pwntools UNICORN CAPSTONE Google oss-fuzz Threat management CVE Evaluation Framework MITRE ATT&amp;amp;CK YARA Rules SIEM searches with SIGMA Sandbox ANY.</description>
     </item>
     
     <item>
       <title>EDITO 0x001</title>
-      <link>//localhost:1313/edito-001/</link>
+      <link>//localhost:52615/edito-001/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/edito-001/</guid>
+      <guid>//localhost:52615/edito-001/</guid>
       <description>Voilà nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une usine de Ransomware en mode SaaS.</description>
     </item>
     

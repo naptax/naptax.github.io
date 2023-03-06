@@ -2,98 +2,98 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on French Malware Analyst</title>
-    <link>//localhost:1313/tags/</link>
+    <link>//localhost:52615/tags/</link>
     <description>Recent content in Tags on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:52615/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>dropper</title>
-      <link>//localhost:1313/tags/dropper/</link>
+      <link>//localhost:52615/tags/dropper/</link>
       <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/dropper/</guid>
+      <guid>//localhost:52615/tags/dropper/</guid>
       <description></description>
     </item>
     
     <item>
       <title>guloader</title>
-      <link>//localhost:1313/tags/guloader/</link>
+      <link>//localhost:52615/tags/guloader/</link>
       <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/guloader/</guid>
+      <guid>//localhost:52615/tags/guloader/</guid>
       <description></description>
     </item>
     
     <item>
       <title>loader</title>
-      <link>//localhost:1313/tags/loader/</link>
+      <link>//localhost:52615/tags/loader/</link>
       <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/loader/</guid>
+      <guid>//localhost:52615/tags/loader/</guid>
       <description></description>
     </item>
     
     <item>
       <title>malware</title>
-      <link>//localhost:1313/tags/malware/</link>
+      <link>//localhost:52615/tags/malware/</link>
       <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/malware/</guid>
+      <guid>//localhost:52615/tags/malware/</guid>
       <description></description>
     </item>
     
     <item>
       <title>edito</title>
-      <link>//localhost:1313/tags/edito/</link>
+      <link>//localhost:52615/tags/edito/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/edito/</guid>
+      <guid>//localhost:52615/tags/edito/</guid>
       <description></description>
     </item>
     
     <item>
       <title>crypto</title>
-      <link>//localhost:1313/tags/crypto/</link>
+      <link>//localhost:52615/tags/crypto/</link>
       <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/crypto/</guid>
+      <guid>//localhost:52615/tags/crypto/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bof</title>
-      <link>//localhost:1313/tags/bof/</link>
+      <link>//localhost:52615/tags/bof/</link>
       <pubDate>Sat, 26 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/bof/</guid>
+      <guid>//localhost:52615/tags/bof/</guid>
       <description></description>
     </item>
     
     <item>
       <title>prolog</title>
-      <link>//localhost:1313/tags/prolog/</link>
+      <link>//localhost:52615/tags/prolog/</link>
       <pubDate>Sat, 26 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/prolog/</guid>
+      <guid>//localhost:52615/tags/prolog/</guid>
       <description></description>
     </item>
     
     <item>
       <title>memory</title>
-      <link>//localhost:1313/tags/memory/</link>
+      <link>//localhost:52615/tags/memory/</link>
       <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/memory/</guid>
+      <guid>//localhost:52615/tags/memory/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bruce Willis</title>
-      <link>//localhost:1313/tags/hugo/</link>
+      <link>//localhost:52615/tags/hugo/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/tags/hugo/</guid>
+      <guid>//localhost:52615/tags/hugo/</guid>
       <description></description>
     </item>
     
