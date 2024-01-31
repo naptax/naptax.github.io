@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52615&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="nAptaX">
-    <link rel="shortcut icon" type="image/x-icon" href="//localhost:52615/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
     <title>[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version) | French Malware Analyst</title>
     <meta name="description" content="Hello,
 Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d&rsquo;Anti-Analyse. Et oui, les binaires sont des patients qui ne se laissent pas ausculter comme cela &hellip; En effet, les éditeurs commerciaux et les auteurs de malwares protègent leur binaire en y injectant un ou plusieurs mécanismes qui viennent complexifier et donc ralentir et diminuer le reverse de leur code,algo ou données. Ces techniques sont nombreuses et en perpétuelle évolution (comme toute situation &ldquo;Le chat et la souris&rdquo; ;-)">
@@ -32,7 +32,7 @@ Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d
   <div class="container mb-3">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid fixed-top">
-      <a class="navbar-brand" href="//localhost:52615/">
+      <a class="navbar-brand" href="/">
         <img src="/images/Naptax-logo.png" width="70px">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
@@ -63,7 +63,7 @@ Le temps est venu de s&rsquo;attaquer à un très gros morceau: les techniques d
 
 
   <div class="container withmargintop">
-    <h3 class="mt-3"><b><a href="//localhost:52615/posts/fr/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version)</a></b></h3>
+    <h3 class="mt-3"><b><a href="/posts/fr/2022-12-16-offuscation/">[ANTI-*] 0x000: Anti-Disassembly | Part one | (French version)</a></b></h3>
     <div class="blog-title my-4">
       <h6>
         December 16, 2022
@@ -259,9 +259,9 @@ Il s&rsquo;agit ici d&rsquo;insérer des octets faisant partie de 2 instructions
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Hello, World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">__asm__</span>(<span style="color:#e6db74">&#34;.byte 0xeb, 0xff, 0xc0&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;NOT Show in IDA</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;Hello, World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    __asm__(<span style="color:#e6db74">&#34;.byte 0xeb, 0xff, 0xc0&#34;</span>);
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;NOT Show in IDA</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Et voici comment IDA nous désassemble le binaire généré par ce code !</p>
@@ -273,9 +273,9 @@ Il s&rsquo;agit ici d&rsquo;insérer des octets faisant partie de 2 instructions
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Hello, World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;Hello, World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">//  __asm__(&#34;.byte 0xeb, 0xff, 0xc0&#34;);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;NOT Show in IDA</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;NOT Show in IDA</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Nous obtenons d&rsquo;IDA le désassemblage suivant :</p>

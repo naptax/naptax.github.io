@@ -2,20 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Resumes on French Malware Analyst</title>
-    <link>//localhost:52615/resume/</link>
+    <link>/resume/</link>
     <description>Recent content in Resumes on French Malware Analyst</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:52615/resume/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="/resume/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About Me</title>
-      <link>//localhost:52615/cv/</link>
+      <link>/cv/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:52615/cv/</guid>
+      <guid>/cv/</guid>
       <description>My name is Eric (Aka nAPTaX), i&amp;rsquo;m a french forties: 🛹 SKATER, father of 4 and 🧑‍🌾 ETHICAL HACKER with a love for low level ❤️ Reverse Engineering ❤️.
 I co-founded several IT &amp;amp; Cloud companies for 20 years.
-Security Domains Reverse Engineering Intel/ARM Malware Analysis Ethical Hacker Security Researcher Fuzzing Skills Disassemblers Ghidra , Laid mais Efficace ;-) IDA &amp;hellip; of course ;-) IDA Python scripts for automation BINARY NINJA ❤️ ❤️ (my favorite one&amp;rsquo;s) with a lot of API Python NINJA BINARY ❤️ ❤️ RIZIN quand j&amp;rsquo;ai besoin ou envie d&amp;rsquo;une approche 100% CLI HOPPER quand je suis sous Mac Dev RIZIN Scripts Debuger and Dynamic instrumentation XDbg64 Dynamic Binary Instrumentation (DBI) avec FRIDA Binary Emulation Dumpulator UNICORN MANDIANT Speakeasy ❤️ ❤️ Langages C/C++ Deep Internal Windows Programming Python RUST And sometime NIM to dance behind EDR ;-) Frameworks i like pwntools UNICORN CAPSTONE Google oss-fuzz Threat management CVE Evaluation Framework MITRE ATT&amp;amp;CK YARA Rules SIEM searches with SIGMA Sandbox ANY.</description>
+Maybe you prefer a corporate and printable CV here
+Security Domains Reverse Engineering Intel/ARM Malware Analysis Ethical Hacker Security Researcher Fuzzing Skills Disassemblers Ghidra , Laid mais Efficace : Merci la NSA ;-) IDA &amp;hellip; of course ;-) IDA Python scripts for automation BINARY NINJA ❤️ ❤️ (my favorite one&amp;rsquo;s) with a lot of API Python NINJA BINARY ❤️ ❤️ RIZIN quand j&amp;rsquo;ai besoin ou envie d&amp;rsquo;une approche 100% CLI HOPPER quand je suis sous Mac Dev RIZIN Scripts Debuger and Dynamic instrumentation XDbg64 (Respect to Duncan @mrexodia) Dynamic Binary Instrumentation (DBI) avec FRIDA My swiss knife Angr Binary Emulation Dumpulator (Again respect to Duncan @mrexodia) UNICORN MANDIANT Speakeasy ❤️ ❤️ Langages C/C++ Deep Internal Windows Programming Python RUST And sometime NIM to dance behind EDR ;-) Frameworks i like pwntools UNICORN CAPSTONE Google oss-fuzz Threat management CVE Evaluation Framework MITRE ATT&amp;amp;CK YARA Rules SIEM searches with SIGMA Sandbox (mais pas très fan &amp;hellip;) ANY.</description>
     </item>
     
   </channel>

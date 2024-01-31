@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52615&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="nAptaX">
-    <link rel="shortcut icon" type="image/x-icon" href="//localhost:52615/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
     <title>[PROLOG] 0x004, Local Shellcode par Stack Buffer OverFlow (Part 2) (French version)  | French Malware Analyst</title>
     <meta name="description" content="Hello,
 Toujours dans cette série de billets d&rsquo;échauffement (série PROLOG), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&rsquo;était un BUFFER OVERFLOW (le billet est ici). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&rsquo;utilisation d&rsquo;un STACK Buffer Overflow.
@@ -34,7 +34,7 @@ Une erreur de programmation flagrante Un exécutable ne disposant d&rsquo;aucun 
   <div class="container mb-3">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid fixed-top">
-      <a class="navbar-brand" href="//localhost:52615/">
+      <a class="navbar-brand" href="/">
         <img src="/images/Naptax-logo.png" width="70px">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
@@ -65,7 +65,7 @@ Une erreur de programmation flagrante Un exécutable ne disposant d&rsquo;aucun 
 
 
   <div class="container withmargintop">
-    <h3 class="mt-3"><b><a href="//localhost:52615/posts/fr/2022-11-26-prolog004/">[PROLOG] 0x004, Local Shellcode par Stack Buffer OverFlow (Part 2) (French version) </a></b></h3>
+    <h3 class="mt-3"><b><a href="/posts/fr/2022-11-26-prolog004/">[PROLOG] 0x004, Local Shellcode par Stack Buffer OverFlow (Part 2) (French version) </a></b></h3>
     <div class="blog-title my-4">
       <h6>
         November 26, 2022
@@ -276,7 +276,7 @@ Cette valeur d&rsquo;EIP/RIP ayant été préalablement (et automatiquement) sau
 </span></span><span style="display:flex;"><span>    RELRO:    No RELRO
 </span></span><span style="display:flex;"><span>    Stack:    No canary found
 </span></span><span style="display:flex;"><span>    NX:       NX disabled
-</span></span><span style="display:flex;"><span>    PIE:      No <span style="color:#a6e22e">PIE</span> (<span style="color:#ae81ff">0x8048000</span>)
+</span></span><span style="display:flex;"><span>    PIE:      No PIE (<span style="color:#ae81ff">0x8048000</span>)
 </span></span><span style="display:flex;"><span>    RWX:      Has RWX segments
 </span></span><span style="display:flex;"><span>[<span style="color:#f92672">+</span>] Starting local process <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>pwn<span style="color:#f92672">-</span><span style="color:#66d9ef">asm</span><span style="color:#f92672">-</span>hb32fl7f<span style="color:#f92672">/</span>step3<span style="color:#f92672">-</span>elf<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">:</span> pid <span style="color:#ae81ff">5556</span>
 </span></span><span style="display:flex;"><span>[<span style="color:#f92672">*</span>] Switching to interactive mode
@@ -298,7 +298,7 @@ Cette valeur d&rsquo;EIP/RIP ayant été préalablement (et automatiquement) sau
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() { 
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mprotect</span>(
+</span></span><span style="display:flex;"><span>    mprotect(
 </span></span><span style="display:flex;"><span>        (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)((<span style="color:#66d9ef">int</span>)shellcode <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><span style="color:#ae81ff">4095</span>),
 </span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">4096</span>,
 </span></span><span style="display:flex;"><span>        PROT_READ <span style="color:#f92672">|</span> PROT_WRITE <span style="color:#f92672">|</span> PROT_EXEC
@@ -306,7 +306,7 @@ Cette valeur d&rsquo;EIP/RIP ayant été préalablement (et automatiquement) sau
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>func)() <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>(<span style="color:#f92672">*</span>)())shellcode;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">func</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> func();
 </span></span><span style="display:flex;"><span>}   
 </span></span></code></pre></div><p>Je trouve que ce code illustre parfaitement le fonctionement et la puissance des pointeurs sur fonction &hellip; a mettre au programme de tout cours de langage C ❤️</p>
 <blockquote>

@@ -2,83 +2,83 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:52615/tags/dropper/</loc>
+    <loc>/tags/dropper/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/</loc>
+    <loc>/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/guloader/</loc>
+    <loc>/tags/guloader/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2023-01-14-guloader-1/</loc>
+    <loc>/posts/fr/2023-01-14-guloader-1/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/loader/</loc>
+    <loc>/tags/loader/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/malware/</loc>
+    <loc>/tags/malware/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-09-26-edito000/</loc>
+    <loc>/posts/fr/2022-09-26-edito000/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/edito/</loc>
+    <loc>/tags/edito/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-12-16-offuscation/</loc>
+    <loc>/posts/fr/2022-12-16-offuscation/</loc>
     <lastmod>2022-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-12-02-rc4/</loc>
+    <loc>/posts/fr/2022-12-02-rc4/</loc>
     <lastmod>2022-12-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/crypto/</loc>
+    <loc>/tags/crypto/</loc>
     <lastmod>2022-12-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-11-26-prolog004/</loc>
+    <loc>/posts/fr/2022-11-26-prolog004/</loc>
     <lastmod>2022-11-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/bof/</loc>
+    <loc>/tags/bof/</loc>
     <lastmod>2022-11-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/prolog/</loc>
+    <loc>/tags/prolog/</loc>
     <lastmod>2022-11-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-10-6-prolog003/</loc>
+    <loc>/posts/fr/2022-10-6-prolog003/</loc>
     <lastmod>2022-11-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-11-11-prolog002/</loc>
+    <loc>/posts/fr/2022-11-11-prolog002/</loc>
     <lastmod>2022-11-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-11-01-prolog001/</loc>
+    <loc>/posts/fr/2022-11-01-prolog001/</loc>
     <lastmod>2022-11-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/memory/</loc>
+    <loc>/tags/memory/</loc>
     <lastmod>2022-11-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/fr/2022-09-26-prolog000/</loc>
+    <loc>/posts/fr/2022-09-26-prolog000/</loc>
     <lastmod>2022-09-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/cv/</loc>
+    <loc>/cv/</loc>
     <lastmod>2022-09-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/edito-001/</loc>
+    <loc>/edito-001/</loc>
     <lastmod>2022-09-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/edito/</loc>
+    <loc>/edito/</loc>
     <lastmod>2022-09-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/resume/</loc>
+    <loc>/resume/</loc>
     <lastmod>2022-09-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/posts/</loc>
+    <loc>/posts/</loc>
     <lastmod>2019-02-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:52615/tags/hugo/</loc>
+    <loc>/tags/hugo/</loc>
   </url><url>
-    <loc>//localhost:52615/categories/</loc>
+    <loc>/categories/</loc>
   </url>
 </urlset>

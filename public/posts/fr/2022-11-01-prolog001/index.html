@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52615&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="nAptaX">
-    <link rel="shortcut icon" type="image/x-icon" href="//localhost:52615/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
     <title>[PROLOG] 0x001, La mémoire | (French version) | French Malware Analyst</title>
     <meta name="description" content="Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&rsquo;hui au programme, LA MÉMOIRE.
 Lorsque l&rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&rsquo;assembleur est LA barrière d&rsquo;entrée complexe. En réalité, l&rsquo;assembleur est d&rsquo;une syntaxe simplissime, d&rsquo;une logique totale et donc d&rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :">
@@ -32,7 +32,7 @@ Lorsque l&rsquo;on souhaite se lancer dans le reverse engineering de binaires, o
   <div class="container mb-3">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid fixed-top">
-      <a class="navbar-brand" href="//localhost:52615/">
+      <a class="navbar-brand" href="/">
         <img src="/images/Naptax-logo.png" width="70px">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
@@ -63,7 +63,7 @@ Lorsque l&rsquo;on souhaite se lancer dans le reverse engineering de binaires, o
 
 
   <div class="container withmargintop">
-    <h3 class="mt-3"><b><a href="//localhost:52615/posts/fr/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire | (French version)</a></b></h3>
+    <h3 class="mt-3"><b><a href="/posts/fr/2022-11-01-prolog001/">[PROLOG] 0x001, La mémoire | (French version)</a></b></h3>
     <div class="blog-title my-4">
       <h6>
         November 1, 2022
@@ -197,12 +197,12 @@ Lorsque l&rsquo;on souhaite se lancer dans le reverse engineering de binaires, o
 <p><strong>Mais où trouve-t-on ces différentes informations dans la stack et comment y accède-t-on ?</strong></p>
 <p>On navigue dans une stack par adresses relatives (offset); relatives par rapport à son haut (c.-à-d. par rapport au registre ESP), ou relatives par rapport à sa base (le registre EBP).</p>
 <p><strong>N&rsquo;oubliez pas que sur x86 et x64 l&rsquo;on décrémente ESP pour monter dans la stack (par exemple au fur et à mesure des allocations mémoire statiques) et que l&rsquo;on incrémente ESP pour descendre dans la stack</strong>. Au début cela est un peu perturbant, mais vous verrez, on s&rsquo;y fait très vite : &ldquo;<em>Plus pour descendre</em>&rdquo;, &ldquo;<em>Moins pour monter</em>&rdquo; ;-) par exemple pour réserver de la mémoire sur la stack, on diminue ESP de la taille à réserver :</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">esp</span>, <span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#66d9ef">taille</span> <span style="color:#960050;background-color:#1e0010">à</span> <span style="color:#66d9ef">r</span><span style="color:#960050;background-color:#1e0010">é</span><span style="color:#66d9ef">server</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">esp</span>, <span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#66d9ef">taille</span> <span style="color:#960050;background-color:#1e0010">à</span> <span style="color:#66d9ef">réserver</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
 </span></span></code></pre></div><h3 id="le-passage-darguments-par-la-stack">Le Passage d&rsquo;arguments par la stack</h3>
 <p>Il existe plusieurs conventions qui permettent de spécifier les modalités de passage d&rsquo;arguments à une fonction (paramètres émis par l&rsquo;<strong>appelant</strong> et donc reçus par l&rsquo;<strong>appelé</strong>). Nous étudierons plus bas ces différentes conventions d&rsquo;appel (<em>convention call</em>). Ce qui nous intéresse ici pour le moment, c&rsquo;est de comprendre où et comment ces arguments passés par la stack se positionnent en mémoire. L&rsquo;objectif est évidemment de pouvoir accéder aux valeurs de ces paramètres.</p>
 <p>Prenons l&rsquo;appel de fonction C suivante :</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__attribute__</span>((__cdecl__)) <span style="color:#a6e22e">additionne</span>(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c);
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> somme<span style="color:#f92672">=</span><span style="color:#a6e22e">additionne</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>,<span style="color:#ae81ff">40</span>); 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__attribute__</span>((__cdecl__)) additionne(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> somme<span style="color:#f92672">=</span>additionne(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>,<span style="color:#ae81ff">40</span>); 
 </span></span></code></pre></div><p><strong>Note</strong> <em>: à ce stade ne faites pas attention aux mots clés <code>__cdecl___</code> et <code>__attribute__</code> qui permettent juste de faire en sorte que le compilateur C 32-bits utilise la stack (et non pas les registres) pour passer les arguments à la fonction. Nous y reviendrons juste après lorsque nous verrons les différentes conventions d&rsquo;appel.</em></p>
 <p>Notre compilateur C 32 bits aurait donc traduit ce code C par le code assembleur suivant (sur un x86 32-bit<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#ae81ff">0x28</span>      <span style="color:#75715e">; argument 3 | 40 en decimal
@@ -225,7 +225,7 @@ Lorsque l&rsquo;on souhaite se lancer dans le reverse engineering de binaires, o
 <p>Ainsi nous obtenons une stack frame de <code>main</code> avec son adresse de retour sauvegardée sur le haut de la pile. Cette adresse de retour permettra au flux d’exécution de reprendre à l&rsquo;adresse où il était juste avant son <code>CALL</code>, lorsqu&rsquo;il sortira de la fonction appelée (ici <code>additionne</code>). Ainsi, le flux ne souffrira d&rsquo;aucune interruption.</p>
 <p>Dans cette perspective <code>main()</code> est la fonction <strong>&ldquo;appelante&rdquo;</strong> de la fonction <code>additionne</code>. Intéressons-nous maintenant à la fonction appelée : <code>additionne()</code>.
 Prenons par exemple son code C suivant:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__attribute__</span>((__cdecl__)) <span style="color:#a6e22e">additionne</span>(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__attribute__</span>((__cdecl__)) additionne(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">+</span>b<span style="color:#f92672">+</span>c;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>, dont la compilation en assembleur 32-bits donne:</p>

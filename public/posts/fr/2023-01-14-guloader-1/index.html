@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52615&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="nAptaX">
-    <link rel="shortcut icon" type="image/x-icon" href="//localhost:52615/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
     <title>GuLoader : Analyse | Part one | (French version) | French Malware Analyst</title>
     <meta name="description" content="Hello,
 Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&rsquo;attaquer à un bon client pour l&rsquo;analyse de Malware, et surtout des techniques d&rsquo;évasion et d&rsquo;anti : le loader GULOADER. GuLOADER c &rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
-L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019.">
+Cet article est inspiré d&rsquo;une session Twitch de l&rsquo;excellent Sergei Frankoff aka @herrcore.">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     
     <link rel="preload stylesheet" href="/css/main.min.css" as="style">
@@ -33,7 +33,7 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
   <div class="container mb-3">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid fixed-top">
-      <a class="navbar-brand" href="//localhost:52615/">
+      <a class="navbar-brand" href="/">
         <img src="/images/Naptax-logo.png" width="70px">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
@@ -64,7 +64,7 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
 
 
   <div class="container withmargintop">
-    <h3 class="mt-3"><b><a href="//localhost:52615/posts/fr/2023-01-14-guloader-1/">GuLoader : Analyse | Part one | (French version)</a></b></h3>
+    <h3 class="mt-3"><b><a href="/posts/fr/2023-01-14-guloader-1/">GuLoader : Analyse | Part one | (French version)</a></b></h3>
     <div class="blog-title my-4">
       <h6>
         January 14, 2023
@@ -88,9 +88,10 @@ L&rsquo;histoire de GuLoader GuLoader est un dropper de Malware qui a été vu p
 </center>
 <p><strong>Hello</strong>,</p>
 <p>Si vous avez suivi les différents <a href="/posts/">billets de PROLOG de ce blog</a>, alors le temps est venu de s&rsquo;attaquer à un bon client pour l&rsquo;analyse de Malware, et surtout des techniques d&rsquo;évasion et d&rsquo;anti : le loader <strong>GULOADER</strong>. <strong>GuLOADER c &rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way</strong></p>
+<p>Cet article est inspiré d&rsquo;une session Twitch de l&rsquo;excellent Sergei Frankoff aka <a href="https://twitter.com/herrcore">@herrcore</a>. De toutes les personnes que je suis en Reverse Engineering, c&rsquo;est bien lui le plus inspirant en analyse statique. Suivre Herrcore sur le statique et le prolifique <a href="https://github.com/mrexodia">@mrexodia</a> sur l&rsquo;analyse dynamique, c&rsquo;est apprendre des meilleurs.</p>
 <h1 id="lhistoire-de-guloader">L&rsquo;histoire de GuLoader</h1>
 <p>GuLoader est un dropper de Malware qui a été vu pour la première fois fin 2019. A l&rsquo;époque il n&rsquo;était encore qu&rsquo;un &lsquo;simple&rsquo; downloader utilisé pour diffuser des RAT tels que <a href="https://www.gatewatcher.com/malware-analysis-agent-tesla/">AgentTesla</a> et Nanocore. Il est également connu et référencé sous le nom de <strong>CloudEyE</strong>).</p>
-<p>Puis à partir de 2020, GuLoader se mit à <strong>intégrer un nombre très important de techniques d&rsquo;évasion</strong> (<a href="/posts/fr/2022-12-16-offuscation/">cf. notre série sur ces techniques Anti</a>). Notamment la technique anti qui consiste à ne pas appeler directement les fonctions d&rsquo;API Windows par leur nom, mais par leur hash (<a href="//localhost:52615/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">cf. notre billet pour le détail de cette technique de API call by Hashing</a>). Comme dans de nombreux malware, le dropper GuLoader utilise l&rsquo;algorithme de Hash <code>DJB2</code> qui a l&rsquo;avantage d&rsquo;être très simple et générant peu de collisions.</p>
+<p>Puis à partir de 2020, GuLoader se mit à <strong>intégrer un nombre très important de techniques d&rsquo;évasion</strong> (<a href="/posts/fr/2022-12-16-offuscation/">cf. notre série sur ces techniques Anti</a>). Notamment la technique anti qui consiste à ne pas appeler directement les fonctions d&rsquo;API Windows par leur nom, mais par leur hash (<a href="/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">cf. notre billet pour le détail de cette technique de API call by Hashing</a>). Comme dans de nombreux malware, le dropper GuLoader utilise l&rsquo;algorithme de Hash <code>DJB2</code> qui a l&rsquo;avantage d&rsquo;être très simple et générant peu de collisions.</p>
 <p>Puis en 2021 GuLoader s&rsquo;est doté d&rsquo;une armée de techniques d&rsquo;Anti-debug, anti-Sandbox, anti-VM afin de rendre son analyse encore plus complexe. Cette complexification s&rsquo;est accompagnée de l&rsquo;utilisation de Visual Basic Script (VBS) pour se propager et de NSIS (Nullsoft Scriptable Install System) pour le packing et le chiffrement de son Payload.</p>
 <p>Nous allons ici étudier <strong>une des très nombreuses versions de GuLoader</strong>. En effet, il en existe de très nombreuses car le groupe derrière ce dropper est très actif et scan tous les papiers concernant leur code. <strong>A chaque nouvelle analyse un peu sérieuse d&rsquo;une de leur version, ils réagissent et modifient rapidement de manière radicale leur malware</strong>.</p>
 <p>Par conséquent, nous devrions plutôt dire que nous allons analyser &ldquo;une version&rdquo; de GuLoader plutôt que GuLoader. En effet chaque update modifie complètement le profil du payload.</p>
@@ -268,12 +269,12 @@ Et en RE, quand on constate que quelqu&rsquo;un s&rsquo;est donné du mal pour m
 <center>
 <img width="750" src="/images/guloader/guloader-bn-0x12ad5.png">
 </center>
-<p>Si vous avez suivi <a href="//localhost:52615/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">mon petit article sur les techniques d&rsquo;anti-disassembly</a>, alors <strong>la constante 0x1505h (5381d) a du retenir votre attention</strong>.</p>
-<p><a href="http://www.cse.yorku.ca/~oz/hash.html">En effet <strong>5381</strong> est une &ldquo;constante signature&rdquo; dans l&rsquo;algorithme de hash <strong>DJB2</strong></a>. Cette algo de hash est très souvent utilisé pour faire du hashing dans les malwares (tout comme la valeur 256 caractérise un chiffrement RC4: <a href="//localhost:52615/posts/fr/2022-12-02-rc4/">cf mon article sur ce sujet</a>). Il est simple, rapide et avec très peu de collisions.</p>
+<p>Si vous avez suivi <a href="/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">mon petit article sur les techniques d&rsquo;anti-disassembly</a>, alors <strong>la constante 0x1505h (5381d) a du retenir votre attention</strong>.</p>
+<p><a href="http://www.cse.yorku.ca/~oz/hash.html">En effet <strong>5381</strong> est une &ldquo;constante signature&rdquo; dans l&rsquo;algorithme de hash <strong>DJB2</strong></a>. Cette algo de hash est très souvent utilisé pour faire du hashing dans les malwares (tout comme la valeur 256 caractérise un chiffrement RC4: <a href="/posts/fr/2022-12-02-rc4/">cf mon article sur ce sujet</a>). Il est simple, rapide et avec très peu de collisions.</p>
 <p>On aurait donc cette fonction en 0x12AD5 qui implémenterait un hash DJB2. On va donc prendre cette hypothèse et nommer la fonction comme une <code>maybe_calcul_hash()</code>.</p>
 <p>Regardons maintenant <strong>qui appelle cette fonction de hash</strong>, pour voir si notre hypothèse tient la route:
 <img width="750" src="/images/guloader/guloader-bn-0x12ad5-Callers.png"></p>
-<p>Mais dites donc on ne serait pas en train d&rsquo;essayer de nous masquer des <strong>appels API Windows par la technique d&rsquo;API Hash Calling en utilisant un Hash DJB2</strong> (<a href="//localhost:52615/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">ici sur mon blog</a>) <strong>??? !!</strong></p>
+<p>Mais dites donc on ne serait pas en train d&rsquo;essayer de nous masquer des <strong>appels API Windows par la technique d&rsquo;API Hash Calling en utilisant un Hash DJB2</strong> (<a href="/posts/fr/2022-12-16-offuscation/#api-calling-obsfuscation">ici sur mon blog</a>) <strong>??? !!</strong></p>
 <p>Dans tous les cas, les auteurs de ce machin se sont donnés bien du mal pour nous le cacher&hellip;</p>
 <p><strong>Continuons notre enquête &hellip;</strong></p>
 <center>
@@ -293,6 +294,29 @@ On y voit bien les 2 boucles imbriquées du XOR (sur la longueur de la clé et s
 <center>
 <img width="750" src="/images/guloader/guloader-bn-XorFunctionCALLERS.png">
 </center>
+<p>On constate alors que les auteurs de ce GuLoader utilisent toujours la même méthode pour passer les paramètres <em>key, keyLen, buffer et bufferLen</em> à notre fonction de calcul de XOR:</p>
+<ol>
+<li>Récupèration de la <code>Return Address</code> préalablement sauvegardée sur la pile par le CALL appelant</li>
+<li>Passage par la pile en argument de cette Return Address à la fonction de Hash en tant que Début de <strong>la clé</strong> de Hash</li>
+</ol>
+<p>Puis, le mic-mac des XOR juste pour nous masquer une constant: <strong>la longueur de la clé (0x36)</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span>    <span style="color:#ae81ff">0xd2faef</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp <span style="color:#960050;background-color:#1e0010">{</span>var_4_1<span style="color:#960050;background-color:#1e0010">}</span>], <span style="color:#ae81ff">0xd44408d8</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0xd496f237</span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp <span style="color:#960050;background-color:#1e0010">{</span>var_4_2<span style="color:#960050;background-color:#1e0010">}</span>], <span style="color:#ae81ff">0x5943447e</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0x8dd5b649</span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp], <span style="color:#ae81ff">0x8dd5b67f</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0x36</span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span></code></pre></div><p>Soit une longueur de clé 0x36 bytes</p>
+<ol start="3">
+<li><strong>L&rsquo;adresse (et non pas la valeur)</strong> du Buffer est poussée sur la pile</li>
+<li>La taille du Buffer est aussi poussée sur la pile</li>
+</ol>
+<img width="900" src="/images/guloader/guloader-bn-callduXor.png">
+<p>Ca y est nous avons nos 4 paramètres pour faire notre XOR, en avant la musique</p>
+<p>Pour retrouver la clé en analyse statique, c&rsquo;est simple, on copie les 0x36 bytes juste derrière le CALL, c-à-d de <code>0x13a6e à 0x13a6e+0x36 (0x13aa4)</code>
+Et nous avons bien la clé d&rsquo;une longueur de 0x36 bytes:</p>
+<p><code>b697cd32c7143eea5fb5fd3fa3dba8aaebe6226c89b9501c20806c888f58a2ba8ebc6b0a94e5bded795a2757109b8997d87e8080ee4aeb</code></p>
+<p>La valeur du buffer à décoder avec cette clée est quant à elle logée sur la pile <code>[ebp+0x140]</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">000139</span><span style="color:#a6e22e">bc</span>  ffb540010000       push    <span style="color:#66d9ef">dword</span> [ebp<span style="color:#f92672">+</span><span style="color:#ae81ff">0x140</span>]  
+</span></span></code></pre></div><p><strong>C&rsquo;est bon, il ne nous reste plus qu&rsquo;à passer en dynamique pour connaitre les valeurs dans la pile aux moments des appels de 0x1398f pour connaitre les valeurs du buffer qui sont envoyées au décodage avec la XOR Key.</strong></p>
 <p>Pour déterminer les valeurs d&rsquo;entrée et de sortie des paramètres de cette fonction lors de ces appels, il existe plusieurs catégories de techniques:</p>
 <ol>
 <li>Continuer en <strong>Analyse Statique manuelle</strong> sous BINARY NINJA (c&rsquo;est hard)</li>
@@ -301,30 +325,7 @@ On y voit bien les 2 boucles imbriquées du XOR (sur la longueur de la clé et s
 <li>Adopter une approche de <strong>Static Binary Instrumentation (SBI)</strong></li>
 <li>Utiliser un moteur de <strong>Dynamic Binary Instrumentation (DBI)</strong>, tel que <strong>Pin d&rsquo;Intel</strong>, <a href="https://frida.re/">FRIDA</a> ou <a href="https://qbdi.quarkslab.com/">QBDI de Quarklab</a></li>
 </ol>
-<p>Je décide donc de changer d&rsquo;approche et d&rsquo;essayer une approche dynamique que je n&rsquo;ai jamais utilisée auparavant mais dont des confrères m&rsquo;ont vanté les mérites. Je vais produire <a href="https://learn.microsoft.com/en-us/windows/win32/debug/minidump-files">un dump mémoire léger</a> de ce binaire en Phase 2, puis le charger avec l&rsquo;outil d&rsquo;émulation <a href="https://github.com/mrexodia/dumpulator">Dumpulator</a>. Je vais également faire la même chose (juste pour la gloire) avec FRIDA en y injectant un peu de code tracing ❤️</p>
-<p>Si nous avions continué en analyse statique pure, nous aurions pu constater (avec un peu de ruse et surtout du temps d&rsquo;analyse) que les auteurs de ce GuLoader (MD5:) utilisent toujours la même méthode pour passer les paramètres <em>key, keyLen, buffer et bufferLen</em> à notre fonction de calcul de XOR:</p>
-<ol>
-<li>Récupèration de la <code>Return Address</code> préalablement sauvegardée sur le haut de la pile par le CALL appelant</li>
-<li>Passage en argument de cette Return Address à la fonction de Hash en tant que Début de <strong>la clé</strong> de Hash</li>
-</ol>
-<p>Puis, le mic-mac des XOR juste pour nous masquer <strong>la longueur de la clé (0x36)</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span>    <span style="color:#ae81ff">0xd2faef</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp <span style="color:#960050;background-color:#1e0010">{</span>var_4_1<span style="color:#960050;background-color:#1e0010">}</span>], <span style="color:#ae81ff">0xd44408d8</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0xd496f237</span><span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp <span style="color:#960050;background-color:#1e0010">{</span>var_4_2<span style="color:#960050;background-color:#1e0010">}</span>], <span style="color:#ae81ff">0x5943447e</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0x8dd5b649</span><span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span>     <span style="color:#66d9ef">dword</span> [esp], <span style="color:#ae81ff">0x8dd5b67f</span>  <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#ae81ff">0x36</span><span style="color:#960050;background-color:#1e0010">}</span>
-</span></span></code></pre></div><p>Soit une longueur de clé 0x36 bytes</p>
-<ol start="3">
-<li>L&rsquo;adresse du Buffer est poussé sur la pile</li>
-<li>L&rsquo;adresse de la taille du Buffer est aussi poussé sur la pile</li>
-</ol>
-<img width="900" src="/images/guloader/guloader-bn-callduXor.png">
-<p>Cela y est nous avons nos 4 paramètres pour faire notre XOR, en avant la musique</p>
-<p>Pour retrouver la clé en analyse statique, c&rsquo;est simple, on copie les 0x36 bytes juste derrière le CALL, c-à-d de <code>0x13a6e à 0x13a6e+0x36 (0x13aa4)</code>
-Et nous avons bien la clé d&rsquo;une longueur de 0x36 bytes:</p>
-<p><code>b697cd32c7143eea5fb5fd3fa3dba8aaebe6226c89b9501c20806c888f58a2ba8ebc6b0a94e5bded795a2757109b8997d87e8080ee4aeb</code></p>
-<p>La valeur du buffer à décoder avec cette clée est quant à elle logée en <code>[ebp+0x140]</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">000139</span><span style="color:#a6e22e">bc</span>  ffb540010000       push    <span style="color:#66d9ef">dword</span> [ebp<span style="color:#f92672">+</span><span style="color:#ae81ff">0x140</span>]  
-</span></span></code></pre></div><p>C&rsquo;est bon, il ne nous reste plus qu&rsquo;à passer en dynamique pour connaitre les valeurs dans la pile en breakant à 0x139ca</p>
+<p>Je décide d&rsquo;essayer une approche dynamique que je n&rsquo;ai jamais utilisée auparavant mais dont des confrères m&rsquo;ont vanté les mérites. Je vais produire <a href="https://learn.microsoft.com/en-us/windows/win32/debug/minidump-files">un dump mémoire léger</a> de ce binaire en Phase 2, puis le charger avec l&rsquo;outil d&rsquo;émulation <a href="https://github.com/mrexodia/dumpulator">Dumpulator</a>. Je vais également faire la même chose (juste pour la gloire) avec FRIDA en y injectant un peu de code tracing ❤️</p>
 <center>
 <img width="300" src="/images/monster-6.png">
 </center>
@@ -338,15 +339,26 @@ Et nous avons bien la clé d&rsquo;une longueur de 0x36 bytes:</p>
 <li><strong>Charger</strong> le Shellcode dans cet espace mémoire</li>
 <li><strong>Créer</strong> un thread</li>
 <li><strong>Lancer le thread</strong></li>
-<li>**En connaitre le <em>Entry Point</em> pour pouvoir faire notre mapping entre la vision dynamique fournie par le Debugger et notre analyse statique (le coode source ;-) dans BINARY NINJA</li>
+<li><strong>En connaitre la Base Address</strong> pour pouvoir faire notre mapping entre la vision dynamique fournie par le Debugger et notre analyse statique (le coode source ;-) dans BINARY NINJA</li>
 </ol>
-<p>Pour faire ces 4 opérations basiques, je vous propose le simple programme C suivant:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"></code></pre></div><p>Ok, maintenant exécutons tout ce petit monde sous debugger <strong>une première fois pour générer notre dump mémoire</strong>. <strong>Pour ça j&rsquo;espère que vous avez bien lu le <a href="//localhost:52615/posts/fr/2023-01-14-guloader-1/#disclaimer"><strong>DISCLAIMER</strong></a> ci-dessus.</strong></p>
+<p>Ok, maintenant exécutons tout ce petit monde sous debugger <strong>une première fois pour générer notre dump mémoire</strong>. <strong>Pour ça j&rsquo;espère que vous avez bien lu le <a href="/posts/fr/2023-01-14-guloader-1/#disclaimer"><strong>DISCLAIMER</strong></a> ci-dessus.</strong></p>
 <p>Ok, on a le DUMP mémoire au bon format. On peut donc maintenant commencer à le travailler avec Dumpulator</p>
-<p>Ce qui va nous intéresser de tracer ici c&rsquo;est la valeur des registres et de la stack après chaque appel de la fonction (<code>sub_0x12fc1</code> , que nous avons pour plus confort ;-) renommé <code>Calcul_XOR</code>.</p>
-<center>
-<img width="300" src="/images/wip.png">
-</center>
+<p>Ce qui va nous intéresser de visualiser lors de l&rsquo;execution, c&rsquo;est la stack AVANT chaque appel de la fonction (<code>sub_0x12fc1</code> , que nous avons pour plus confort ;-) renommé <code>Calcul_XOR</code>.</p>
+<p>Nous devrions y trouver tout en haut l&rsquo;adresse du Buffer à décoder (et juste en dessous la longueur de ce buffer à décoder).</p>
+<p>Plus globalement la stack avant chaque appel à la fonction de XOR sera construite pour avoir la structure suivante:</p>
+<pre tabindex="0"><code>--------------------------------
+| Adresse du buffer à déchiffer |
+| ----------------------------- |
+| Taille du buffer              |
+| ----------------------------- |
+| Taille de la clé              |
+| ----------------------------- |
+| Return Address                | &lt;---- C&#39;est ici que débute la Key 
+| ----------------------------- |
+|           (...)               |
+---------------------------------
+</code></pre><p>Voilà le secret de ces petits messieurs :-)</p>
+<p><strong>On se retrouve très vite pour la partie N°2 qui présentera l&rsquo;analyse dynamique avec plusieurs approches (Dumpulator, FRIDA, &hellip;).</strong></p>
 
           
           
