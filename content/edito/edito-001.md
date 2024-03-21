@@ -15,7 +15,7 @@ menu:
 <img src="/images/wopr.png"> 
 </center>
 
-Voilà nous sommes le **26 septembre 2022**, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu'ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients ... Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d'une usine de Ransomware en mode SaaS.
+Voilà nous sommes le **26 septembre 2022**, et l’hôpital de Corbeil-Essonnes vient de voir 12 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu'ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients ... Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d'une usine de Ransomware en mode SaaS.
 
 On ne compte plus le nombre d'établissements de santé touchés par ses écœurantes et abjectes attaques appelées RANSOMWARE. 
 
