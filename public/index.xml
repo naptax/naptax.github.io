@@ -14,7 +14,7 @@
       
       <guid>/posts/fr/2023-01-14-guloader-1/</guid>
       <description>Hello,
-Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&amp;rsquo;attaquer à un bon client pour l&amp;rsquo;analyse de Malware, et surtout des techniques d&amp;rsquo;évasion et d&amp;rsquo;anti : le loader GULOADER. GuLOADER c &amp;rsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
+Si vous avez suivi les différents billets de PROLOG de ce blog, alors le temps est venu de s&amp;rsquo;attaquer à un bon client pour l&amp;rsquo;analyse de Malware, et surtout des techniques d&amp;rsquo;évasion et d&amp;rsquo;anti : le loader GULOADER. GuLOADER c &amp;lsquo;est un peu comme le boss de fin des techniques anti-*. En avant pour la Hard way
 Cet article est inspiré d&amp;rsquo;une session Twitch de l&amp;rsquo;excellent Sergei Frankoff aka @herrcore.</description>
     </item>
     
@@ -45,7 +45,7 @@ Le temps est venu de s&amp;rsquo;attaquer à un très gros morceau: les techniqu
       <guid>/posts/fr/2022-12-02-rc4/</guid>
       <description>Hello,
 Les auteurs de Malware écrivent le code de leur payload avec 3 préoccupations techniques principales:
-Atteindre l&amp;rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Usurper) : c&amp;rsquo;est la raison d’être de leur Payload Passer sous les radars des logiciels de sécurité (ex: EDR, AV) en étant le plus discret et surtout atypique possible Rendre la tache des Malware Analysts la plus complexe possible (Anti-Debug tricks, cryptage, offuscation, &amp;hellip;) C&amp;rsquo;est pourquoi les malwares font une utilisation intensive de différents algo de chiffrement symétriques et asymétriques.</description>
+ Atteindre l&amp;rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Usurper) : c&amp;rsquo;est la raison d’être de leur Payload Passer sous les radars des logiciels de sécurité (ex: EDR, AV) en étant le plus discret et surtout atypique possible Rendre la tache des Malware Analysts la plus complexe possible (Anti-Debug tricks, cryptage, offuscation, &amp;hellip;)  C&amp;rsquo;est pourquoi les malwares font une utilisation intensive de différents algo de chiffrement symétriques et asymétriques.</description>
     </item>
     
     <item>
@@ -57,7 +57,7 @@ Atteindre l&amp;rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Us
       <description>Hello,
 Toujours dans cette série de billets d&amp;rsquo;échauffement (série PROLOG), nous nous étions laissés la dernière fois sur un billet expliquant ce qu&amp;rsquo;était un BUFFER OVERFLOW (le billet est ici). Je vous propose maintenant de passer à la pratique en obtenant un Shell par l&amp;rsquo;utilisation d&amp;rsquo;un STACK Buffer Overflow.
 Toujours dans un souci de pédagogie, nous allons prendre un exemple simple :
-Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&amp;rsquo;ASLR qui le protège de ce type d&amp;rsquo;exploitation Une execution locale (et non remote) Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &amp;lsquo;bypassable&amp;rsquo; &amp;hellip;</description>
+ Une erreur de programmation flagrante Un exécutable ne disposant d&amp;rsquo;aucun moyen de protection de sa stack Un OS pour lequel nous aurions désactivé l&amp;rsquo;ASLR qui le protège de ce type d&amp;rsquo;exploitation Une execution locale (et non remote)  Un peu plus tard, nous verrons que ces moyens de protection, même activés, sont eux aussi &amp;lsquo;bypassable&amp;rsquo; &amp;hellip;</description>
     </item>
     
     <item>
@@ -88,7 +88,7 @@ Comme il en existe beaucoup, nous allons nous limiter aux conventions d&amp;rsqu
       
       <guid>/posts/fr/2022-11-01-prolog001/</guid>
       <description>Second billet de notre série PROLOG qui vise a faire quelques rapides rappels théoriques sur les bases afin de partir sainement dans le reverse engineering : aujourd&amp;rsquo;hui au programme, LA MÉMOIRE.
-Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible. Ce qui est complexe, vient d&amp;rsquo;une erreur de départ très répandue : commencer à lire du code assembleur sans avoir, au préalable, maitriser pleinement les 4 éléments suivants :</description>
+Lorsque l&amp;rsquo;on souhaite se lancer dans le reverse engineering de binaires, on pense que l&amp;rsquo;assembleur est LA barrière d&amp;rsquo;entrée complexe. En réalité, l&amp;rsquo;assembleur est d&amp;rsquo;une syntaxe simplissime, d&amp;rsquo;une logique totale et donc d&amp;rsquo;un niveau de complexité très faible.</description>
     </item>
     
     <item>
@@ -108,9 +108,9 @@ Je ne vais pas produire ici sur ce blog des cours d&amp;rsquo;assembleur. Il en 
       
       <guid>/cv/</guid>
       <description>My name is Eric (Aka nAPTaX), i&amp;rsquo;m a french forties: 🛹 SKATER, father of 4 and 🧑‍🌾 ETHICAL HACKER with a love for low level ❤️ Reverse Engineering ❤️.
-I co-founded several IT &amp;amp; Cloud companies for 20 years.
-Maybe you prefer a corporate and printable CV here
-Security Domains Reverse Engineering Intel/ARM Malware Analysis Ethical Hacker Security Researcher Fuzzing Skills Disassemblers Ghidra , Laid mais Efficace : Merci la NSA ;-) IDA &amp;hellip; of course ;-) IDA Python scripts for automation BINARY NINJA ❤️ ❤️ (my favorite one&amp;rsquo;s) with a lot of API Python NINJA BINARY ❤️ ❤️ RIZIN quand j&amp;rsquo;ai besoin ou envie d&amp;rsquo;une approche 100% CLI HOPPER quand je suis sous Mac Dev RIZIN Scripts Debuger and Dynamic instrumentation XDbg64 (Respect to Duncan @mrexodia) Dynamic Binary Instrumentation (DBI) avec FRIDA My swiss knife Angr Binary Emulation Dumpulator (Again respect to Duncan @mrexodia) UNICORN MANDIANT Speakeasy ❤️ ❤️ Langages C/C++ Deep Internal Windows Programming Python RUST And sometime NIM to dance behind EDR ;-) Frameworks i like pwntools UNICORN CAPSTONE Google oss-fuzz Threat management CVE Evaluation Framework MITRE ATT&amp;amp;CK YARA Rules SIEM searches with SIGMA Sandbox (mais pas très fan &amp;hellip;) ANY.</description>
+  I co-founded several IT &amp;amp; Cloud companies for 20 years.
+  Maybe you prefer a corporate and printable CV here
+    Security Domains  Reverse Engineering Intel/ARM Malware Analysis Ethical Hacker Security Researcher Fuzzing     Skills Disassemblers  Ghidra , Laid mais Efficace : Merci la NSA ;-) IDA &amp;hellip; of course ;-) IDA Python scripts for automation BINARY NINJA ❤️ ❤️ (my favorite one&amp;rsquo;s) with a lot of API Python NINJA BINARY ❤️ ❤️ RIZIN quand j&amp;rsquo;ai besoin ou envie d&amp;rsquo;une approche 100% CLI HOPPER quand je suis sous Mac Dev RIZIN Scripts  Debuger and Dynamic instrumentation  XDbg64 (Respect to Duncan @mrexodia) Dynamic Binary Instrumentation (DBI) avec FRIDA My swiss knife Angr  Binary Emulation  Dumpulator (Again respect to Duncan @mrexodia) UNICORN MANDIANT Speakeasy ❤️ ❤️  Langages  C/C++ Deep Internal Windows Programming Python RUST And sometime NIM to dance behind EDR ;-)  Frameworks i like  pwntools UNICORN CAPSTONE Google oss-fuzz  Threat management  CVE Evaluation Framework MITRE ATT&amp;amp;CK YARA Rules SIEM searches with SIGMA  Sandbox (mais pas très fan &amp;hellip;)  ANY.</description>
     </item>
     
     <item>
@@ -119,7 +119,7 @@ Security Domains Reverse Engineering Intel/ARM Malware Analysis Ethical Hacker S
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
       <guid>/edito-001/</guid>
-      <description>Voilà nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 11 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une usine de Ransomware en mode SaaS.</description>
+      <description>Voilà nous sommes le 26 septembre 2022, et l’hôpital de Corbeil-Essonnes vient de voir 15 Go de ses données publiées suite à sa cyber agression par un groupe de malfrats. Ce/ces cybercriminels ont finalement mis leurs menaces à exécution sur les données qu&amp;rsquo;ils avaient chiffrées ET dérobées 1 mois plus tôt. Des Hackers ? Pas du tout : des clients &amp;hellip; Oui des clients du Ransomware As A Service (RaaS) Lockbit : quelques Bitcoins pour pouvoir disposer d&amp;rsquo;une usine de Ransomware en mode SaaS.</description>
     </item>
     
   </channel>

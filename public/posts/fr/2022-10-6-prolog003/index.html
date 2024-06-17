@@ -34,7 +34,7 @@ Et pour un premier exercice d&rsquo;application, la compréhension d&rsquo;un Bu
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid fixed-top">
       <a class="navbar-brand" href="/">
-        <img src="/images/Naptax-logo.png" width="70px">
+        <img src="/images/naptax-logo-alt.png" width="150x">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
         <i class="fa fa-bars"></i>
@@ -110,8 +110,8 @@ Le Stack BOF consiste donc à utiliser une erreur de programation pour faire ex�
 <blockquote>
 <p>Afin de pouvoir faire un peu joujou simplement, il nous faut compiler ce programme avec les directives qui suppriment les différentes protections mises en place par les compilateurs et OS récents.</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ gcc -fno-stack-protector -no-pie -m32 -z execstack bof.c -o bof
-</span></span></code></pre></div><h2 id="notre-outil--rizin">Notre outil : RIZIN</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ gcc -fno-stack-protector -no-pie -m32 -z execstack bof.c -o bof
+</code></pre></div><h2 id="notre-outil--rizin">Notre outil : RIZIN</h2>
 <p>Pour nous changer un peu de ce bon vieux GDB ;-) , je vous propose dans cet exemple d&rsquo;utiliser <strong>mon débogueur en ligne de commande préféré</strong>, le magnifique <strong><code>RIZIN</code></strong>.</p>
 <p>RIZIN est un framework open source pour le Reverse engineering et l&rsquo;analyse de binaire. R2 implémente une interface de ligne de commande riche pour désassembler, analyser des données, corriger des binaires, comparer des données, rechercher, remplacer. Il a de grandes capacités de script, il est disponible sur les principaux OS (Linux, Windows, OSX,…). R2 est extrement puissant et totalement gratuit.</p>
 <p>RADARE2 se compose d&rsquo;un ensemble d&rsquo;utilitaires qui peuvent être utilisés ensemble à partir du shell R2 ou indépendamment.</p>
@@ -123,151 +123,151 @@ Le Stack BOF consiste donc à utiliser une erreur de programation pour faire ex�
 <pre tabindex="0"><code>1. Analyse intelligente du code désassemblé (AAA)
 2. On pose un breakpoint sur la fonction main (db main) 
 3. On affiche le code asm de la fonction main (pdf)
-</code></pre><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</code></pre><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-NASM" data-lang="NASM"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">$</span> rizin <span style="color:#f92672">-</span>d bof<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f91ee0422b0</span>]<span style="color:#f92672">&gt;</span> aaa
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>INFO: <span style="color:#a6e22e">Analyze</span> all flags starting with sym. and entry0 (aa)
-</span></span><span style="display:flex;"><span>INFO: <span style="color:#a6e22e">Analyze</span> all functions arguments<span style="color:#f92672">/</span>locals (afva@@@F)
-</span></span><span style="display:flex; background-color:#3c3d38"><span>INFO: <span style="color:#a6e22e">Analyze</span> function calls (aac)
-</span></span><span style="display:flex;"><span>INFO: <span style="color:#a6e22e">Analyze</span> len <span style="color:#66d9ef">byte</span>s of instructions for references (aar)
-</span></span><span style="display:flex;"><span>INFO: <span style="color:#a6e22e">Finding</span> and parsing C<span style="color:#f92672">++</span> vtables (avrr)
-</span></span><span style="display:flex;"><span>INFO: <span style="color:#a6e22e">Skipping</span> type matching analysis in debugger mode (aaft)
-</span></span><span style="display:flex;"><span>INFO: <span style="color:#a6e22e">Propagate</span> noreturn information (aanr)
-</span></span><span style="display:flex;"><span>INFO: <span style="color:#a6e22e">Use</span> <span style="color:#f92672">-</span>AA or aaaa to perform additional experimental analysis
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex; background-color:#3c3d38"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f91ee0422b0</span>]<span style="color:#f92672">&gt;</span> db <span style="color:#960050;background-color:#1e0010">@</span> main
-</span></span><span style="display:flex; background-color:#3c3d38"><span>
-</span></span><span style="display:flex; background-color:#3c3d38"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f91ee0422b0</span>]<span style="color:#f92672">&gt;</span> dc
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">hit</span> breakpoint at: <span style="color:#ae81ff">0x4011c9</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x004011c9</span>]<span style="color:#f92672">&gt;</span> pdf
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">;-- rax:</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">;-- r13:</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">;-- rip:</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">; DATA XREF from entry0 @ 0x4010c8(r)</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">┌</span> <span style="color:#960050;background-color:#1e0010">139:</span> <span style="color:#a6e22e">int</span> main (int argc, char <span style="color:#f92672">**</span>argv)<span style="color:#75715e">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; arg int argc @ rdi</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; arg char **argv @ rsi</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_4h @ rbp-0x4</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_ch @ rbp-0xc</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_14h @ rbp-0x14</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_20h @ rbp-0x20</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011c9</span> b    f30f1efa       endbr64
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011cd</span>      <span style="color:#ae81ff">55</span>             push rbp
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011ce</span>      <span style="color:#ae81ff">4889</span>e5         mov rbp, rsp
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011d1</span>      <span style="color:#ae81ff">4883</span>ec20       sub rsp, <span style="color:#ae81ff">0x20</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011d5</span>      <span style="color:#ae81ff">897</span>dec         mov <span style="color:#66d9ef">dword</span> [var_14h], edi    <span style="color:#75715e">; argc</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011d8</span>      <span style="color:#ae81ff">488975</span>e0       mov <span style="color:#66d9ef">qword</span> [var_20h], rsi    <span style="color:#75715e">; argv</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011dc</span>      c745fce80300.  mov <span style="color:#66d9ef">dword</span> [var_4h], <span style="color:#ae81ff">0x3e8</span>   <span style="color:#75715e">; 1000</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011e3</span>      <span style="color:#ae81ff">837</span>dec01       cmp <span style="color:#66d9ef">dword</span> [var_14h], <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">┌─&lt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011e7</span>      <span style="color:#ae81ff">741</span>c           je <span style="color:#ae81ff">0x401205</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011e9</span>      <span style="color:#ae81ff">488</span>b45e0       mov rax, <span style="color:#66d9ef">qword</span> [var_20h]
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011ed</span>      <span style="color:#ae81ff">4883</span>c008       add rax, <span style="color:#ae81ff">8</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011f1</span>      <span style="color:#ae81ff">488</span>b10         mov rdx, <span style="color:#66d9ef">qword</span> [rax]
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011f4</span>      <span style="color:#ae81ff">488</span>d45f4       lea rax, [var_ch]
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011f8</span>      <span style="color:#ae81ff">4889</span>d6         mov rsi, rdx
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011fb</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011fe</span>      e86dfeffff     call sym.imp.strcpy         <span style="color:#75715e">; char *strcpy(char *dest, const char *src)</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">┌──&lt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401203</span>      eb28           jmp <span style="color:#ae81ff">0x40122d</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│└─&gt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401205</span>      <span style="color:#ae81ff">488</span>b45e0       mov rax, <span style="color:#66d9ef">qword</span> [var_20h]
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401209</span>      <span style="color:#ae81ff">488</span>b00         mov rax, <span style="color:#66d9ef">qword</span> [rax]
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040120c</span>      <span style="color:#ae81ff">4889</span>c6         mov rsi, rax
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040120f</span>      <span style="color:#ae81ff">488</span>d05210e00.  lea rax, str._n_tusage:__s__destinataire__n_n <span style="color:#75715e">; 0x402037 ; &#34;\n\tusage: %s &lt;destinataire&gt;\n\n&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401216</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401219</span>      b800000000     mov eax, <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040121e</span>      e86dfeffff     call sym.imp.printf         <span style="color:#75715e">; int printf(const char *format)</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401223</span>      bf00000000     mov edi, <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401228</span>      e873feffff     call sym.imp.exit           <span style="color:#75715e">; void exit(int status)</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#75715e">; CODE XREF from main @ 0x401203(x)</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">└──&gt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040122d</span>      <span style="color:#ae81ff">8</span>b55fc         mov edx, <span style="color:#66d9ef">dword</span> [var_4h]
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401230</span>      <span style="color:#ae81ff">488</span>d45f4       lea rax, [var_ch]
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401234</span>      <span style="color:#ae81ff">89</span>d6           mov esi, edx
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401236</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401239</span>      e858ffffff     call sym.donner
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040123e</span>      <span style="color:#ae81ff">488</span>d050f0e00.  lea rax, str.Un_grand_MERCI <span style="color:#75715e">; 0x402054 ; &#34;Un grand MERCI&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401245</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401248</span>      e833feffff     call sym.imp.puts           <span style="color:#75715e">; int puts(const char *s)</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040124d</span>      b800000000     mov eax, <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401252</span>      c9             leave
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">└</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401253</span>      c3             ret
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x004011c9</span>]<span style="color:#f92672">&gt;</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-NASM" data-lang="NASM">
+ <span style="color:#a6e22e">$</span> rizin <span style="color:#f92672">-</span>d bof<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f91ee0422b0</span>]<span style="color:#f92672">&gt;</span> aaa
+
+INFO: <span style="color:#a6e22e">Analyze</span> all flags starting with sym. and entry0 (aa)
+INFO: <span style="color:#a6e22e">Analyze</span> all functions arguments<span style="color:#f92672">/</span>locals (afva@@@F)
+<span style="display:block;width:100%;background-color:#3c3d38">INFO: <span style="color:#a6e22e">Analyze</span> function calls (aac)
+</span>INFO: <span style="color:#a6e22e">Analyze</span> len <span style="color:#66d9ef">byte</span>s of instructions for references (aar)
+INFO: <span style="color:#a6e22e">Finding</span> and parsing C<span style="color:#f92672">++</span> vtables (avrr)
+INFO: <span style="color:#a6e22e">Skipping</span> type matching analysis in debugger mode (aaft)
+INFO: <span style="color:#a6e22e">Propagate</span> noreturn information (aanr)
+INFO: <span style="color:#a6e22e">Use</span> <span style="color:#f92672">-</span>AA or aaaa to perform additional experimental analysis
+
+<span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f91ee0422b0</span>]<span style="color:#f92672">&gt;</span> db <span style="color:#960050;background-color:#1e0010">@</span> main
+</span><span style="display:block;width:100%;background-color:#3c3d38">
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f91ee0422b0</span>]<span style="color:#f92672">&gt;</span> dc
+</span><span style="color:#a6e22e">hit</span> breakpoint at: <span style="color:#ae81ff">0x4011c9</span>
+
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x004011c9</span>]<span style="color:#f92672">&gt;</span> pdf
+            <span style="color:#75715e">;-- rax:</span>
+            <span style="color:#75715e">;-- r13:</span>
+            <span style="color:#75715e">;-- rip:</span>
+            <span style="color:#75715e">; DATA XREF from entry0 @ 0x4010c8(r)</span>
+<span style="color:#960050;background-color:#1e0010">┌</span> <span style="color:#960050;background-color:#1e0010">139:</span> <span style="color:#a6e22e">int</span> main (int argc, char <span style="color:#f92672">**</span>argv)<span style="color:#75715e">;</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; arg int argc @ rdi</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; arg char **argv @ rsi</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_4h @ rbp-0x4</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_ch @ rbp-0xc</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_14h @ rbp-0x14</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#75715e">; var int64_t var_20h @ rbp-0x20</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011c9</span> b    f30f1efa       endbr64
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011cd</span>      <span style="color:#ae81ff">55</span>             push rbp
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011ce</span>      <span style="color:#ae81ff">4889</span>e5         mov rbp, rsp
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011d1</span>      <span style="color:#ae81ff">4883</span>ec20       sub rsp, <span style="color:#ae81ff">0x20</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011d5</span>      <span style="color:#ae81ff">897</span>dec         mov <span style="color:#66d9ef">dword</span> [var_14h], edi    <span style="color:#75715e">; argc</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011d8</span>      <span style="color:#ae81ff">488975</span>e0       mov <span style="color:#66d9ef">qword</span> [var_20h], rsi    <span style="color:#75715e">; argv</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011dc</span>      c745fce80300.  mov <span style="color:#66d9ef">dword</span> [var_4h], <span style="color:#ae81ff">0x3e8</span>   <span style="color:#75715e">; 1000</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011e3</span>      <span style="color:#ae81ff">837</span>dec01       cmp <span style="color:#66d9ef">dword</span> [var_14h], <span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">┌─&lt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011e7</span>      <span style="color:#ae81ff">741</span>c           je <span style="color:#ae81ff">0x401205</span>
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011e9</span>      <span style="color:#ae81ff">488</span>b45e0       mov rax, <span style="color:#66d9ef">qword</span> [var_20h]
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011ed</span>      <span style="color:#ae81ff">4883</span>c008       add rax, <span style="color:#ae81ff">8</span>
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011f1</span>      <span style="color:#ae81ff">488</span>b10         mov rdx, <span style="color:#66d9ef">qword</span> [rax]
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011f4</span>      <span style="color:#ae81ff">488</span>d45f4       lea rax, [var_ch]
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011f8</span>      <span style="color:#ae81ff">4889</span>d6         mov rsi, rdx
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011fb</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
+<span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004011fe</span>      e86dfeffff     call sym.imp.strcpy         <span style="color:#75715e">; char *strcpy(char *dest, const char *src)</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">┌──&lt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401203</span>      eb28           jmp <span style="color:#ae81ff">0x40122d</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│└─&gt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401205</span>      <span style="color:#ae81ff">488</span>b45e0       mov rax, <span style="color:#66d9ef">qword</span> [var_20h]
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401209</span>      <span style="color:#ae81ff">488</span>b00         mov rax, <span style="color:#66d9ef">qword</span> [rax]
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040120c</span>      <span style="color:#ae81ff">4889</span>c6         mov rsi, rax
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040120f</span>      <span style="color:#ae81ff">488</span>d05210e00.  lea rax, str._n_tusage:__s__destinataire__n_n <span style="color:#75715e">; 0x402037 ; &#34;\n\tusage: %s &lt;destinataire&gt;\n\n&#34;</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401216</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401219</span>      b800000000     mov eax, <span style="color:#ae81ff">0</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040121e</span>      e86dfeffff     call sym.imp.printf         <span style="color:#75715e">; int printf(const char *format)</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401223</span>      bf00000000     mov edi, <span style="color:#ae81ff">0</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401228</span>      e873feffff     call sym.imp.exit           <span style="color:#75715e">; void exit(int status)</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">│</span>    <span style="color:#75715e">; CODE XREF from main @ 0x401203(x)</span>
+<span style="color:#960050;background-color:#1e0010">│</span>      <span style="color:#960050;background-color:#1e0010">└──&gt;</span> <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040122d</span>      <span style="color:#ae81ff">8</span>b55fc         mov edx, <span style="color:#66d9ef">dword</span> [var_4h]
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401230</span>      <span style="color:#ae81ff">488</span>d45f4       lea rax, [var_ch]
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401234</span>      <span style="color:#ae81ff">89</span>d6           mov esi, edx
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401236</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401239</span>      e858ffffff     call sym.donner
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040123e</span>      <span style="color:#ae81ff">488</span>d050f0e00.  lea rax, str.Un_grand_MERCI <span style="color:#75715e">; 0x402054 ; &#34;Un grand MERCI&#34;</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401245</span>      <span style="color:#ae81ff">4889</span>c7         mov rdi, rax
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401248</span>      e833feffff     call sym.imp.puts           <span style="color:#75715e">; int puts(const char *s)</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040124d</span>      b800000000     mov eax, <span style="color:#ae81ff">0</span>
+<span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401252</span>      c9             leave
+<span style="color:#960050;background-color:#1e0010">└</span>           <span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00401253</span>      c3             ret
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x004011c9</span>]<span style="color:#f92672">&gt;</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Puis nous continuons l&rsquo;exécution jusqu&rsquo;à l&rsquo;adresse <code>0x004011dc</code>, pour afficher la valeur (1000) de notre paramètre <code>montant</code>.</p>
 <blockquote>
@@ -281,16 +281,16 @@ Et bien, je vais prendre l&rsquo;emplacement mémoire de quelqu&rsquo;un &hellip
 <p>Plus précisément, je vais faire un <strong>Buffer Overflow</strong> en écrasant le contenu des adresses mémoires contiguës à celles de mon buffer : bref je propose du code binaire au CPU pour lequel le programme n&rsquo;a pas été câblé &hellip;</p>
 <p>Regardez ce que deviennent mes 1000 euros de don avec différentes valeurs/tailles de l&rsquo;argument:</p>
 <pre tabindex="0"><code>$ bof-1 AAA
-Vous avez fait un don de 1000 euros a l&#39;ONG AAA.
+Vous avez fait un don de 1000 euros a l'ONG AAA.
 Un grand MERCI
 </code></pre><pre tabindex="0"><code>$ bof-1 AAAAAAAA
-Vous avez fait un don de 768 euros a l&#39;ONG AAAAAAAA.
+Vous avez fait un don de 768 euros a l'ONG AAAAAAAA.
 Un grand MERCI
 </code></pre><blockquote>
 <p>aïe,</p>
 </blockquote>
 <pre tabindex="0"><code>$ bof-1 AAAAAAAAAAAAAAA
-Vous avez fait un don de 1094795585 euros a l&#39;ONG AAAAAAAAAAAAAAA.
+Vous avez fait un don de 1094795585 euros a l'ONG AAAAAAAAAAAAAAA.
 Un grand MERCI
 </code></pre><blockquote>
 <p>Hey NNNONNN pas 1094795585 euros !!</p>
@@ -302,127 +302,128 @@ Un grand MERCI
 <li>Dans un cas de buffer overflow (AAAAAAAAAAAAAAA)</li>
 </ol>
 <h4 id="cas-nominal">Cas nominal</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ rizin -d bof-1 AAAAAAA
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> -- It<span style="color:#e6db74">&#39;s not a bug, it&#39;</span>s a work in progress
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0x7f8c21d742b0<span style="color:#f92672">]</span>&gt; aaa
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>INFO: Analyze all flags starting with sym. and entry0 <span style="color:#f92672">(</span>aa<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>INFO: Analyze all functions arguments/locals <span style="color:#f92672">(</span>afva@@@F<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>INFO: Analyze <span style="color:#66d9ef">function</span> calls <span style="color:#f92672">(</span>aac<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>INFO: Analyze len bytes of instructions <span style="color:#66d9ef">for</span> references <span style="color:#f92672">(</span>aar<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>INFO: Finding and parsing C++ vtables <span style="color:#f92672">(</span>avrr<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>INFO: Skipping type matching analysis in debugger mode <span style="color:#f92672">(</span>aaft<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>INFO: Propagate noreturn information <span style="color:#f92672">(</span>aanr<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>INFO: Use -AA or aaaa to perform additional experimental analysis
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0x7f8c21d742b0<span style="color:#f92672">]</span>&gt; db @ main
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0x7f8c21d742b0<span style="color:#f92672">]</span>&gt; dc
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>hit breakpoint at: 0x4011c9
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0x004011c9<span style="color:#f92672">]</span>&gt; pdf
-</span></span><span style="display:flex;"><span>            ;-- rax:
-</span></span><span style="display:flex;"><span>            ;-- r13:
-</span></span><span style="display:flex;"><span>            ;-- rip:
-</span></span><span style="display:flex;"><span>            ; DATA XREF from entry0 @ 0x4010c8<span style="color:#f92672">(</span>r<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>┌ 139: int main <span style="color:#f92672">(</span>int argc, char **argv<span style="color:#f92672">)</span>;
-</span></span><span style="display:flex;"><span>│           ; arg int argc @ rdi
-</span></span><span style="display:flex;"><span>│           ; arg char **argv @ rsi
-</span></span><span style="display:flex;"><span>│           ; var int64_t var_4h @ rbp-0x4
-</span></span><span style="display:flex;"><span>│           ; var int64_t var_ch @ rbp-0xc
-</span></span><span style="display:flex;"><span>│           ; var int64_t var_14h @ rbp-0x14
-</span></span><span style="display:flex;"><span>│           ; var int64_t var_20h @ rbp-0x20
-</span></span><span style="display:flex;"><span>│           0x004011c9 b    f30f1efa       endbr64
-</span></span><span style="display:flex;"><span>│           0x004011cd      <span style="color:#ae81ff">55</span>             push rbp
-</span></span><span style="display:flex;"><span>│           0x004011ce      4889e5         mov rbp, rsp
-</span></span><span style="display:flex;"><span>│           0x004011d1      4883ec20       sub rsp, 0x20
-</span></span><span style="display:flex;"><span>│           0x004011d5      897dec         mov dword <span style="color:#f92672">[</span>var_14h<span style="color:#f92672">]</span>, edi    ; argc
-</span></span><span style="display:flex;"><span>│           0x004011d8      488975e0       mov qword <span style="color:#f92672">[</span>var_20h<span style="color:#f92672">]</span>, rsi    ; argv
-</span></span><span style="display:flex;"><span>│           0x004011dc      c745fce80300.  mov dword <span style="color:#f92672">[</span>var_4h<span style="color:#f92672">]</span>, 0x3e8   ; <span style="color:#ae81ff">1000</span>
-</span></span><span style="display:flex;"><span>│           0x004011e3      837dec01       cmp dword <span style="color:#f92672">[</span>var_14h<span style="color:#f92672">]</span>, <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>│       ┌─&lt; 0x004011e7      741c           je 0x401205
-</span></span><span style="display:flex;"><span>│       │   0x004011e9      488b45e0       mov rax, qword <span style="color:#f92672">[</span>var_20h<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>│       │   0x004011ed      4883c008       add rax, <span style="color:#ae81ff">8</span>
-</span></span><span style="display:flex;"><span>│       │   0x004011f1      488b10         mov rdx, qword <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>│       │   0x004011f4      488d45f4       lea rax, <span style="color:#f92672">[</span>var_ch<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>│       │   0x004011f8      4889d6         mov rsi, rdx
-</span></span><span style="display:flex;"><span>│       │   0x004011fb      4889c7         mov rdi, rax
-</span></span><span style="display:flex;"><span>│       │   0x004011fe      e86dfeffff     call sym.imp.strcpy         ; char *strcpy<span style="color:#f92672">(</span>char *dest, const char *src<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>│      ┌──&lt; 0x00401203      eb28           jmp 0x40122d
-</span></span><span style="display:flex;"><span>│      │└─&gt; 0x00401205      488b45e0       mov rax, qword <span style="color:#f92672">[</span>var_20h<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>│      │    0x00401209      488b00         mov rax, qword <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>│      │    0x0040120c      4889c6         mov rsi, rax
-</span></span><span style="display:flex;"><span>│      │    0x0040120f      488d05210e00.  lea rax, str._n_tusage:__s__destinataire__n_n ; 0x402037 ; <span style="color:#e6db74">&#34;\n\tusage: %s &lt;destinataire&gt;\n\n&#34;</span>
-</span></span><span style="display:flex;"><span>│      │    0x00401216      4889c7         mov rdi, rax
-</span></span><span style="display:flex;"><span>│      │    0x00401219      b800000000     mov eax, <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>│      │    0x0040121e      e86dfeffff     call sym.imp.printf         ; int printf<span style="color:#f92672">(</span>const char *format<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>│      │    0x00401223      bf00000000     mov edi, <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>│      │    0x00401228      e873feffff     call sym.imp.exit           ; void exit<span style="color:#f92672">(</span>int status<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>│      │    ; CODE XREF from main @ 0x401203<span style="color:#f92672">(</span>x<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>│      └──&gt; 0x0040122d      8b55fc         mov edx, dword <span style="color:#f92672">[</span>var_4h<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>│           0x00401230      488d45f4       lea rax, <span style="color:#f92672">[</span>var_ch<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>│           0x00401234      89d6           mov esi, edx
-</span></span><span style="display:flex;"><span>│           0x00401236      4889c7         mov rdi, rax
-</span></span><span style="display:flex;"><span>│           0x00401239      e858ffffff     call sym.donner
-</span></span><span style="display:flex;"><span>│           0x0040123e      488d050f0e00.  lea rax, str.Un_grand_MERCI ; 0x402054 ; <span style="color:#e6db74">&#34;Un grand MERCI&#34;</span>
-</span></span><span style="display:flex;"><span>│           0x00401245      4889c7         mov rdi, rax
-</span></span><span style="display:flex;"><span>│           0x00401248      e833feffff     call sym.imp.puts           ; int puts<span style="color:#f92672">(</span>const char *s<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>│           0x0040124d      b800000000     mov eax, <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>│           0x00401252      c9             leave
-</span></span><span style="display:flex;"><span>└           0x00401253      c3             ret
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0x004011c9<span style="color:#f92672">]</span>&gt;
-</span></span></code></pre></div><p>Puis on pose un breakpoint en <code>0x00401239</code> pour pouvoir observer la stack à ce moment de l&rsquo;exécution:</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rizin -d bof-1 AAAAAAA
+
+ -- It<span style="color:#e6db74">&#39;s not a bug, it&#39;</span>s a work in progress
+<span style="color:#f92672">[</span>0x7f8c21d742b0<span style="color:#f92672">]</span>&gt; aaa
+
+INFO: Analyze all flags starting with sym. and entry0 <span style="color:#f92672">(</span>aa<span style="color:#f92672">)</span>
+INFO: Analyze all functions arguments/locals <span style="color:#f92672">(</span>afva@@@F<span style="color:#f92672">)</span>
+INFO: Analyze <span style="color:#66d9ef">function</span> calls <span style="color:#f92672">(</span>aac<span style="color:#f92672">)</span>
+INFO: Analyze len bytes of instructions <span style="color:#66d9ef">for</span> references <span style="color:#f92672">(</span>aar<span style="color:#f92672">)</span>
+INFO: Finding and parsing C++ vtables <span style="color:#f92672">(</span>avrr<span style="color:#f92672">)</span>
+INFO: Skipping type matching analysis in debugger mode <span style="color:#f92672">(</span>aaft<span style="color:#f92672">)</span>
+INFO: Propagate noreturn information <span style="color:#f92672">(</span>aanr<span style="color:#f92672">)</span>
+INFO: Use -AA or aaaa to perform additional experimental analysis
+
+<span style="color:#f92672">[</span>0x7f8c21d742b0<span style="color:#f92672">]</span>&gt; db @ main
+<span style="color:#f92672">[</span>0x7f8c21d742b0<span style="color:#f92672">]</span>&gt; dc
+
+hit breakpoint at: 0x4011c9
+
+<span style="color:#f92672">[</span>0x004011c9<span style="color:#f92672">]</span>&gt; pdf
+            ;-- rax:
+            ;-- r13:
+            ;-- rip:
+            ; DATA XREF from entry0 @ 0x4010c8<span style="color:#f92672">(</span>r<span style="color:#f92672">)</span>
+┌ 139: int main <span style="color:#f92672">(</span>int argc, char **argv<span style="color:#f92672">)</span>;
+│           ; arg int argc @ rdi
+│           ; arg char **argv @ rsi
+│           ; var int64_t var_4h @ rbp-0x4
+│           ; var int64_t var_ch @ rbp-0xc
+│           ; var int64_t var_14h @ rbp-0x14
+│           ; var int64_t var_20h @ rbp-0x20
+│           0x004011c9 b    f30f1efa       endbr64
+│           0x004011cd      <span style="color:#ae81ff">55</span>             push rbp
+│           0x004011ce      4889e5         mov rbp, rsp
+│           0x004011d1      4883ec20       sub rsp, 0x20
+│           0x004011d5      897dec         mov dword <span style="color:#f92672">[</span>var_14h<span style="color:#f92672">]</span>, edi    ; argc
+│           0x004011d8      488975e0       mov qword <span style="color:#f92672">[</span>var_20h<span style="color:#f92672">]</span>, rsi    ; argv
+│           0x004011dc      c745fce80300.  mov dword <span style="color:#f92672">[</span>var_4h<span style="color:#f92672">]</span>, 0x3e8   ; <span style="color:#ae81ff">1000</span>
+│           0x004011e3      837dec01       cmp dword <span style="color:#f92672">[</span>var_14h<span style="color:#f92672">]</span>, <span style="color:#ae81ff">1</span>
+│       ┌─&lt; 0x004011e7      741c           je 0x401205
+│       │   0x004011e9      488b45e0       mov rax, qword <span style="color:#f92672">[</span>var_20h<span style="color:#f92672">]</span>
+│       │   0x004011ed      4883c008       add rax, <span style="color:#ae81ff">8</span>
+│       │   0x004011f1      488b10         mov rdx, qword <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>
+│       │   0x004011f4      488d45f4       lea rax, <span style="color:#f92672">[</span>var_ch<span style="color:#f92672">]</span>
+│       │   0x004011f8      4889d6         mov rsi, rdx
+│       │   0x004011fb      4889c7         mov rdi, rax
+│       │   0x004011fe      e86dfeffff     call sym.imp.strcpy         ; char *strcpy<span style="color:#f92672">(</span>char *dest, const char *src<span style="color:#f92672">)</span>
+│      ┌──&lt; 0x00401203      eb28           jmp 0x40122d
+│      │└─&gt; 0x00401205      488b45e0       mov rax, qword <span style="color:#f92672">[</span>var_20h<span style="color:#f92672">]</span>
+│      │    0x00401209      488b00         mov rax, qword <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>
+│      │    0x0040120c      4889c6         mov rsi, rax
+│      │    0x0040120f      488d05210e00.  lea rax, str._n_tusage:__s__destinataire__n_n ; 0x402037 ; <span style="color:#e6db74">&#34;\n\tusage: %s &lt;destinataire&gt;\n\n&#34;</span>
+│      │    0x00401216      4889c7         mov rdi, rax
+│      │    0x00401219      b800000000     mov eax, <span style="color:#ae81ff">0</span>
+│      │    0x0040121e      e86dfeffff     call sym.imp.printf         ; int printf<span style="color:#f92672">(</span>const char *format<span style="color:#f92672">)</span>
+│      │    0x00401223      bf00000000     mov edi, <span style="color:#ae81ff">0</span>
+│      │    0x00401228      e873feffff     call sym.imp.exit           ; void exit<span style="color:#f92672">(</span>int status<span style="color:#f92672">)</span>
+│      │    ; CODE XREF from main @ 0x401203<span style="color:#f92672">(</span>x<span style="color:#f92672">)</span>
+│      └──&gt; 0x0040122d      8b55fc         mov edx, dword <span style="color:#f92672">[</span>var_4h<span style="color:#f92672">]</span>
+│           0x00401230      488d45f4       lea rax, <span style="color:#f92672">[</span>var_ch<span style="color:#f92672">]</span>
+│           0x00401234      89d6           mov esi, edx
+│           0x00401236      4889c7         mov rdi, rax
+│           0x00401239      e858ffffff     call sym.donner
+│           0x0040123e      488d050f0e00.  lea rax, str.Un_grand_MERCI ; 0x402054 ; <span style="color:#e6db74">&#34;Un grand MERCI&#34;</span>
+│           0x00401245      4889c7         mov rdi, rax
+│           0x00401248      e833feffff     call sym.imp.puts           ; int puts<span style="color:#f92672">(</span>const char *s<span style="color:#f92672">)</span>
+│           0x0040124d      b800000000     mov eax, <span style="color:#ae81ff">0</span>
+│           0x00401252      c9             leave
+└           0x00401253      c3             ret
+<span style="color:#f92672">[</span>0x004011c9<span style="color:#f92672">]</span>&gt;
+
+</code></pre></div><p>Puis on pose un breakpoint en <code>0x00401239</code> pour pouvoir observer la stack à ce moment de l&rsquo;exécution:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-nasm" data-lang="nasm"><span style="display:flex; background-color:#3c3d38"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x004011c9</span>]<span style="color:#f92672">&gt;</span> dsu <span style="color:#ae81ff">0x00401239</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x00401239</span>]<span style="color:#f92672">&gt;</span> pxw <span style="color:#960050;background-color:#1e0010">@</span> rsp
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4dc0</span>  <span style="color:#ae81ff">0x4cea4ef8</span> <span style="color:#ae81ff">0x00007ffe</span> <span style="color:#ae81ff">0x00000064</span> <span style="color:#ae81ff">0x00000002</span>  .N.L....d.......
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4dd0</span>  <span style="color:#ae81ff">0x00001000</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x00414141</span> <span style="color:#ae81ff">0x000003e8</span>  ....AAAAAAA.....
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4de0</span>  <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x21b4ad90</span> <span style="color:#ae81ff">0x00007f8c</span>  ...........<span style="color:#960050;background-color:#1e0010">!</span>....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4df0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e00</span>  <span style="color:#ae81ff">0x4cea4ee0</span> <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x4cea4ef8</span> <span style="color:#ae81ff">0x00007ffe</span>  .N.L.....N.L....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e10</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0xaf63bf43</span> <span style="color:#ae81ff">0x2c9c30f6</span>  ........C.c..0.,
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e20</span>  <span style="color:#ae81ff">0x4cea4ef8</span> <span style="color:#ae81ff">0x00007ffe</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  .N.L......@.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e30</span>  <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x21d8e040</span> <span style="color:#ae81ff">0x00007f8c</span>  .<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....@..<span style="color:#960050;background-color:#1e0010">!</span>....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e40</span>  <span style="color:#ae81ff">0x3487bf43</span> <span style="color:#ae81ff">0xd360a922</span> <span style="color:#ae81ff">0xf5efbf43</span> <span style="color:#ae81ff">0xd384739f</span>  C..4<span style="color:#960050;background-color:#1e0010">&#34;</span>.<span style="color:#960050;background-color:#1e0010">`</span>.C....s..
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e50</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00007f8c</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e60</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e70</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0xd3274900</span> <span style="color:#ae81ff">0x36dedb15</span>  .........I<span style="color:#960050;background-color:#1e0010">&#39;</span>....6
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e80</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x21b4ae40</span> <span style="color:#ae81ff">0x00007f8c</span>  ........@..<span style="color:#960050;background-color:#1e0010">!</span>....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e90</span>  <span style="color:#ae81ff">0x4cea4f10</span> <span style="color:#ae81ff">0x00007ffe</span> <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span>  .O.L.....<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4ea0</span>  <span style="color:#ae81ff">0x21d8f2e0</span> <span style="color:#ae81ff">0x00007f8c</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ...<span style="color:#960050;background-color:#1e0010">!</span>............
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4eb0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004010b0</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x00401239</span>]<span style="color:#f92672">&gt;</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x004011c9</span>]<span style="color:#f92672">&gt;</span> dsu <span style="color:#ae81ff">0x00401239</span>
+</span>
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x00401239</span>]<span style="color:#f92672">&gt;</span> pxw <span style="color:#960050;background-color:#1e0010">@</span> rsp
+
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4dc0</span>  <span style="color:#ae81ff">0x4cea4ef8</span> <span style="color:#ae81ff">0x00007ffe</span> <span style="color:#ae81ff">0x00000064</span> <span style="color:#ae81ff">0x00000002</span>  .N.L....d.......
+
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4dd0</span>  <span style="color:#ae81ff">0x00001000</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x00414141</span> <span style="color:#ae81ff">0x000003e8</span>  ....AAAAAAA.....
+
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4de0</span>  <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x21b4ad90</span> <span style="color:#ae81ff">0x00007f8c</span>  ...........<span style="color:#960050;background-color:#1e0010">!</span>....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4df0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e00</span>  <span style="color:#ae81ff">0x4cea4ee0</span> <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x4cea4ef8</span> <span style="color:#ae81ff">0x00007ffe</span>  .N.L.....N.L....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e10</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0xaf63bf43</span> <span style="color:#ae81ff">0x2c9c30f6</span>  ........C.c..0.,
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e20</span>  <span style="color:#ae81ff">0x4cea4ef8</span> <span style="color:#ae81ff">0x00007ffe</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  .N.L......@.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e30</span>  <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x21d8e040</span> <span style="color:#ae81ff">0x00007f8c</span>  .<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....@..<span style="color:#960050;background-color:#1e0010">!</span>....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e40</span>  <span style="color:#ae81ff">0x3487bf43</span> <span style="color:#ae81ff">0xd360a922</span> <span style="color:#ae81ff">0xf5efbf43</span> <span style="color:#ae81ff">0xd384739f</span>  C..4<span style="color:#960050;background-color:#1e0010">&#34;</span>.<span style="color:#960050;background-color:#1e0010">`</span>.C....s..
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e50</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00007f8c</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e60</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e70</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0xd3274900</span> <span style="color:#ae81ff">0x36dedb15</span>  .........I<span style="color:#960050;background-color:#1e0010">&#39;</span>....6
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e80</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x21b4ae40</span> <span style="color:#ae81ff">0x00007f8c</span>  ........@..<span style="color:#960050;background-color:#1e0010">!</span>....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4e90</span>  <span style="color:#ae81ff">0x4cea4f10</span> <span style="color:#ae81ff">0x00007ffe</span> <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span>  .O.L.....<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4ea0</span>  <span style="color:#ae81ff">0x21d8f2e0</span> <span style="color:#ae81ff">0x00007f8c</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ...<span style="color:#960050;background-color:#1e0010">!</span>............
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffe4cea4eb0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004010b0</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x00401239</span>]<span style="color:#f92672">&gt;</span></code></pre></td></tr></table>
 </div>
 </div>
 <p>Ah, on voit des choses intéressantes en adresse <code>0x7ffe4cea4dd0</code> :</p>
@@ -433,114 +434,114 @@ Un grand MERCI
 <blockquote>
 <p>Mais que se passerait-il si notre grossier voisin prenait un peu plus de place ? <strong>Essayons avec le gros voisin AAAAAAAAA (9A)</strong></p>
 </blockquote>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-nasm" data-lang="nasm"><span style="display:flex; background-color:#3c3d38"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> pxw <span style="color:#960050;background-color:#1e0010">@</span> rsp
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef840</span>  <span style="color:#ae81ff">0x8aaef978</span> <span style="color:#ae81ff">0x00007fff</span> <span style="color:#ae81ff">0x00000064</span> <span style="color:#ae81ff">0x00000002</span>  x.......d.......
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef850</span>  <span style="color:#ae81ff">0x00001000</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x00000041</span>  ....AAAAAAAAA...
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef860</span>  <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x8f1f8d90</span> <span style="color:#ae81ff">0x00007faa</span>  ................
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef870</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef880</span>  <span style="color:#ae81ff">0x8aaef960</span> <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x8aaef978</span> <span style="color:#ae81ff">0x00007fff</span>  <span style="color:#960050;background-color:#1e0010">`</span>.......x.......
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef890</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x306672a6</span> <span style="color:#ae81ff">0x200a4e9c</span>  .........rf0.N.
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8a0</span>  <span style="color:#ae81ff">0x8aaef978</span> <span style="color:#ae81ff">0x00007fff</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  x.........@.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8b0</span>  <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x8f43c040</span> <span style="color:#ae81ff">0x00007faa</span>  .<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....@.C.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8c0</span>  <span style="color:#ae81ff">0xc08272a6</span> <span style="color:#ae81ff">0xdff55bc1</span> <span style="color:#ae81ff">0x2aea72a6</span> <span style="color:#ae81ff">0xdf5f50a3</span>  .r...[...r.<span style="color:#f92672">*</span>.P_.
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8d0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00007faa</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8e0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8f0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x2cb28d00</span> <span style="color:#ae81ff">0xd9efe9db</span>  ...........,....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef900</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x8f1f8e40</span> <span style="color:#ae81ff">0x00007faa</span>  ........@.......
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef910</span>  <span style="color:#ae81ff">0x8aaef990</span> <span style="color:#ae81ff">0x00007fff</span> <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span>  .........<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef920</span>  <span style="color:#ae81ff">0x8f43d2e0</span> <span style="color:#ae81ff">0x00007faa</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ..C.............
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef930</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004010b0</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> dc
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Vous</span> avez fait un don de <span style="color:#ae81ff">65</span> euros a l<span style="color:#960050;background-color:#1e0010">&#39;</span>ONG AAAAAAAAA.
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Un</span> grand MERCI
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">(124)</span> <span style="color:#a6e22e">Process</span> exited with status<span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x0</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> pxw <span style="color:#960050;background-color:#1e0010">@</span> rsp
+</span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef840</span>  <span style="color:#ae81ff">0x8aaef978</span> <span style="color:#ae81ff">0x00007fff</span> <span style="color:#ae81ff">0x00000064</span> <span style="color:#ae81ff">0x00000002</span>  x.......d.......
+
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef850</span>  <span style="color:#ae81ff">0x00001000</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x00000041</span>  ....AAAAAAAAA...
+
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef860</span>  <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x8f1f8d90</span> <span style="color:#ae81ff">0x00007faa</span>  ................
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef870</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef880</span>  <span style="color:#ae81ff">0x8aaef960</span> <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x8aaef978</span> <span style="color:#ae81ff">0x00007fff</span>  <span style="color:#960050;background-color:#1e0010">`</span>.......x.......
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef890</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x306672a6</span> <span style="color:#ae81ff">0x200a4e9c</span>  .........rf0.N.
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8a0</span>  <span style="color:#ae81ff">0x8aaef978</span> <span style="color:#ae81ff">0x00007fff</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  x.........@.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8b0</span>  <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x8f43c040</span> <span style="color:#ae81ff">0x00007faa</span>  .<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....@.C.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8c0</span>  <span style="color:#ae81ff">0xc08272a6</span> <span style="color:#ae81ff">0xdff55bc1</span> <span style="color:#ae81ff">0x2aea72a6</span> <span style="color:#ae81ff">0xdf5f50a3</span>  .r...[...r.<span style="color:#f92672">*</span>.P_.
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8d0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00007faa</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8e0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef8f0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x2cb28d00</span> <span style="color:#ae81ff">0xd9efe9db</span>  ...........,....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef900</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x8f1f8e40</span> <span style="color:#ae81ff">0x00007faa</span>  ........@.......
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef910</span>  <span style="color:#ae81ff">0x8aaef990</span> <span style="color:#ae81ff">0x00007fff</span> <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span>  .........<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef920</span>  <span style="color:#ae81ff">0x8f43d2e0</span> <span style="color:#ae81ff">0x00007faa</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ..C.............
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7fff8aaef930</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004010b0</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
+
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> dc
+<span style="color:#a6e22e">Vous</span> avez fait un don de <span style="color:#ae81ff">65</span> euros a l<span style="color:#960050;background-color:#1e0010">&#39;</span>ONG AAAAAAAAA.
+<span style="color:#a6e22e">Un</span> grand MERCI
+<span style="color:#960050;background-color:#1e0010">(124)</span> <span style="color:#a6e22e">Process</span> exited with status<span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x0</span></code></pre></td></tr></table>
 </div>
 </div>
 <blockquote>
 <p><strong>Notre 1000 est devenu 65, et justement 65 en décimal s&rsquo;écrit 0x41 en Hexa : ça y est vous avez compris comment changer 1000 en 65 par buffer overflow.</strong></p>
 </blockquote>
 <p>Allez, pour enfoncer le cloud, on le passe avec un voisin encore plus envahissant : <strong>AAAAAAAAAAAA (12A):</strong>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-nasm" data-lang="nasm"><span style="display:flex; background-color:#3c3d38"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> pxw <span style="color:#960050;background-color:#1e0010">@</span> rsp
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115ce0</span>  <span style="color:#ae81ff">0x48115e18</span> <span style="color:#ae81ff">0x00007ffd</span> <span style="color:#ae81ff">0x00000064</span> <span style="color:#ae81ff">0x00000002</span>  .<span style="color:#f92672">^</span>.H....d.......
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115cf0</span>  <span style="color:#ae81ff">0x00001000</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x41414141</span>  ....AAAAAAAAAAAA
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d00</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x72231d90</span> <span style="color:#ae81ff">0x00007f40</span>  ..........#r@...
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d10</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d20</span>  <span style="color:#ae81ff">0x48115e00</span> <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x48115e18</span> <span style="color:#ae81ff">0x00007ffd</span>  .<span style="color:#f92672">^</span>.H.....<span style="color:#f92672">^</span>.H....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d30</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0xe51b720b</span> <span style="color:#ae81ff">0x6d485141</span>  .........r..AQHm
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d40</span>  <span style="color:#ae81ff">0x48115e18</span> <span style="color:#ae81ff">0x00007ffd</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  .<span style="color:#f92672">^</span>.H......@.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d50</span>  <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x72475040</span> <span style="color:#ae81ff">0x00007f40</span>  .<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....@PGr@...
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d60</span>  <span style="color:#ae81ff">0x5f3f720b</span> <span style="color:#ae81ff">0x92b2c163</span> <span style="color:#ae81ff">0xdf97720b</span> <span style="color:#ae81ff">0x93c8b507</span>  .r?_c....r......
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d70</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00007f40</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ....@...........
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d80</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d90</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x85cbe700</span> <span style="color:#ae81ff">0x1e818e20</span>  ............ ...
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115da0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x72231e40</span> <span style="color:#ae81ff">0x00007f40</span>  ........@.#r@...
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115db0</span>  <span style="color:#ae81ff">0x48115e30</span> <span style="color:#ae81ff">0x00007ffd</span> <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span>  <span style="color:#ae81ff">0</span><span style="color:#f92672">^</span>.H.....<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115dc0</span>  <span style="color:#ae81ff">0x724762e0</span> <span style="color:#ae81ff">0x00007f40</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  .bGr@...........
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115dd0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004010b0</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> dc
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Vous</span> avez fait un don de <span style="color:#ae81ff">1094795585</span> euros a l<span style="color:#960050;background-color:#1e0010">&#39;</span>ONG AAAAAAAAAAAA.
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Un</span> grand MERCI
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">(125)</span> <span style="color:#a6e22e">Process</span> exited with status<span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f40722f2ca1</span>]<span style="color:#f92672">&gt;</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> pxw <span style="color:#960050;background-color:#1e0010">@</span> rsp
+</span><span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115ce0</span>  <span style="color:#ae81ff">0x48115e18</span> <span style="color:#ae81ff">0x00007ffd</span> <span style="color:#ae81ff">0x00000064</span> <span style="color:#ae81ff">0x00000002</span>  .<span style="color:#f92672">^</span>.H....d.......
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115cf0</span>  <span style="color:#ae81ff">0x00001000</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x41414141</span> <span style="color:#ae81ff">0x41414141</span>  ....AAAAAAAAAAAA
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d00</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x72231d90</span> <span style="color:#ae81ff">0x00007f40</span>  ..........#r@...
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d10</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d20</span>  <span style="color:#ae81ff">0x48115e00</span> <span style="color:#ae81ff">0x00000002</span> <span style="color:#ae81ff">0x48115e18</span> <span style="color:#ae81ff">0x00007ffd</span>  .<span style="color:#f92672">^</span>.H.....<span style="color:#f92672">^</span>.H....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d30</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0xe51b720b</span> <span style="color:#ae81ff">0x6d485141</span>  .........r..AQHm
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d40</span>  <span style="color:#ae81ff">0x48115e18</span> <span style="color:#ae81ff">0x00007ffd</span> <span style="color:#ae81ff">0x004011c9</span> <span style="color:#ae81ff">0x00000000</span>  .<span style="color:#f92672">^</span>.H......@.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d50</span>  <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x72475040</span> <span style="color:#ae81ff">0x00007f40</span>  .<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....@PGr@...
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d60</span>  <span style="color:#ae81ff">0x5f3f720b</span> <span style="color:#ae81ff">0x92b2c163</span> <span style="color:#ae81ff">0xdf97720b</span> <span style="color:#ae81ff">0x93c8b507</span>  .r?_c....r......
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d70</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00007f40</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ....@...........
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d80</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  ................
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115d90</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x85cbe700</span> <span style="color:#ae81ff">0x1e818e20</span>  ............ ...
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115da0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x72231e40</span> <span style="color:#ae81ff">0x00007f40</span>  ........@.#r@...
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115db0</span>  <span style="color:#ae81ff">0x48115e30</span> <span style="color:#ae81ff">0x00007ffd</span> <span style="color:#ae81ff">0x00403e18</span> <span style="color:#ae81ff">0x00000000</span>  <span style="color:#ae81ff">0</span><span style="color:#f92672">^</span>.H.....<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span>.....
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115dc0</span>  <span style="color:#ae81ff">0x724762e0</span> <span style="color:#ae81ff">0x00007f40</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span>  .bGr@...........
+<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x7ffd48115dd0</span>  <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x00000000</span> <span style="color:#ae81ff">0x004010b0</span> <span style="color:#ae81ff">0x00000000</span>  ..........@.....
+
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x0040122d</span>]<span style="color:#f92672">&gt;</span> dc
+<span style="color:#a6e22e">Vous</span> avez fait un don de <span style="color:#ae81ff">1094795585</span> euros a l<span style="color:#960050;background-color:#1e0010">&#39;</span>ONG AAAAAAAAAAAA.
+<span style="color:#a6e22e">Un</span> grand MERCI
+<span style="color:#960050;background-color:#1e0010">(125)</span> <span style="color:#a6e22e">Process</span> exited with status<span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x0</span>
+<span style="color:#960050;background-color:#1e0010">[0</span><span style="color:#a6e22e">x7f40722f2ca1</span>]<span style="color:#f92672">&gt;</span></code></pre></td></tr></table>
 </div>
 </div></p>
 <p><strong>1094795585 en décimal = 0x41414141 en hexa =&gt; CQFD :-)</strong></p>

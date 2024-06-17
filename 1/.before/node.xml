@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cherrytree>
+  <node unique_id="1" master_id="0" name="Qemu" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1718276481" ts_lastsave="1718276846">
+    <rich_text>
+
+
+</rich_text>
+    <codebox char_offset="0" justification="left" frame_width="1062" frame_height="86" width_in_pixels="1" syntax_highlighting="sh" highlight_brackets="1" show_line_numbers="0">qemu-arm -L /usr/arm-linux-gnueabihf/ -g 1234 helloArm
+
+gdb-multiarch -q -ex 'init-gef' -ex 'set architecture arm' -ex 'set solib-absolute-prefix /usr/arm-linux-gnueabihf/'
+</codebox>
+  </node>
+</cherrytree>

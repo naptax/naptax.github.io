@@ -15,7 +15,7 @@
       <guid>/posts/fr/2022-12-02-rc4/</guid>
       <description>Hello,
 Les auteurs de Malware écrivent le code de leur payload avec 3 préoccupations techniques principales:
-Atteindre l&amp;rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Usurper) : c&amp;rsquo;est la raison d’être de leur Payload Passer sous les radars des logiciels de sécurité (ex: EDR, AV) en étant le plus discret et surtout atypique possible Rendre la tache des Malware Analysts la plus complexe possible (Anti-Debug tricks, cryptage, offuscation, &amp;hellip;) C&amp;rsquo;est pourquoi les malwares font une utilisation intensive de différents algo de chiffrement symétriques et asymétriques.</description>
+ Atteindre l&amp;rsquo;objectif malicieux (Chiffrer, Voler, Evader, Détruire, Usurper) : c&amp;rsquo;est la raison d’être de leur Payload Passer sous les radars des logiciels de sécurité (ex: EDR, AV) en étant le plus discret et surtout atypique possible Rendre la tache des Malware Analysts la plus complexe possible (Anti-Debug tricks, cryptage, offuscation, &amp;hellip;)  C&amp;rsquo;est pourquoi les malwares font une utilisation intensive de différents algo de chiffrement symétriques et asymétriques.</description>
     </item>
     
   </channel>
