@@ -1,9 +1,6 @@
 <div class="social">
   <ul class="social-links">
-    {{ with .Site.Params.Social.Keybase }}
-      <li><a href="https://keybase.io/{{ . }}"><i class="fa fa-paw"></i></a></li>
-    {{ end }}
-
+  
     {{ with .Site.Params.Social.Email }}
       <li><a href="mailto:{{ . }}"><i class="fa fa-envelope"></i></a></li>
     {{ end }}
@@ -16,20 +13,9 @@
       <li><a href="https://linkedin.com/in/{{ . }}"><i class="fa fa-linkedin"></i></a></li>
     {{ end }}
 
-    {{ with .Site.Params.Social.Stackoverflow }}
-      <li><a href="https://stackoverflow.com/{{ . }}"><i class="fa fa-stack-overflow"></i></a></li>
-    {{ end }}
-
-    {{ with .Site.Params.Social.Medium }}
-      <li><a href="https://medium.com/@{{ . }}"><i class="fa fa-medium"></i></a></li>
-    {{ end }}
-
     {{ with .Site.Params.Social.Telegram }}
       <li><a href="https://telegram.me/{{ . }}"><i class="fa fa-telegram"></i></a></li>
     {{ end }}
 
-    {{ with .Site.Params.Social.RSS }}
-      <li><a href="{{ . }}"><i class="fa fa-rss"></i></a></li>
-    {{ end }}
   </ul>
 </div>

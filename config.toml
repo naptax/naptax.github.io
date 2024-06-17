@@ -27,8 +27,7 @@ plausible_analytics_domain = "naptax.re"
   custom_js  = []
 
 [params.social]
-  Email         = "naptax@proton.me"
+  Email         = "naptax.re.dex0n@passmail.net"
   Twitter       = "_naptax"
   Telegram      = "naptax"
-  Keybase       = "naptax"
 
