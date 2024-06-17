@@ -30,9 +30,7 @@ Pour un Ethical hacker, un Malware, c'est du Code à reverser pour comprendre, a
 
 Voilà vous l'aurez peut-être compris, suite à l'évènement sur l'Hopital de Corbeil-Essone j'ouvre ce blog aujourd’hui pour poser un petit cailloux à la diffusion du savoir en Reverse Engineering. Je choisi de le faire en Français car ce sujet est peu traité (alors qu'il est passionnant), car je suis un amoureux des lettres françaises et par ce que je sature de n'entendre parler que des Hackers américains, russes, chinois et coréens.
 
-Évidement ceux qui suivent tout cela de plus près, savent bien que nous sommes rentrés en guerre et qu'il faut mobiliser toutes les forces vives de notre beau pays et d'Europe pour éviter un  Blitzkrieg digital.
-
-Cracker des mots de passe WIFI, des Hash Windows ou autres âneries de ce genre ne trouvera aucun echo ici : il existe suffisamment de sites pour vous prendre pour un hacker avec KALI et quelques GPU, ou mieux, débuter une carrière de Pentester WEB. Non, ici nous allons reverser du code et des programmes  et des fichiers (souvent binaires), décrypter de l'assembleur, faire un peu de cryptographie et mener des enquêtes digitales. Notre objectif est d'apprendre à reverser des programmes, puis des malwares de plus en plus complexes. On ne peut combattre efficacement que ce l'on comprend en profondeur, alors commençons par la compréhension.
+Ici nous allons reverser du code, des programmes et des fichiers (souvent binaires), décrypter de l'assembleur, faire un peu de cryptographie et mener des enquêtes digitales. Notre objectif est d'apprendre à reverser des programmes, puis des malwares de plus en plus complexes. On ne peut combattre efficacement que ce l'on comprend en profondeur, alors commençons par la compréhension.
 
 
 
